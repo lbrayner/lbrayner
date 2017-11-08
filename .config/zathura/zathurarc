@@ -1,0 +1,5 @@
+set adjust-open "width"
+map <C-e> scroll down
+map <C-y> scroll up
+map <PageDown> scroll full-down
+map <PageUp> scroll full-up
