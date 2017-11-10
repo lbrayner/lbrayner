@@ -34,6 +34,7 @@ bindkey '^[OD' backward-word
 bindkey '^[OC' forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
+bindkey "^ " expand-alias
 
 #unset -f preexec 1>/dev/null 2>/dev/null
 function preexec() {
@@ -57,8 +58,14 @@ function zle-line-init zle-keymap-select () {
     fi
 }
 
+function expand-alias() {
+    zle _expand_alias
+    zle expand-word
+}
+
 zle -N zle-line-init
 zle -N zle-keymap-select
+zle -N expand-alias
 KEYTIMEOUT=1
 
 env_vars=~/.zsh-env
