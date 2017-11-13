@@ -45,7 +45,7 @@ INSERT="-- INSERT --"
 NORMAL="[NORMAL]"
 
 function zle-line-init zle-keymap-select () {
-    if [ "$TERM" = "xterm-256color" ]; then
+    if [ -n "${TERM#*256*}" ]; then
         if [ $KEYMAP = vicmd ]; then
             # the command mode for vi
             RPROMPT=${NORMAL}
