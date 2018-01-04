@@ -36,6 +36,13 @@ bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 bindkey "^ " expand-alias
 
+function source_file(){
+    if [ -f ${1} ]
+    then
+        source ${1}
+    fi
+}
+
 #unset -f preexec 1>/dev/null 2>/dev/null
 function preexec() {
 	print -Pn "\e]0;$1\a"
@@ -68,19 +75,14 @@ zle -N zle-keymap-select
 zle -N expand-alias
 KEYTIMEOUT=1
 
-env_vars=~/.zsh-env
+# setting environment variables
+source_file ~/.zsh-env
 
-if [ -f ${env_vars} ]
-then
-    source ${env_vars}
-fi
+# setting aliases
+source_file ~/.zsh-alias
 
-custom_aliases=~/.zsh-alias
-
-if [ -f ${custom_aliases} ]
-then
-    source ${custom_aliases}
-fi
+# setting local aliases
+source_file ~/.zsh-alias.local
 
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)

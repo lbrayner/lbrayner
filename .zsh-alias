@@ -1,0 +1,27 @@
+# alias eclient='emacsclient -c'
+alias emacsd='pkill emacs$ ; emacs --daemon'
+alias vi='HOME=/dummy vi'
+# alias vim="vim --servername VIM"
+alias vnone="vim -R -u NONE"
+alias lm="ls -lrth"
+alias lt="ls -lrth | tail"
+alias ls='ls --color=auto'
+alias ta='tmux attach-session'
+alias rm='rm -I'
+alias nview='nvim -R'
+alias nvimdiff='nvim -d'
+alias bl='bc -l'
+#alias man='viman'
+
+
+# svn
+
+alias sst='svn status'
+alias svn='svn-client-hooker'
+alias sl='svn log'
+alias smi='svn propget svn:mergeinfo'
+alias sdc='svn diff -c'
+
+# git
+
+# vim: ft=zsh
