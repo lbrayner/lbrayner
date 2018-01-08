@@ -1,18 +1,10 @@
-# Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/desenvolvedor/.zshrc'
-
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
-#alias lm="ls -l | more"
-#
-#
+
 setopt HIST_IGNORE_ALL_DUPS
 setopt GLOB_COMPLETE
 setopt complete_aliases
@@ -84,12 +76,7 @@ source_file ~/.zsh-alias
 # setting local aliases
 source_file ~/.zsh-alias.local
 
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, overwrite the one in /etc/profile)
-PS1="${debian_chroot:+($debian_chroot)}%n@%M:%B%~%b$ "
+PS1="%n@%M:%B%~%b$ "
 
 # TERM=xterm-256color
 
