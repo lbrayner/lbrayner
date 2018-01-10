@@ -19,7 +19,9 @@ alias bl='bc -l'
 alias sst='svn status'
 alias svn='svn-client-hooker'
 alias sl='svn log'
+alias svs='svn status'
 alias smi='svn propget svn:mergeinfo'
+alias sei='svn propedit svn:ignore .'
 alias sdc='svn diff -c'
 
 # git
