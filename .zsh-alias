@@ -18,6 +18,7 @@ alias bl='bc -l'
 
 alias sst='svn status'
 alias svn='svn-client-hooker'
+alias sby='sh -c "svn "'
 alias sl='svn log'
 alias svs='svn status'
 alias smi='svn propget svn:mergeinfo'
