@@ -8,6 +8,7 @@ compinit
 setopt HIST_IGNORE_ALL_DUPS
 setopt GLOB_COMPLETE
 setopt complete_aliases
+setopt extended_glob
 
 autoload -U select-word-style
 select-word-style bash
