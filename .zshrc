@@ -8,10 +8,16 @@ compinit
 setopt HIST_IGNORE_ALL_DUPS
 setopt GLOB_COMPLETE
 setopt complete_aliases
+setopt extended_glob
 
 autoload -U select-word-style
 select-word-style bash
 
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+
+bindkey "^[." insert-last-word
+bindkey "^[m" copy-earlier-word
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char
