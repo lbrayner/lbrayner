@@ -25,6 +25,9 @@ alias smi='svn propget svn:mergeinfo'
 alias sei='svn propedit svn:ignore .'
 alias sdc='svn diff -c'
 
+alias putty='TERM=putty-256color'
+
 # git
+
 
 # vim: ft=zsh
