@@ -25,9 +25,10 @@ alias smi='svn propget svn:mergeinfo'
 alias sei='svn propedit svn:ignore .'
 alias sdc='svn diff -c'
 
+alias -g today="$(date +'{%Y-%m-%d}')"
+
+# other
+
 alias putty='TERM=putty-256color'
-
-# git
-
 
 # vim: ft=zsh
