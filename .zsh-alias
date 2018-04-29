@@ -17,7 +17,6 @@ alias bl='bc -l'
 # svn
 
 alias sst='svn status'
-alias svn='svn-client-hooker'
 alias sby='sh -c "svn "'
 alias sl='svn log'
 alias svl='svn log -rHEAD:1 -l1'
