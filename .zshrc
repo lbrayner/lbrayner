@@ -6,6 +6,7 @@ autoload -Uz compinit
 compinit
 
 setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
 setopt GLOB_COMPLETE
 setopt complete_aliases
 setopt extended_glob
