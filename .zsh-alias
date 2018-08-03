@@ -31,4 +31,10 @@ alias -g today="$(date +'{%Y-%m-%d}')"
 
 alias putty='TERM=putty-256color'
 
+# youtube-dl
+
+alias yd='youtube-dl --no-mtime --all-subs --no-playlist -f137,140'
+alias yf='youtube-dl -F'
+alias ys='youtube-dl --skip-download --no-mtime --all-subs'
+
 # vim: ft=zsh
