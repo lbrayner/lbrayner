@@ -5,6 +5,7 @@ URxvt.scrollBar: false
 
 !URxvt*font:                   xft:Bitstream Vera Sans Mono:size=10, xft:DejaVuSansMono
 URxvt*font:                   xft:DejaVuSansMono:size=9.8,xft:Inconsolata\ for\ Powerline
+/* URxvt*font:                   xft:DejaVuSansMono:size=9.8,xft:FontAwesome */
 !URxvt*font:                   xft:Bitstream Vera Sans Mono:size=10.5,xft:Inconsolata\ for\ Powerline
 
 URxvt*fading:                 0
