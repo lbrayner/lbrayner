@@ -17,8 +17,8 @@ select-word-style bash
 autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 
-bindkey "^[." insert-last-word
-bindkey "^[m" copy-earlier-word
+bindkey '^[.' insert-last-word
+bindkey '^[m' copy-earlier-word
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char
@@ -27,13 +27,21 @@ bindkey '^w' backward-kill-word
 bindkey '^u' backward-kill-line
 bindkey '^r' history-incremental-search-backward
 bindkey '^k' kill-line
+bindkey '\e[3~' delete-char
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
 bindkey '^[Od' backward-word
 bindkey '^[Oc' forward-word
 bindkey '^[OD' backward-word
 bindkey '^[OC' forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
-bindkey "^ " expand-alias
+bindkey '^ ' expand-alias
+
+# normal mode bindings
+bindkey -a '\e[3~' delete-char
+bindkey -a '\e[1~' beginning-of-line
+bindkey -a '\e[4~' end-of-line
 
 function source_file(){
     if [ -f ${1} ]
