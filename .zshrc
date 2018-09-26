@@ -21,9 +21,9 @@ zle -N copy-earlier-word
 autoload -Uz insert-newest-file
 zle -N insert-newest-file
 
-bindkey "^[;" insert-newest-file
-bindkey "^[." insert-last-word
-bindkey "^[m" copy-earlier-word
+bindkey '^[;' insert-newest-file
+bindkey '^[.' insert-last-word
+bindkey '^[m' copy-earlier-word
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char
@@ -38,7 +38,7 @@ bindkey '^[OD' backward-word
 bindkey '^[OC' forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
-bindkey "^ " expand-alias
+bindkey '^ ' expand-alias
 
 function source_file(){
     if [ -f ${1} ]
