@@ -1,6 +1,7 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
+fpath=( ~/.zfunc "${fpath[@]}" )
 bindkey -v
 autoload -Uz compinit
 compinit
@@ -17,6 +18,10 @@ select-word-style bash
 autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 
+autoload -Uz insert-newest-file
+zle -N insert-newest-file
+
+bindkey '^[;' insert-newest-file
 bindkey '^[.' insert-last-word
 bindkey '^[m' copy-earlier-word
 bindkey '^P' up-history

@@ -1,0 +1,1 @@
+LBUFFER+=$(ls -td -- * | head -n 1 | tr -d '\n' | parallel --no-notice -0 printf %q)
