@@ -51,7 +51,7 @@ set $mod Mod4
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
-font pango:System San Francisco Display 8
+font pango:System San Francisco Display 9
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -254,7 +254,7 @@ bar {
 		position top
 
     separator_symbol " "
-	font pango:SFNS Display, FontAwesome 11
+	font pango:SFNS Display, FontAwesome 12
 	# font pango:Font Awesome 5 Free Regular 8
 
 colors {
