@@ -68,6 +68,39 @@ URxvt*color14:               S_base1
 URxvt*color7:                S_base2
 URxvt*color15:               S_base3
 
+!st - suckless terminal
+
+background: S_base3
+foreground: #000000
+cursorColor: S_base01
+
+color0:                S_base02
+color8:                S_base03
+
+!! red dark/light
+color1:                S_red
+color9:                S_orange
+
+!! green dark/light
+color2:                S_green
+color10:               S_base01
+
+!! yellow dark/light
+color3:                S_yellow
+color11:               S_base00
+
+!! blue dark/light
+color4:                S_blue
+color12:               S_base0
+
+!! magenta dark/light
+color5:                S_magenta
+color13:               S_violet
+
+!! cyan dark/light
+color6:                S_cyan
+color14:               S_base1
+
 !URxvt*background:             #fdf6e3
 !URxvt*foreground:             #000000
 !URxvt*fadeColor:              #fdf6e3
