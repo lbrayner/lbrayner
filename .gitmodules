@@ -1,0 +1,3 @@
+[submodule ".config/neomutt/submodules/mutt-colors-solarized"]
+	path = .config/neomutt/submodules/mutt-colors-solarized
+	url = https://github.com/altercation/mutt-colors-solarized
