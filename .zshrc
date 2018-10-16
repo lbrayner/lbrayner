@@ -1,7 +1,12 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-fpath=( ~/.zfunc "${fpath[@]}" )
+# https://stackoverflow.com/a/15394738
+# will not clobber fpath
+local_functions=$HOME/.zfunc/functions
+if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
+    fpath=( "${local_functions}" "${fpath[@]}" )
+fi
 bindkey -v
 autoload -Uz compinit
 compinit
@@ -87,7 +92,12 @@ zle -N zle-keymap-select
 zle -N expand-alias
 KEYTIMEOUT=1
 
+# interactive shells
+# user is responsible for not clobbering environment variables
+source_file ~/.profile
+
 # setting environment variables
+# user is responsible for not clobbering environment variables
 source_file ~/.zsh-env
 
 # setting aliases
@@ -97,8 +107,6 @@ source_file ~/.zsh-alias
 source_file ~/.zsh-alias.local
 
 PS1="%n@%M:%B%~%b$ "
-
-# TERM=xterm-256color
 
 RPROMPT=${INSERT}
 
