@@ -37,4 +37,21 @@ alias yd='youtube-dl --no-mtime --all-subs --no-playlist -f137,140'
 alias yf='youtube-dl -F'
 alias ys='youtube-dl --skip-download --no-mtime --all-subs'
 
+# pandoc
+
+# # markdown
+
+alias md2lspdf="pandoc --pdf-engine=wkhtmltopdf --pdf-engine-opt=-O \
+    --pdf-engine-opt=Landscape -s --quiet -f markdown -t html5 -o"
+alias md2pdf="pandoc --pdf-engine=wkhtmltopdf -s --quiet -f markdown -t html5 -o"
+alias md2html="pandoc -s --quiet -f markdown -t html5 -o"
+
+# # html
+
+alias html2lspdf="wkhtmltopdf -O Landscape"
+
+# xclip
+alias -g in2p="xclip -i -selection primary; echo 'Copied to primary.'"
+alias -g in2s="xclip -i -selection clipboard; echo 'Copied to clipboard.'"
+
 # vim: ft=zsh
