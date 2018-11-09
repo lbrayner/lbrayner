@@ -50,8 +50,8 @@ alias md2html="pandoc -s --quiet -f markdown -t html5 -o"
 
 alias html2lspdf="wkhtmltopdf -O Landscape"
 
-# xclip
-alias -g in2p="xclip -i -selection primary; echo 'Copied to primary.'"
-alias -g in2s="xclip -i -selection clipboard; echo 'Copied to clipboard.'"
+# find
+
+alias here='find . -mindepth 1 -maxdepth 1 ! -path ./.\* -type f'
 
 # vim: ft=zsh
