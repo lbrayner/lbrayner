@@ -37,4 +37,21 @@ alias yd='youtube-dl --no-mtime --all-subs --no-playlist -f137,140'
 alias yf='youtube-dl --no-playlist -F'
 alias ys='youtube-dl --no-playlist --skip-download --no-mtime --all-subs'
 
+# pandoc
+
+# # markdown
+
+alias md2lspdf="pandoc --pdf-engine=wkhtmltopdf --pdf-engine-opt=-O \
+    --pdf-engine-opt=Landscape -s --quiet -f markdown -t html5 -o"
+alias md2pdf="pandoc --pdf-engine=wkhtmltopdf -s --quiet -f markdown -t html5 -o"
+alias md2html="pandoc -s --quiet -f markdown -t html5 -o"
+
+# # html
+
+alias html2lspdf="wkhtmltopdf -O Landscape"
+
+# find
+
+alias here='find . -mindepth 1 -maxdepth 1 ! -path ./.\* -type f'
+
 # vim: ft=zsh
