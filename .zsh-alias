@@ -3,7 +3,6 @@ alias emacsd='pkill emacs$ ; emacs --daemon'
 alias vi='HOME=/dummy vi'
 # alias vim="vim --servername VIM"
 alias vnone="vim -R -u NONE"
-alias lm="ls -lrth"
 alias lt="ls -lrth | tail"
 alias ls='ls --color=auto'
 alias ta='tmux attach-session'
@@ -13,6 +12,10 @@ alias nvimdiff='nvim -d'
 alias bl='bc -l'
 #alias man='viman'
 
+# ls
+
+alias lm="ls -lrth"
+alias media="ls -lrth ^*vtt"
 
 # svn
 
@@ -52,6 +55,7 @@ alias html2lspdf="wkhtmltopdf -O Landscape"
 
 # find
 
-alias here='find . -mindepth 1 -maxdepth 1 ! -path ./.\* -type f'
+alias here='find . -mindepth 1 -maxdepth 1 ! -path \*/.\* -type f'
+alias nothidden='find . ! -path \*/.\* -type f'
 
 # vim: ft=zsh
