@@ -1,4 +1,3 @@
 home_bin=~/bin
-win_bat=~/win_bat
-head=${home_bin}:${win_bat}
+head=${home_bin}
 export PATH=${head}:${PATH#*${head}:}
