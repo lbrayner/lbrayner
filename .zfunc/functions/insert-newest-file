@@ -2,12 +2,6 @@ emulate -L zsh
 
 typeset -g __variable
 
-# if [[ -z ${__variable} ]]
-# then
-# fi
-
-# LBUFFER+="`printf %q "$(ls -tdr -- * | head -n ${__variable:--0} | tail -n 1 | tr -d '\n')"` "
-
 if [[ $WIDGET = $LASTWIDGET ]] # || [[ -z ${__variable}  ]]
 then
     __variable=${__variable:--0}
@@ -16,7 +10,6 @@ else
     __variable=-0
 fi
 
-# LBUFFER+="'WIDGET ${WIDGET} LASTWIDGET ${LASTWIDGET} variable ${__variable} NUMERIC ${NUMERIC}' "
 LBUFFER+="`printf %q "$(ls -tdr -- * | head -n ${__variable} | tail -n 1 | tr -d '\n')"` "
 
 # vim:ft=zsh
