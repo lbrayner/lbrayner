@@ -2,7 +2,7 @@ emulate -L zsh
 
 typeset -g __variable
 
-if [[ $WIDGET = $LASTWIDGET ]] # || [[ -z ${__variable}  ]]
+if [[ $WIDGET = $LASTWIDGET ]]
 then
     __variable=${__variable:--0}
     (( __variable-- ))
