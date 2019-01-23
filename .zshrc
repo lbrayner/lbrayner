@@ -25,6 +25,8 @@ zle -N copy-earlier-word
 
 autoload -Uz insert-newest-file
 zle -N insert-newest-file
+autoload -Uz smart-insert-last-word
+zle -N insert-last-word smart-insert-last-word
 
 bindkey '^[;' insert-newest-file
 bindkey '^[.' insert-last-word
