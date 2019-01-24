@@ -1,15 +1,19 @@
 emulate -L zsh
 
-typeset -g __variable
+typeset -g __inf_offset
+integer cursor=$CURSOR lcursor=$CURSOR
 
 if [[ $WIDGET = $LASTWIDGET ]]
 then
-    __variable=${__variable:--0}
-    (( __variable-- ))
+    lcursor=$__inf_lcursor
+    __inf_offset=${__inf_offset:--0}
+    (( __inf_offset-- ))
 else
-    __variable=-0
+    __inf_offset=-0
+    typeset -g __inf_lcursor=$lcursor
 fi
 
-LBUFFER+="`printf %q "$(ls -tdr -- * | head -n ${__variable} | tail -n 1 | tr -d '\n')"` "
+LBUFFER[lcursor+1,cursor+1]=`printf %q "$(ls -tdr -- * | head -n ${__inf_offset} | tail -n 1 | tr -d '\n')"`
+typeset -g _ilw_cursor=$CURSOR
 
 # vim:ft=zsh
