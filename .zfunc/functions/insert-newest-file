@@ -16,6 +16,5 @@ else
 fi
 
 LBUFFER[lcursor+1,cursor+1]=`printf %q "$(head -n ${__inf_offset} ${__inf_cache} | tail -n 1 | tr -d '\n')"`
-typeset -g _ilw_cursor=$CURSOR
 
 # vim:ft=zsh
