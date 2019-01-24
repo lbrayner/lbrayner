@@ -1,19 +1,18 @@
 emulate -L zsh
 
-typeset -g __inf_offset
+typeset __inf_cache=~/.cache/insert_newest_file_cache
 integer cursor=$CURSOR lcursor=$CURSOR
 
 if [[ $WIDGET = $LASTWIDGET ]]
 then
     lcursor=$__inf_lcursor
-    __inf_offset=${__inf_offset:--0}
-    (( __inf_offset-- ))
 else
-    __inf_offset=-0
     typeset -g __inf_lcursor=$lcursor
+    ls -1tr > ${__inf_cache}
 fi
 
-LBUFFER[lcursor+1,cursor+1]=`printf %q "$(ls -tdr -- * | head -n ${__inf_offset} | tail -n 1 | tr -d '\n')"`
+LBUFFER[lcursor+1,cursor+1]=`printf %q "$(tail -n 1 ${__inf_cache} | tr -d '\n')"`
+sed -i '$ d' ${__inf_cache}
 typeset -g _ilw_cursor=$CURSOR
 
 # vim:ft=zsh
