@@ -28,10 +28,9 @@ alias smi='svn propget svn:mergeinfo'
 alias sei='svn propedit svn:ignore .'
 alias sdc='svn diff -c'
 
-alias -g today="$(date +'{%Y-%m-%d}')"
-
 # other
 
+alias -g today="$(date +'{%Y-%m-%d}')"
 alias putty='TERM=putty-256color'
 
 # youtube-dl
