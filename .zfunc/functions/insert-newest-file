@@ -15,6 +15,7 @@ else
     ls -1tr > ${__inf_cache}
 fi
 
-LBUFFER[lcursor+1,cursor+1]=`printf %q "$(head -n ${__inf_offset} ${__inf_cache} | tail -n 1 | tr -d '\n')"`
+LBUFFER[lcursor+1,cursor+1]=`printf %q "$(head -n ${__inf_offset} ${__inf_cache} | \
+    tail -n 1 | tr -d '\n')"`
 
 # vim:ft=zsh
