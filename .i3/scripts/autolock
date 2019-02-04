@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+pid=${$}
+
+# kills all other instances
+pgrep -f autolock | grep -v ${pid} | xargs -r kill -9
+
+while true
+do
+    sleep 300
+    idle=`xprintidle`
+    if [[ ${idle} -gt 290000 ]]
+    then
+        /mnt/shared-data/other/bin/lock.sh
+    fi
+done
