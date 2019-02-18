@@ -1,6 +1,6 @@
 #!/bin/sh
 
 pkill neomutt
-notify-send "5s to logout." ;
+notify-send "5s to logout."
 sleep 5
 i3-msg exit
