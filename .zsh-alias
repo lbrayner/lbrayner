@@ -19,14 +19,13 @@ alias media="ls -lrth ^*vtt"
 
 # svn
 
-alias sst='svn status'
-alias sby='sh -c "svn "'
-alias sl='svn log'
-alias svl='svn log -rHEAD:1 -l1'
-alias svs='svn status'
-alias smi='svn propget svn:mergeinfo'
-alias sei='svn propedit svn:ignore .'
-alias sdc='svn diff -c'
+alias sst='\svn status'
+alias sl='\svn log'
+alias svl='\svn log -rHEAD:1 -l1'
+alias svs='\svn status'
+alias smi='\svn propget svn:mergeinfo'
+alias sei='\svn propedit svn:ignore .'
+alias sdc='\svn diff -c'
 
 # other
 
