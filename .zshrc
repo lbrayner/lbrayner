@@ -102,6 +102,9 @@ source_file ~/.profile
 # user is responsible for not clobbering environment variables
 source_file ~/.zsh-env
 
+# setting local environment variables
+source_file ~/.zsh-env.local
+
 # setting aliases
 source_file ~/.zsh-alias
 
