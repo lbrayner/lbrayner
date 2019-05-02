@@ -41,7 +41,9 @@ bindkey '^r' history-incremental-search-backward
 bindkey '^k' kill-line
 bindkey '^[Od' backward-word
 bindkey '^[Oc' forward-word
+bindkey '^[f' forward-word
 bindkey '^[OD' backward-word
+bindkey '^[b' backward-word
 bindkey '^[OC' forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
