@@ -44,7 +44,9 @@ bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
 bindkey '^[Od' backward-word
 bindkey '^[Oc' forward-word
+bindkey '^[f' forward-word
 bindkey '^[OD' backward-word
+bindkey '^[b' backward-word
 bindkey '^[OC' forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
