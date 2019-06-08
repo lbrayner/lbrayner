@@ -1,8 +1,14 @@
 emulate -L zsh
 
 typeset -g __inf_offset
+typeset __inf_cache_dir=~/.cache
 typeset __inf_cache=~/.cache/insert_newest_file_cache
 integer cursor=$CURSOR lcursor=$CURSOR
+
+if [[ ! -e ${__inf_cache_dir} ]]
+then
+    mkdir ${__inf_cache_dir}
+fi
 
 if [[ $WIDGET = $LASTWIDGET ]]
 then
