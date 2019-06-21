@@ -28,26 +28,27 @@ zle -N insert-newest-file
 autoload -Uz smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
 
-bindkey '^[;' insert-newest-file
-bindkey '^[.' insert-last-word
-bindkey '^[m' copy-earlier-word
-bindkey '^P' up-history
-bindkey '^N' down-history
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
-bindkey '^w' backward-kill-word
-bindkey '^u' backward-kill-line
-bindkey '^r' history-incremental-search-backward
-bindkey '^k' kill-line
-bindkey '^[Od' backward-word
-bindkey '^[Oc' forward-word
-bindkey '^[f' forward-word
-bindkey '^[OD' backward-word
-bindkey '^[b' backward-word
-bindkey '^[OC' forward-word
+bindkey '^[;'     insert-newest-file
+bindkey '^[.'     insert-last-word
+bindkey '^[m'     copy-earlier-word
+bindkey '^[d'     kill-word
+bindkey '^P'      up-history
+bindkey '^N'      down-history
+bindkey '^?'      backward-delete-char
+bindkey '^h'      backward-delete-char
+bindkey '^w'      backward-kill-word
+bindkey '^u'      backward-kill-line
+bindkey '^r'      history-incremental-search-backward
+bindkey '^k'      kill-line
+bindkey '^[Od'    backward-word
+bindkey '^[Oc'    forward-word
+bindkey '^[f'     forward-word
+bindkey '^[OD'    backward-word
+bindkey '^[b'     backward-word
+bindkey '^[OC'    forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
-bindkey '^ ' expand-alias
+bindkey '^ '      expand-alias
 
 function source_file(){
     if [ -f ${1} ]
