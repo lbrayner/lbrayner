@@ -9,4 +9,4 @@ ctrl-p:up,ctrl-n:down,\
 alt-p:previous-history,alt-n:next-history
 
 # less
-export LESS=-R
+export LESS="-R -F -X"
