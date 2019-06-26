@@ -114,6 +114,9 @@ source_file ~/.zsh-alias.local
 # colors
 source_file ~/.zsh-colors
 
-PS1="%n@%M:%B%~%b$ "
+setopt prompt_subst
+
+# PS1="%n@%M:%B${PWD#$HOME}%b$ "
+PROMPT=$'[$(date)] %n@%M:%B%~%b\n$ '
 
 RPROMPT=${INSERT}
