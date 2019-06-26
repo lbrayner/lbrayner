@@ -111,6 +111,20 @@ source_file ~/.zsh-colors
 
 setopt prompt_subst
 
+autoload -Uz add-zsh-hook
+
+TOP_LEFT='[$(date)]'
+TOP_RIGHT='%n@%M:%B%~%b'
+
+function a_function() {
+    promptvalue=${(%):-${TOP_RIGHT}}
+    promptsize=${#${promptvalue}}
+    # promptsize=${#${(%):-${TOP_RIGHT}}}
+    # pwdsize=${#${(%):-%~}}
+}
+
+add-zsh-hook precmd a_function
+
 # PS1="%n@%M:%B${PWD#$HOME}%b$ "
 PROMPT=$'[$(date)] %n@%M:%B%~%b\n$ '
 
