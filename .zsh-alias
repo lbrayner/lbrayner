@@ -1,19 +1,19 @@
-# alias eclient='emacsclient -c'
+# zsh
+
+alias sz='source ~/.zshrc'
+
+# miscellaneous
 alias emacsd='pkill emacs$ ; emacs --daemon'
 alias vi='HOME=/dummy vi'
-# alias vim="vim --servername VIM"
 alias vnone="vim -R -u NONE"
-alias lt="ls -lrth | tail"
-alias ls='ls --color=auto'
 alias ta='tmux attach-session'
 alias rm='rm -I'
-alias nview='nvim -R'
-alias nvimdiff='nvim -d'
 alias bl='bc -l'
-#alias man='viman'
 
 # ls
 
+alias lt="ls -lrth | tail"
+alias ls='ls --color=auto'
 alias lm="ls -lrth"
 alias media="ls -lrth ^*vtt"
 
