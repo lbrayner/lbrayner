@@ -102,23 +102,24 @@ setopt prompt_subst
 
 autoload -Uz add-zsh-hook
 
-TOP_LEFT='[%n@%M:%B%~%b]'
-TOP_LEFT_NO_ESC_SEQS='[%n@%M:%~]'
+PROMPT_LEFT='[%n@%M:%B%~%b]'
+PROMPT_LEFT_NO_ESC_SEQS='[%n@%M:%~]'
 
-TOP_RIGHT='[$(date "+%Y %b %e %H:%M:%S")]'
-TOP_RIGHT_TEMPLATE='[2019 Jun 26 19:17:40]'
+PROMPT_RIGHT='[$(date "+%Y %b %e %H:%M:%S")]'
+PROMPT_RIGHT_TEMPLATE='[2019 Jun 26 19:17:40]'
 
-function a_function() {
+function set_prompt() {
+    local termwidth
     (( termwidth = ${COLUMNS} - 1 - 1 ))
-    promptcontents="${(%)TOP_LEFT_NO_ESC_SEQS}-${TOP_RIGHT_TEMPLATE}"
-    promptsize=${#${promptcontents}}
-    promptfillingchar=' '
-    promptfilling="\${(l.(($termwidth - $promptsize))..${promptfillingchar}.)}"
+    local prompt_contents="${(%)PROMPT_LEFT_NO_ESC_SEQS}-${PROMPT_RIGHT_TEMPLATE}"
+    local prompt_size=${#${prompt_contents}}
+    local spacer_char=' '
+    PROMPT_SPACER="\${(l.(($termwidth - $prompt_size))..${spacer_char}.)}"
+
+    PROMPT="${PROMPT_LEFT} "'${(e)PROMPT_SPACER}'" ${PROMPT_RIGHT}"$'\n$ '
 }
 
-add-zsh-hook precmd a_function
-
-PROMPT="${TOP_LEFT} "'${(e)promptfilling}'" ${TOP_RIGHT}"$'\n$ '
+add-zsh-hook precmd set_prompt
 
 INSERT="-- INSERT --"
 NORMAL="[NORMAL]"
