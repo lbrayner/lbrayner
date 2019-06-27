@@ -57,28 +57,6 @@ function source_file(){
     fi
 }
 
-#unset -f preexec 1>/dev/null 2>/dev/null
-function preexec() {
-	print -Pn "\e]0;$1\a"
-}
-
-INSERT="-- INSERT --"
-NORMAL="[NORMAL]"
-
-function zle-line-init zle-keymap-select () {
-    if [ -n "${TERM#*256*}" ]; then
-        if [ $KEYMAP = vicmd ]; then
-            # the command mode for vi
-            RPROMPT=${NORMAL}
-        else
-            # the insert mode for vi
-            RPROMPT=${INSERT}
-        fi
-
-		zle reset-prompt
-    fi
-}
-
 function expand-alias() {
     zle _expand_alias
     zle expand-word
@@ -109,30 +87,49 @@ source_file ~/.zsh-alias.local
 # colors
 source_file ~/.zsh-colors
 
+# The prompt
+
+function preexec() {
+	print -Pn "\e]0;$1\a"
+}
+
 setopt prompt_subst
 
 autoload -Uz add-zsh-hook
 
-TOP_LEFT='[$(date "+%Y %b %e %H:%M:%S")]'
-TOP_LEFT_TEMPLATE='[2019 Jun 26 19:17:40]'
-TOP_RIGHT='%n@%M:%B%~%b'
-TOP_RIGHT_NO_ESC_SEQS='%n@%M:%~'
+TOP_LEFT='[%n@%M:%B%~%b]'
+TOP_LEFT_NO_ESC_SEQS='[%n@%M:%~]'
+
+TOP_RIGHT='[$(date "+%Y %b %e %H:%M:%S")]'
+TOP_RIGHT_TEMPLATE='[2019 Jun 26 19:17:40]'
 
 function a_function() {
     (( termwidth = ${COLUMNS} - 1 - 1 ))
-    promptcontents="${TOP_LEFT_TEMPLATE}-${(%)TOP_RIGHT_NO_ESC_SEQS}"
+    promptcontents="${(%)TOP_LEFT_NO_ESC_SEQS}-${TOP_RIGHT_TEMPLATE}"
     promptsize=${#${promptcontents}}
-    promptfillingchar='-'
-    # promptfilling='${l.(($termwidth - $promptsize))..${promptfillingchar}.}'
+    promptfillingchar=' '
     promptfilling="\${(l.(($termwidth - $promptsize))..${promptfillingchar}.)}"
-    # promptsize=${#${(%):-${TOP_RIGHT}}}
-    # pwdsize=${#${(%):-%~}}
 }
 
 add-zsh-hook precmd a_function
 
-# PS1="%n@%M:%B${PWD#$HOME}%b$ "
-# PROMPT=$'[$(date)] %n@%M:%B%~%b\n$ '
 PROMPT="${TOP_LEFT} "'${(e)promptfilling}'" ${TOP_RIGHT}"$'\n$ '
+
+INSERT="-- INSERT --"
+NORMAL="[NORMAL]"
+
+function zle-line-init zle-keymap-select () {
+    if [ -n "${TERM#*256*}" ]; then
+        if [ $KEYMAP = vicmd ]; then
+            # the command mode for vi
+            RPROMPT=${NORMAL}
+        else
+            # the insert mode for vi
+            RPROMPT=${INSERT}
+        fi
+
+		zle reset-prompt
+    fi
+}
 
 RPROMPT=${INSERT}
