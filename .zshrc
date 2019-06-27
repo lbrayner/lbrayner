@@ -11,9 +11,12 @@ local_functions=$HOME/.zfunc/functions
 if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
     fpath=( "${local_functions}" "${fpath[@]}" )
 fi
+# vi insert mode keymap
 bindkey -v
 autoload -Uz compinit
 compinit
+
+# http://zsh.sourceforge.net/Doc/Release/Options.html
 
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
@@ -21,14 +24,21 @@ setopt GLOB_COMPLETE
 setopt complete_aliases
 setopt extended_glob
 
+# http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
+
 autoload -U select-word-style
 select-word-style bash
+
+# zle, The Z-Shell Line Editor: http://zsh.sourceforge.net/Guide/zshguide04.html
+
+# Widgets
 
 autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 
 autoload -Uz insert-newest-file
 zle -N insert-newest-file
+
 autoload -Uz smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
 
@@ -38,6 +48,8 @@ function expand-alias() {
 }
 
 zle -N expand-alias
+
+# Binding keys and handling keymaps
 
 bindkey '^[;'     insert-newest-file
 bindkey '^[.'     insert-last-word
@@ -60,6 +72,8 @@ bindkey '^[OC'    forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 bindkey '^ '      expand-alias
+
+# Sourcing files
 
 function source_file(){
     if [ -f ${1} ]
@@ -110,14 +124,19 @@ PROMPT_RIGHT_TEMPLATE='[2019 Jun 26 19:17:40]'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
+# Substitutions: http://zsh.sourceforge.net/Guide/zshguide05.html
 function set_prompt() {
     local termwidth
-    (( termwidth = ${COLUMNS} - 1 - 1 ))
+    (( termwidth = ${COLUMNS} - 1 - 1 )) # 2 extra spaces
+    # Parameter Expansion Flags: Prompt Expansion
     local prompt_contents="${(%)PROMPT_LEFT_NO_ESC_SEQS}-${PROMPT_RIGHT_TEMPLATE}"
+    # length of scalar
     local prompt_size=${#${prompt_contents}}
     local spacer_char=' '
+    # Parameter Expansion Flags: l:expr::string1::string2:
     PROMPT_SPACER="\${(l.(($termwidth - $prompt_size))..${spacer_char}.)}"
 
+    # Parameter Expansion Flags: single word shell expansions
     PROMPT="${PROMPT_LEFT} "'${(e)PROMPT_SPACER}'" ${PROMPT_RIGHT}"$'\n$ '
 }
 
