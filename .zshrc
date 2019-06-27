@@ -1,6 +1,10 @@
+# http://zsh.sourceforge.net/Doc/Release/Parameters.html
+
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
+KEYTIMEOUT=1
+
 # https://stackoverflow.com/a/15394738
 # will not clobber fpath
 local_functions=$HOME/.zfunc/functions
@@ -27,6 +31,13 @@ autoload -Uz insert-newest-file
 zle -N insert-newest-file
 autoload -Uz smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
+
+function expand-alias() {
+    zle _expand_alias
+    zle expand-word
+}
+
+zle -N expand-alias
 
 bindkey '^[;'     insert-newest-file
 bindkey '^[.'     insert-last-word
@@ -57,16 +68,6 @@ function source_file(){
     fi
 }
 
-function expand-alias() {
-    zle _expand_alias
-    zle expand-word
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
-zle -N expand-alias
-KEYTIMEOUT=1
-
 # interactive shells
 # user is responsible for not clobbering environment variables
 source_file ~/.profile
@@ -76,6 +77,7 @@ source_file ~/.profile
 source_file ~/.zsh-env
 
 # setting local environment variables
+# user is responsible for not clobbering environment variables
 source_file ~/.zsh-env.local
 
 # setting aliases
@@ -87,8 +89,11 @@ source_file ~/.zsh-alias.local
 # colors
 source_file ~/.zsh-colors
 
-# The prompt
+###            ###
+### The prompt ###
+###            ###
 
+# A block cursor
 function preexec() {
 	print -Pn "\e]0;$1\a"
 }
@@ -103,6 +108,8 @@ PROMPT_LEFT_NO_ESC_SEQS='[%n@%M:%~]'
 PROMPT_RIGHT='[$(date "+%Y %b %e %H:%M:%S")]'
 PROMPT_RIGHT_TEMPLATE='[2019 Jun 26 19:17:40]'
 
+# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+# http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 function set_prompt() {
     local termwidth
     (( termwidth = ${COLUMNS} - 1 - 1 ))
@@ -132,5 +139,8 @@ function zle-line-init zle-keymap-select () {
 		zle reset-prompt
     fi
 }
+
+zle -N zle-line-init
+zle -N zle-keymap-select
 
 RPROMPT=${INSERT}
