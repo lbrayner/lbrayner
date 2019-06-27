@@ -118,12 +118,18 @@ setopt prompt_subst
 
 autoload -Uz add-zsh-hook
 
-TOP_LEFT='[$(date)]'
+TOP_LEFT='[$(date "+%Y %b %e %H:%M:%S")]'
+TOP_LEFT_TEMPLATE='[2019 Jun 26 19:17:40]'
 TOP_RIGHT='%n@%M:%B%~%b'
+TOP_RIGHT_NO_ESC_SEQS='%n@%M:%~'
 
 function a_function() {
-    promptvalue=${(%):-${TOP_RIGHT}}
-    promptsize=${#${promptvalue}}
+    (( termwidth = ${COLUMNS} - 1 - 1 ))
+    promptcontents="${TOP_LEFT_TEMPLATE}-${(%)TOP_RIGHT_NO_ESC_SEQS}"
+    promptsize=${#${promptcontents}}
+    promptfillingchar='-'
+    # promptfilling='${l.(($termwidth - $promptsize))..${promptfillingchar}.}'
+    promptfilling="\${(l.(($termwidth - $promptsize))..${promptfillingchar}.)}"
     # promptsize=${#${(%):-${TOP_RIGHT}}}
     # pwdsize=${#${(%):-%~}}
 }
@@ -131,6 +137,7 @@ function a_function() {
 add-zsh-hook precmd a_function
 
 # PS1="%n@%M:%B${PWD#$HOME}%b$ "
-PROMPT=$'[$(date)] %n@%M:%B%~%b\n$ '
+# PROMPT=$'[$(date)] %n@%M:%B%~%b\n$ '
+PROMPT="${TOP_LEFT} "'${(e)promptfilling}'" ${TOP_RIGHT}"$'\n$ '
 
 RPROMPT=${INSERT}
