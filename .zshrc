@@ -158,6 +158,11 @@ function steady_block (){
 	print -Pn "\e[2 q"
 }
 
+# http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
+function preexec (){
+    steady_block
+}
+
 function zle-line-init zle-keymap-select () {
     if [ -n "${TERM#*256*}" ]; then
         if [ $KEYMAP = vicmd ]; then
