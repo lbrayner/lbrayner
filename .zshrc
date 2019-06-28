@@ -137,6 +137,13 @@ function set_prompt() {
     local prompt_contents="${(%)PROMPT_LEFT_NO_ESC_SEQS}-${PROMPT_RIGHT_TEMPLATE}"
     # length of scalar
     local prompt_size=${#${prompt_contents}}
+
+    if [[ ${prompt_size} -gt ${termwidth} ]]
+    then
+        PROMPT="${PROMPT_LEFT}"$'\n$ '
+        return
+    fi
+
     local spacer_char=' '
     # Parameter Expansion Flags: l:expr::string1::string2:
     PROMPT_SPACER="\${(l.(($termwidth - $prompt_size))..${spacer_char}.)}"
