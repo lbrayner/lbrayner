@@ -112,11 +112,6 @@ source_file ~/.zsh-colors
 ### The prompt ###
 ###            ###
 
-# A block cursor
-function preexec() {
-	print -Pn "\e]0;$1\a"
-}
-
 setopt prompt_subst
 
 autoload -Uz add-zsh-hook
@@ -157,13 +152,26 @@ add-zsh-hook precmd set_prompt
 INSERT="-- INSERT --"
 NORMAL="[NORMAL]"
 
+# print: http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
+# https://superuser.com/a/911665/750142
+
+function steady_ibeam (){
+	print -Pn "\e[6 q"
+}
+
+function steady_block (){
+	print -Pn "\e[2 q"
+}
+
 function zle-line-init zle-keymap-select () {
     if [ -n "${TERM#*256*}" ]; then
         if [ $KEYMAP = vicmd ]; then
             # the command mode for vi
+            steady_block
             RPROMPT=${NORMAL}
         else
             # the insert mode for vi
+            steady_ibeam
             RPROMPT=${INSERT}
         fi
 
