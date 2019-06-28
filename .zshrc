@@ -121,8 +121,8 @@ setopt prompt_subst
 
 autoload -Uz add-zsh-hook
 
-PROMPT_LEFT='[%n@%M:%B%~%b]'
-PROMPT_LEFT_NO_ESC_SEQS='[%n@%M:%~]'
+PROMPT_LEFT='[%n@%M] %B%~%b'
+PROMPT_LEFT_NO_ESC_SEQS='[%n@%M ]%~'
 
 PROMPT_RIGHT='[$(date "+%Y %b %e %H:%M:%S")]'
 PROMPT_RIGHT_TEMPLATE='[2019 Jun 26 19:17:40]'
