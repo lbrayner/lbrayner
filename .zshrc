@@ -114,8 +114,7 @@ autoload -Uz add-zsh-hook
 PROMPT_LEFT='[%n@%M] %B%~%b'
 PROMPT_LEFT_NO_ESC_SEQS='[%n@%M ]%~'
 
-PROMPT_RIGHT='[$(date "+%Y %b %e %H:%M:%S")]'
-PROMPT_RIGHT_TEMPLATE='[2019 Jun 26 19:17:40]'
+PROMPT_RIGHT='[%D{%Y} %D{%b} %D{%e} %D{%K}:%D{%M}:%D{%S}]'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
@@ -124,7 +123,7 @@ function set_prompt() {
     local termwidth
     (( termwidth = ${COLUMNS} - 1 - 1 )) # 2 extra spaces
     # Parameter Expansion Flags: Prompt Expansion
-    local prompt_contents="${(%)PROMPT_LEFT_NO_ESC_SEQS}-${PROMPT_RIGHT_TEMPLATE}"
+    local prompt_contents="${(%)PROMPT_LEFT_NO_ESC_SEQS}-${(%)PROMPT_RIGHT}"
     # length of scalar
     local prompt_size=${#${prompt_contents}}
 
