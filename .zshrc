@@ -16,6 +16,9 @@ bindkey -v
 autoload -Uz compinit
 compinit
 
+# http://zsh.sourceforge.net/Doc/Release/Parameters.html#Array-Parameters
+typeset -A __ZSH
+
 # http://zsh.sourceforge.net/Doc/Release/Options.html
 
 setopt HIST_IGNORE_ALL_DUPS
@@ -107,6 +110,39 @@ source_file ~/.zsh-colors
 ### The prompt ###
 ###            ###
 
+setopt prompt_subst
+autoload -Uz vcs_info
+
+# https://github.com/wincent/wincent
+# Remember each command we run.
+function record-last-command () {
+    __ZSH[LAST_COMMAND]="${2}"
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec record-last-command
+
+# https://github.com/wincent/wincent
+# Update vcs_info (slow) after any command that probably changed it.
+function maybe_show_vcs_info () {
+    local last="${__ZSH[LAST_COMMAND]}"
+
+    # In case user just hit enter, overwrite LAST_COMMAND, because preexec
+    # won't run and it will otherwise linger.
+    __ZSH[LAST_COMMAND]="<unset>"
+
+    # Check first word; via:
+    # http://tim.vanwerkhoven.org/post/2012/10/28/ZSH/Bash-string-manipulation
+
+    case "$last[(w)1]" in
+      cd|cp|git|rm|touch|mv|)
+          vcs_info
+          ;;
+      *)
+          ;;
+    esac
+}
+
 LEFT='[%n@%M] %B%~%b'
 LEFT_NO_ESC_SEQS='[%n@%M ]%~'
 RIGHT='[%D{%Y} %D{%b} %D{%e}] %D{%K}h%D{%M} %D{%S}s'
@@ -115,12 +151,14 @@ RIGHT='[%D{%Y} %D{%b} %D{%e}] %D{%K}h%D{%M} %D{%S}s'
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 # Substitutions: http://zsh.sourceforge.net/Guide/zshguide05.html
 function set_prompt() {
+    maybe_show_vcs_info
+
     # Parameter Expansion Flags: Prompt Expansion
     local right_exp="${(%)RIGHT}"
 
     local termwidth
     (( termwidth = ${COLUMNS} - 1 - 1 )) # 2 extra spaces
-    local prompt_contents="${(%)LEFT_NO_ESC_SEQS}-${right_exp}"
+    local prompt_contents="${(%)LEFT_NO_ESC_SEQS}-${vcs_info_msg_0_}${right_exp}"
     # length of scalar
     local prompt_size=${#${prompt_contents}}
 
@@ -134,12 +172,9 @@ function set_prompt() {
     PROMPT_SPACER="\${(l.(($termwidth - $prompt_size)).. .)}"
 
     # Parameter Expansion Flags: single word shell expansions
-    PROMPT="${LEFT} "'${(e)PROMPT_SPACER}'" ${right_exp}"$'\n$ '
+    PROMPT="${LEFT}${vcs_info_msg_0_} "'${(e)PROMPT_SPACER}'" ${right_exp}"$'\n$ '
 }
 
-setopt prompt_subst
-
-autoload -Uz add-zsh-hook
 add-zsh-hook precmd set_prompt
 
 INSERT="-- INSERT --"
