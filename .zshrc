@@ -167,7 +167,7 @@ function preexec (){
 }
 
 function zle-line-init zle-keymap-select () {
-    if [[ -z "${TERM#*256*}" ]]
+    if [[ "${TERM#*256}" = "${TERM}" ]]
     then
         return
     fi
