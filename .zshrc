@@ -139,7 +139,7 @@ function set_prompt() {
     PROMPT_SPACER="\${(l.(($termwidth - $prompt_size)).. .)}"
 
     # Parameter Expansion Flags: single word shell expansions
-    PROMPT="${LEFT} "'${(e)PROMPT_SPACER}'" ${RIGHT}"$'\n$ '
+    PROMPT="${LEFT} "'${(e)PROMPT_SPACER}'" ${right_exp}"$'\n$ '
 }
 
 setopt prompt_subst
