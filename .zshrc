@@ -114,7 +114,15 @@ source_file ~/.zsh-colors
 ###            ###
 
 setopt prompt_subst
+
+# https://github.com/wincent/wincent
+# http://zsh.sourceforge.net/Doc/Release/User-Contributions.html
 autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git hg svn
+zstyle ':vcs_info:git*:*' formats '[%b%m%c%u] ' # default ' (%s)-[%b]%c%u-'
+zstyle ':vcs_info:git*:*' actionformats '[%b|%a%m%c%u] ' # default ' (%s)-[%b|%a]%c%u-'
+zstyle ':vcs_info:svn*:*' formats '[%b%m] ' # default ' (%s)-[%b]%c%u-'
+zstyle ':vcs_info:svn*:*' actionformats '[%b|%a%m] ' # default ' (%s)-[%b|%a]%c%u-'
 
 # https://github.com/wincent/wincent
 # Remember each command we run.
@@ -146,9 +154,9 @@ function maybe_show_vcs_info () {
     esac
 }
 
-__ZSH[LEFT]='[%n@%M] ${vcs_info_msg_0_}%B%~%b'
-__ZSH[LEFT_NO_ESC_SEQS]='[%n@%M] ${vcs_info_msg_0_}%~'
-__ZSH[RIGHT]='[%D{%Y} %D{%b} %D{%e}] %D{%K}h%D{%M} %D{%S}s'
+__ZSH[LEFT]='%n@%M: ${vcs_info_msg_0_}%B%~%b'
+__ZSH[LEFT_NO_ESC_SEQS]='%n@%M: ${vcs_info_msg_0_}%~'
+__ZSH[RIGHT]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%K}h%D{%M} %D{%S}s'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
