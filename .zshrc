@@ -107,37 +107,37 @@ source_file ~/.zsh-colors
 ### The prompt ###
 ###            ###
 
+LEFT='[%n@%M] %B%~%b'
+LEFT_NO_ESC_SEQS='[%n@%M ]%~'
+RIGHT='[%D{%Y} %D{%b} %D{%e} %D{%K}:%D{%M}:%D{%S}]'
+
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 # Substitutions: http://zsh.sourceforge.net/Guide/zshguide05.html
 function set_prompt() {
-    local left='[%n@%M] %B%~%b'
-    local right='[%D{%Y} %D{%b} %D{%e} %D{%K}:%D{%M}:%D{%S}]'
-
     # Parameter Expansion Flags: Prompt Expansion
-    local prompt_left="${(%)left}"
-    local prompt_right="${(%)right}"
-
-    local left_no_esc_seqs='[%n@%M ]%~'
+    local right_exp="${(%)RIGHT}"
 
     local termwidth
     (( termwidth = ${COLUMNS} - 1 - 1 )) # 2 extra spaces
-    local prompt_contents="${(%)left_no_esc_seqs}-${prompt_right}"
+    local prompt_contents="${(%)LEFT_NO_ESC_SEQS}-${right_exp}"
     # length of scalar
     local prompt_size=${#${prompt_contents}}
 
     if [[ ${prompt_size} -gt ${termwidth} ]]
     then
-        PROMPT="${prompt_left}"$'\n$ '
+        PROMPT="${LEFT}"$'\n$ '
         return
     fi
 
     # Parameter Expansion Flags: l:expr::string1::string2:
-    local prompt_spacer="${(l.(($termwidth - $prompt_size)).. .)}"
+    PROMPT_SPACER="\${(l.(($termwidth - $prompt_size)).. .)}"
 
     # Parameter Expansion Flags: single word shell expansions
-    PROMPT="${prompt_left} ${prompt_spacer} ${prompt_right}"$'\n$ '
+    PROMPT="${LEFT} "'${(e)PROMPT_SPACER}'" ${RIGHT}"$'\n$ '
 }
+
+setopt prompt_subst
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd set_prompt
