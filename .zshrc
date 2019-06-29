@@ -16,7 +16,10 @@ bindkey -v
 autoload -Uz compinit
 compinit
 
+# https://github.com/wincent/wincent
 # http://zsh.sourceforge.net/Doc/Release/Parameters.html#Array-Parameters
+# Create a hash table for globally stashing variables without polluting main
+# scope with a bunch of identifiers.
 typeset -A __ZSH
 
 # http://zsh.sourceforge.net/Doc/Release/Options.html
@@ -143,9 +146,9 @@ function maybe_show_vcs_info () {
     esac
 }
 
-LEFT='[%n@%M] ${vcs_info_msg_0_}%B%~%b'
-LEFT_NO_ESC_SEQS='[%n@%M] ${vcs_info_msg_0_}%~'
-RIGHT='[%D{%Y} %D{%b} %D{%e}] %D{%K}h%D{%M} %D{%S}s'
+__ZSH[LEFT]='[%n@%M] ${vcs_info_msg_0_}%B%~%b'
+__ZSH[LEFT_NO_ESC_SEQS]='[%n@%M] ${vcs_info_msg_0_}%~'
+__ZSH[RIGHT]='[%D{%Y} %D{%b} %D{%e}] %D{%K}h%D{%M} %D{%S}s'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
@@ -154,18 +157,18 @@ function set_prompt() {
     maybe_show_vcs_info
 
     # Parameter Expansion Flags: Prompt Expansion
-    local right_exp="${(%)RIGHT}"
+    local right_exp="${(%)__ZSH[RIGHT]}"
 
     local termwidth
     (( termwidth = ${COLUMNS} - 1 - 1 )) # 2 extra spaces
     # Parameter Expansion Flags: parameter expansion, command substitution and arithmetic expansion
-    local prompt_contents="${(e%)LEFT_NO_ESC_SEQS}-${right_exp}"
+    local prompt_contents="${(e%)__ZSH[LEFT_NO_ESC_SEQS]}-${right_exp}"
     # length of scalar
     local prompt_size=${#${prompt_contents}}
 
     if [[ ${prompt_size} -gt ${termwidth} ]]
     then
-        PROMPT="${LEFT}"$'\n$ '
+        PROMPT="${__ZSH[LEFT]}"$'\n$ '
         return
     fi
 
@@ -173,13 +176,13 @@ function set_prompt() {
     PROMPT_SPACER="\${(l.(($termwidth - $prompt_size)).. .)}"
 
     # Parameter Expansion Flags: single word shell expansions
-    PROMPT="${LEFT} "'${(e)PROMPT_SPACER}'" ${right_exp}"$'\n$ '
+    PROMPT="${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" ${right_exp}"$'\n$ '
 }
 
 add-zsh-hook precmd set_prompt
 
-INSERT="-- INSERT --"
-NORMAL="[NORMAL]"
+__ZSH[INSERT]="-- INSERT --"
+__ZSH[NORMAL]="[NORMAL]"
 
 # print: http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
 # https://superuser.com/a/911665/750142
@@ -207,11 +210,11 @@ function zle-line-init zle-keymap-select () {
     then
         # the command mode for vi
         steady_block
-        RPROMPT=${NORMAL}
+        RPROMPT=${__ZSH[NORMAL]}
     else
         # the insert mode for vi
         steady_ibeam
-        RPROMPT=${INSERT}
+        RPROMPT=${__ZSH[INSERT]}
     fi
 
     zle reset-prompt
@@ -220,4 +223,4 @@ function zle-line-init zle-keymap-select () {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-RPROMPT=${INSERT}
+RPROMPT=${__ZSH[INSERT]}
