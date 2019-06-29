@@ -114,7 +114,7 @@ source_file ~/.zsh-colors
 
 LEFT='[%n@%M] %B%~%b'
 LEFT_NO_ESC_SEQS='[%n@%M ]%~'
-RIGHT='[%D{%Y} %D{%b} %D{%e} %D{%K}:%D{%M}:%D{%S}]'
+RIGHT='[%D{%Y} %D{%b} %D{%e}] %D{%K}h%D{%M} %D{%S}s'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
