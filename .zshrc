@@ -143,8 +143,8 @@ function maybe_show_vcs_info () {
     esac
 }
 
-LEFT='[%n@%M] %B%~%b'
-LEFT_NO_ESC_SEQS='[%n@%M ]%~'
+LEFT='[%n@%M] ${vcs_info_msg_0_}%B%~%b'
+LEFT_NO_ESC_SEQS='[%n@%M] ${vcs_info_msg_0_}%~'
 RIGHT='[%D{%Y} %D{%b} %D{%e}] %D{%K}h%D{%M} %D{%S}s'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
@@ -158,7 +158,8 @@ function set_prompt() {
 
     local termwidth
     (( termwidth = ${COLUMNS} - 1 - 1 )) # 2 extra spaces
-    local prompt_contents="${(%)LEFT_NO_ESC_SEQS}-${vcs_info_msg_0_}${right_exp}"
+    # Parameter Expansion Flags: parameter expansion, command substitution and arithmetic expansion
+    local prompt_contents="${(e%)LEFT_NO_ESC_SEQS}-${right_exp}"
     # length of scalar
     local prompt_size=${#${prompt_contents}}
 
@@ -172,7 +173,7 @@ function set_prompt() {
     PROMPT_SPACER="\${(l.(($termwidth - $prompt_size)).. .)}"
 
     # Parameter Expansion Flags: single word shell expansions
-    PROMPT="${LEFT}${vcs_info_msg_0_} "'${(e)PROMPT_SPACER}'" ${right_exp}"$'\n$ '
+    PROMPT="${LEFT} "'${(e)PROMPT_SPACER}'" ${right_exp}"$'\n$ '
 }
 
 add-zsh-hook precmd set_prompt
