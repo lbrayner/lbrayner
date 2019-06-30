@@ -183,6 +183,16 @@ __ZSH[RIGHT]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%K}h%D{%M} %D{%S}s'
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 # Substitutions: http://zsh.sourceforge.net/Guide/zshguide05.html
+function set_prompt_spacer (){
+    if [[ ! ${#} -eq 2 ]]
+    then
+        return 1
+    fi
+
+    # Parameter Expansion Flags: l:expr::string1::string2:
+    PROMPT_SPACER="\${(l.((${1} - ${2})).. .)}"
+}
+
 function set_prompt() {
     maybe_show_vcs_info
 
@@ -196,16 +206,29 @@ function set_prompt() {
     # length of scalar
     local prompt_size=${#${prompt_contents}}
 
+    set_prompt_spacer ${termwidth} ${prompt_size}
+
     if [[ ${prompt_size} -gt ${termwidth} ]]
     then
-        PROMPT="${__ZSH[LEFT]}"$'\n$ '
+        prompt_contents="${(e%)__ZSH[LEFT_NO_ESC_SEQS]}"
+        prompt_size=${#${prompt_contents}}
+
+        if [[ ${prompt_size} -gt ${termwidth} ]]
+        then
+            termwidth=${prompt_size}
+        fi
+
+        set_prompt_spacer ${termwidth} ${prompt_size}
+
+        # Setting the PROMPT variable
+        PROMPT='${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${__ZSH[ULCORNER]}${__ZSH[SHIFT_OUT]}'\
+"${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" "\
+'${__ZSH[SHIFT_IN]}${__ZSH[URCORNER]}${__ZSH[SHIFT_OUT]}'\
+$'\n${__ZSH[SHIFT_IN]}${__ZSH[LLCORNER]}${__ZSH[SHIFT_OUT]}$ '
         return
     fi
 
-    # Parameter Expansion Flags: l:expr::string1::string2:
-    PROMPT_SPACER="\${(l.(($termwidth - $prompt_size)).. .)}"
-
-    # Finally setting the PROMPT variable
+    # Setting the PROMPT variable
     PROMPT='${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${__ZSH[ULCORNER]}${__ZSH[SHIFT_OUT]}'\
 "${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" ${right_exp} "\
 '${__ZSH[SHIFT_IN]}${__ZSH[URCORNER]}${__ZSH[SHIFT_OUT]}'\
