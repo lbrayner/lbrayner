@@ -159,6 +159,23 @@ function maybe_show_vcs_info () {
     esac
 }
 
+# http://aperiodic.net/phil/prompt/
+# See if we can use extended characters to look nicer.
+
+typeset -A ALTCHAR
+
+set -A ALTCHAR ${(s..)terminfo[acsc]}
+
+__ZSH[SET_CHARSET]="%{$terminfo[enacs]%}"
+__ZSH[SHIFT_IN]="%{$terminfo[smacs]%}"
+__ZSH[SHIFT_OUT]="%{$terminfo[rmacs]%}"
+__ZSH[ULCORNER]=${ALTCHAR[l]:--}
+__ZSH[LLCORNER]=${ALTCHAR[m]:--}
+__ZSH[URCORNER]=${ALTCHAR[k]:--}
+__ZSH[LRCORNER]=${ALTCHAR[j]:--}
+
+# Upper Left and Right prompt
+
 __ZSH[LEFT]='%n@%M: ${vcs_info_msg_0_}%B%~%b'
 __ZSH[LEFT_NO_ESC_SEQS]='%n@%M: ${vcs_info_msg_0_}%~'
 __ZSH[RIGHT]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%K}h%D{%M} %D{%S}s'
@@ -173,7 +190,7 @@ function set_prompt() {
     local right_exp="${(%)__ZSH[RIGHT]}"
 
     local termwidth
-    (( termwidth = ${COLUMNS} - 1 - 1 )) # 2 extra spaces
+    (( termwidth = ${COLUMNS} - 3 - 2 )) # 3 extra spaces + 2 ALTCHARs
     # Parameter Expansion Flags: parameter expansion, command substitution and arithmetic expansion
     local prompt_contents="${(e%)__ZSH[LEFT_NO_ESC_SEQS]}-${right_exp}"
     # length of scalar
@@ -188,14 +205,17 @@ function set_prompt() {
     # Parameter Expansion Flags: l:expr::string1::string2:
     PROMPT_SPACER="\${(l.(($termwidth - $prompt_size)).. .)}"
 
-    # Parameter Expansion Flags: single word shell expansions
-    PROMPT="${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" ${right_exp}"$'\n$ '
+    # Finally setting the PROMPT variable
+    PROMPT='${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${__ZSH[ULCORNER]}${__ZSH[SHIFT_OUT]}'\
+"${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" ${right_exp} "\
+'${__ZSH[SHIFT_IN]}${__ZSH[URCORNER]}${__ZSH[SHIFT_OUT]}'\
+$'\n${__ZSH[SHIFT_IN]}${__ZSH[LLCORNER]}${__ZSH[SHIFT_OUT]}$ '
+
 }
 
 add-zsh-hook precmd set_prompt
 
-__ZSH[INSERT]="-- INSERT --"
-__ZSH[NORMAL]="[NORMAL]"
+# RPROMPT
 
 # print: http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
 # https://superuser.com/a/911665/750142
@@ -213,6 +233,17 @@ function preexec (){
     steady_block
 }
 
+__ZSH[INSERT]="-- INSERT --"
+__ZSH[NORMAL]="[NORMAL]"
+
+function rprompt_cmd (){
+    RPROMPT="${__ZSH[NORMAL]} "'${__ZSH[SHIFT_IN]}${__ZSH[LRCORNER]}${__ZSH[SHIFT_OUT]}'
+}
+
+function rprompt_insert (){
+    RPROMPT="${__ZSH[INSERT]} "'${__ZSH[SHIFT_IN]}${__ZSH[LRCORNER]}${__ZSH[SHIFT_OUT]}'
+}
+
 function zle-line-init zle-keymap-select () {
     if [[ "${TERM#*256}" = "${TERM}" ]]
     then
@@ -223,11 +254,11 @@ function zle-line-init zle-keymap-select () {
     then
         # the command mode for vi
         steady_block
-        RPROMPT=${__ZSH[NORMAL]}
+        rprompt_cmd
     else
         # the insert mode for vi
         steady_ibeam
-        RPROMPT=${__ZSH[INSERT]}
+        rprompt_insert
     fi
 
     zle reset-prompt
@@ -236,4 +267,4 @@ function zle-line-init zle-keymap-select () {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-RPROMPT=${__ZSH[INSERT]}
+rprompt_insert
