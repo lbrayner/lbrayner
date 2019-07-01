@@ -173,7 +173,7 @@ __ZSH[LRCORNER]=${ALTCHAR[j]:--}
 
 __ZSH[LEFT]='%n@%M: ${vcs_info_msg_0_}%B%~%b'
 __ZSH[LEFT_NO_ESC_SEQS]='%n@%M: ${vcs_info_msg_0_}%~'
-__ZSH[RIGHT]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%K}h%D{%M} %D{%S}s'
+__ZSH[RIGHT]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%H}h%D{%M} %D{%S}s'
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
