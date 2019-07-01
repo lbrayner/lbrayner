@@ -164,13 +164,9 @@ set -A ALTCHAR ${(s..)terminfo[acsc]}
 __ZSH[SET_CHARSET]="%{$terminfo[enacs]%}"
 __ZSH[SHIFT_IN]="%{$terminfo[smacs]%}"
 __ZSH[SHIFT_OUT]="%{$terminfo[rmacs]%}"
-# __ZSH[ULCORNER]=${ALTCHAR[l]:--}
 __ZSH[ULCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[l]:--}${__ZSH[SHIFT_OUT]}
-# __ZSH[LLCORNER]=${ALTCHAR[m]:--}
 __ZSH[LLCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[m]:--}${__ZSH[SHIFT_OUT]}
-# __ZSH[URCORNER]=${ALTCHAR[k]:--}
 __ZSH[URCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[k]:--}${__ZSH[SHIFT_OUT]}
-# __ZSH[LRCORNER]=${ALTCHAR[j]:--}
 __ZSH[LRCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[j]:--}${__ZSH[SHIFT_OUT]}
 
 # Upper Left and Right prompt
@@ -220,18 +216,14 @@ function set_prompt() {
         set_prompt_spacer ${termwidth} ${prompt_size}
 
         # Setting the PROMPT variable
-        PROMPT='${__ZSH[ULCORNER]}'\
-"${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" "\
-'${__ZSH[URCORNER]}'\
-$'\n${__ZSH[LLCORNER]}$ '
+        PROMPT='${__ZSH[ULCORNER]}'"${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" "\
+$'${__ZSH[URCORNER]}\n${__ZSH[LLCORNER]}$ '
         return
     fi
 
     # Setting the PROMPT variable
-    PROMPT='${__ZSH[ULCORNER]}'\
-"${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" ${right_exp} "\
-'${__ZSH[URCORNER]}'\
-$'\n${__ZSH[LLCORNER]}$ '
+    PROMPT='${__ZSH[ULCORNER]}'"${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" ${right_exp} "\
+$'${__ZSH[URCORNER]}\n${__ZSH[LLCORNER]}$ '
 
 }
 
@@ -259,11 +251,11 @@ __ZSH[INSERT]="-- INSERT --"
 __ZSH[NORMAL]="[NORMAL]"
 
 function rprompt_cmd (){
-    RPROMPT="${__ZSH[NORMAL]} "'${__ZSH[SHIFT_IN]}${__ZSH[LRCORNER]}${__ZSH[SHIFT_OUT]}'
+    RPROMPT="${__ZSH[NORMAL]} "'${__ZSH[LRCORNER]}'
 }
 
 function rprompt_insert (){
-    RPROMPT="${__ZSH[INSERT]} "'${__ZSH[SHIFT_IN]}${__ZSH[LRCORNER]}${__ZSH[SHIFT_OUT]}'
+    RPROMPT="${__ZSH[INSERT]} "'${__ZSH[LRCORNER]}'
 }
 
 function zle-line-init zle-keymap-select () {
