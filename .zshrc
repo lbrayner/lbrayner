@@ -169,10 +169,14 @@ set -A ALTCHAR ${(s..)terminfo[acsc]}
 __ZSH[SET_CHARSET]="%{$terminfo[enacs]%}"
 __ZSH[SHIFT_IN]="%{$terminfo[smacs]%}"
 __ZSH[SHIFT_OUT]="%{$terminfo[rmacs]%}"
-__ZSH[ULCORNER]=${ALTCHAR[l]:--}
-__ZSH[LLCORNER]=${ALTCHAR[m]:--}
-__ZSH[URCORNER]=${ALTCHAR[k]:--}
-__ZSH[LRCORNER]=${ALTCHAR[j]:--}
+# __ZSH[ULCORNER]=${ALTCHAR[l]:--}
+__ZSH[ULCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[l]:--}${__ZSH[SHIFT_OUT]}
+# __ZSH[LLCORNER]=${ALTCHAR[m]:--}
+__ZSH[LLCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[m]:--}${__ZSH[SHIFT_OUT]}
+# __ZSH[URCORNER]=${ALTCHAR[k]:--}
+__ZSH[URCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[k]:--}${__ZSH[SHIFT_OUT]}
+# __ZSH[LRCORNER]=${ALTCHAR[j]:--}
+__ZSH[LRCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[j]:--}${__ZSH[SHIFT_OUT]}
 
 # Upper Left and Right prompt
 
@@ -221,18 +225,18 @@ function set_prompt() {
         set_prompt_spacer ${termwidth} ${prompt_size}
 
         # Setting the PROMPT variable
-        PROMPT='${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${__ZSH[ULCORNER]}${__ZSH[SHIFT_OUT]}'\
+        PROMPT='${__ZSH[ULCORNER]}'\
 "${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" "\
-'${__ZSH[SHIFT_IN]}${__ZSH[URCORNER]}${__ZSH[SHIFT_OUT]}'\
-$'\n${__ZSH[SHIFT_IN]}${__ZSH[LLCORNER]}${__ZSH[SHIFT_OUT]}$ '
+'${__ZSH[URCORNER]}'\
+$'\n${__ZSH[LLCORNER]}$ '
         return
     fi
 
     # Setting the PROMPT variable
-    PROMPT='${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${__ZSH[ULCORNER]}${__ZSH[SHIFT_OUT]}'\
+    PROMPT='${__ZSH[ULCORNER]}'\
 "${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" ${right_exp} "\
-'${__ZSH[SHIFT_IN]}${__ZSH[URCORNER]}${__ZSH[SHIFT_OUT]}'\
-$'\n${__ZSH[SHIFT_IN]}${__ZSH[LLCORNER]}${__ZSH[SHIFT_OUT]}$ '
+'${__ZSH[URCORNER]}'\
+$'\n${__ZSH[LLCORNER]}$ '
 
 }
 
