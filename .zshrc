@@ -177,32 +177,32 @@ __ZSH[LRCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[j]:--}${__ZSH[S
 
 # Upper Left and Right prompt
 
-__ZSH[LEFT]='%n@%M: ${vcs_info_msg_0_}%B%~%b'
-__ZSH[LEFT_NO_ESC_SEQS]='%n@%M: ${vcs_info_msg_0_}%~'
-__ZSH[RIGHT]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%H}h%D{%M} %D{%S}s'
+__ZSH[PROMPT_INFO]='%n@%M: ${vcs_info_msg_0_}%B%~%b'
+__ZSH[PROMPT_INFO_NO_ESC_SEQS]='%n@%M: ${vcs_info_msg_0_}%~'
+__ZSH[TIME_STRING]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%H}h%D{%M} %D{%S}s'
 
 function set_prompt() {
     maybe_show_vcs_info
 
     # Parameter Expansion Flags: Prompt Expansion
-   __ZSH[RIGHT_EXP]="${(%)__ZSH[RIGHT]}"
+   __ZSH[TIMESTAMP]="${(%)__ZSH[TIME_STRING]}"
 
     local termwidth
-    (( termwidth = ${COLUMNS} - 2 - 1 )) # 2 ALTCHARs
+    (( termwidth = ${COLUMNS} - 2 - 1 - 1 )) # 2 ALTCHARs & 1 space & 1 extra space (RPROMPT)
     # Parameter Expansion Flags: parameter expansion, command substitution and
     # arithmetic expansion
-    local prompt_contents="${(e%)__ZSH[LEFT_NO_ESC_SEQS]}-${__ZSH[RIGHT_EXP]}"
+    local prompt_contents="${(e%)__ZSH[PROMPT_INFO_NO_ESC_SEQS]}${__ZSH[TIMESTAMP]}"
     # length of scalar
-    local prompt_size=${#${prompt_contents}}
+    local contents_size=${#${prompt_contents}}
 
-    if [[ ${prompt_size} -gt ${termwidth} ]]
+    if [[ ${contents_size} -gt ${termwidth} ]]
     then
         __ZSH[UL]=""
         __ZSH[LL]=""
         __ZSH[UR]=""
         __ZSH[LR]=""
         __ZSH[PROMPT_SPACER]=""
-        __ZSH[RIGHT_EXP]=""
+        __ZSH[TIMESTAMP]=""
         return
     fi
 
@@ -212,13 +212,13 @@ function set_prompt() {
     __ZSH[LR]=" ${__ZSH[LRCORNER]}"
 
     # Parameter Expansion Flags: l:expr::string1::string2:
-    __ZSH[PROMPT_SPACER]="\${(l.((${termwidth} - ${prompt_size})).. .)}"
+    __ZSH[PROMPT_SPACER]="\${(l.((${termwidth} - ${contents_size})).. .)}"
 }
 
 add-zsh-hook precmd set_prompt
 
 # Setting the PROMPT variable
-PROMPT='${__ZSH[UL]}'"${__ZSH[LEFT]}"'${(e)__ZSH[PROMPT_SPACER]}${__ZSH[RIGHT_EXP]}'\
+PROMPT='${__ZSH[UL]}'"${__ZSH[PROMPT_INFO]}"'${(e)__ZSH[PROMPT_SPACER]}${__ZSH[TIMESTAMP]}'\
 $'${__ZSH[UR]}\n${__ZSH[LL]}$ '
 
 # RPROMPT
