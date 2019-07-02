@@ -159,15 +159,35 @@ function maybe_show_vcs_info () {
 
 typeset -A ALTCHAR
 
+# Substitutions: http://zsh.sourceforge.net/Guide/zshguide05.html
+# http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
+# Parameter Expansion: s:string:
 set -A ALTCHAR ${(s..)terminfo[acsc]}
 
+# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+# %{...%} Include a string as a literal escape sequence
 __ZSH[SET_CHARSET]="%{$terminfo[enacs]%}"
 __ZSH[SHIFT_IN]="%{$terminfo[smacs]%}"
 __ZSH[SHIFT_OUT]="%{$terminfo[rmacs]%}"
+# Parameter Expansion: ${name:-word}
 __ZSH[ULCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[l]:--}${__ZSH[SHIFT_OUT]}
 __ZSH[LLCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[m]:--}${__ZSH[SHIFT_OUT]}
 __ZSH[URCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[k]:--}${__ZSH[SHIFT_OUT]}
 __ZSH[LRCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[j]:--}${__ZSH[SHIFT_OUT]}
+
+function long_prompt (){
+    __ZSH[UL]="${__ZSH[ULCORNER]}"
+    __ZSH[LL]="${__ZSH[LLCORNER]}"
+    __ZSH[UR]=" ${__ZSH[URCORNER]}"
+    __ZSH[LR]=" ${__ZSH[LRCORNER]}"
+}
+
+function short_prompt (){
+    __ZSH[UL]=""
+    __ZSH[LL]=""
+    __ZSH[UR]=""
+    __ZSH[LR]=""
+}
 
 # Upper Left and Right prompt
 
@@ -175,59 +195,39 @@ __ZSH[LEFT]='%n@%M: ${vcs_info_msg_0_}%B%~%b'
 __ZSH[LEFT_NO_ESC_SEQS]='%n@%M: ${vcs_info_msg_0_}%~'
 __ZSH[RIGHT]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%H}h%D{%M} %D{%S}s'
 
-# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-# http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
-# Substitutions: http://zsh.sourceforge.net/Guide/zshguide05.html
-function set_prompt_spacer (){
-    if [[ ! ${#} -eq 2 ]]
-    then
-        return 1
-    fi
-
-    # Parameter Expansion Flags: l:expr::string1::string2:
-    PROMPT_SPACER="\${(l.((${1} - ${2})).. .)}"
-}
-
 function set_prompt() {
     maybe_show_vcs_info
 
     # Parameter Expansion Flags: Prompt Expansion
-    local right_exp="${(%)__ZSH[RIGHT]}"
+   __ZSH[RIGHT_EXP]="${(%)__ZSH[RIGHT]}"
 
     local termwidth
-    (( termwidth = ${COLUMNS} - 3 - 2 )) # 3 extra spaces + 2 ALTCHARs
-    # Parameter Expansion Flags: parameter expansion, command substitution and arithmetic expansion
-    local prompt_contents="${(e%)__ZSH[LEFT_NO_ESC_SEQS]}-${right_exp}"
+    (( termwidth = ${COLUMNS} - 2 - 1 )) # 2 ALTCHARs
+    # Parameter Expansion Flags: parameter expansion, command substitution and
+    # arithmetic expansion
+    local prompt_contents="${(e%)__ZSH[LEFT_NO_ESC_SEQS]}-${__ZSH[RIGHT_EXP]}"
     # length of scalar
     local prompt_size=${#${prompt_contents}}
 
-    set_prompt_spacer ${termwidth} ${prompt_size}
-
     if [[ ${prompt_size} -gt ${termwidth} ]]
     then
-        prompt_contents="${(e%)__ZSH[LEFT_NO_ESC_SEQS]}"
-        prompt_size=${#${prompt_contents}}
-
-        if [[ ${prompt_size} -gt ${termwidth} ]]
-        then
-            termwidth=${prompt_size}
-        fi
-
-        set_prompt_spacer ${termwidth} ${prompt_size}
-
-        # Setting the PROMPT variable
-        PROMPT='${__ZSH[ULCORNER]}'"${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" "\
-$'${__ZSH[URCORNER]}\n${__ZSH[LLCORNER]}$ '
+        short_prompt
+        __ZSH[PROMPT_SPACER]=""
+        __ZSH[RIGHT_EXP]=""
         return
     fi
 
-    # Setting the PROMPT variable
-    PROMPT='${__ZSH[ULCORNER]}'"${__ZSH[LEFT]} "'${(e)PROMPT_SPACER}'" ${right_exp} "\
-$'${__ZSH[URCORNER]}\n${__ZSH[LLCORNER]}$ '
+    long_prompt
 
+    # Parameter Expansion Flags: l:expr::string1::string2:
+    __ZSH[PROMPT_SPACER]="\${(l.((${termwidth} - ${prompt_size})).. .)}"
 }
 
 add-zsh-hook precmd set_prompt
+
+# Setting the PROMPT variable
+PROMPT='${__ZSH[UL]}'"${__ZSH[LEFT]}"'${(e)__ZSH[PROMPT_SPACER]}${__ZSH[RIGHT_EXP]}'\
+$'${__ZSH[UR]}\n${__ZSH[LL]}$ '
 
 # RPROMPT
 
@@ -251,11 +251,11 @@ __ZSH[INSERT]="-- INSERT --"
 __ZSH[NORMAL]="[NORMAL]"
 
 function rprompt_cmd (){
-    RPROMPT="${__ZSH[NORMAL]} "'${__ZSH[LRCORNER]}'
+    RPROMPT="${__ZSH[NORMAL]}"'${__ZSH[LR]}'
 }
 
 function rprompt_insert (){
-    RPROMPT="${__ZSH[INSERT]} "'${__ZSH[LRCORNER]}'
+    RPROMPT="${__ZSH[INSERT]}"'${__ZSH[LR]}'
 }
 
 function zle-line-init zle-keymap-select () {
