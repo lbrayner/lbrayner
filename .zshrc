@@ -180,20 +180,6 @@ __ZSH[LLCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[m]:--}${__ZSH[S
 __ZSH[URCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[k]:--}${__ZSH[SHIFT_OUT]}
 __ZSH[LRCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[j]:--}${__ZSH[SHIFT_OUT]}
 
-function long_prompt (){
-    __ZSH[UL]="${__ZSH[ULCORNER]}"
-    __ZSH[LL]="${__ZSH[LLCORNER]}"
-    __ZSH[UR]=" ${__ZSH[URCORNER]}"
-    __ZSH[LR]=" ${__ZSH[LRCORNER]}"
-}
-
-function short_prompt (){
-    __ZSH[UL]=""
-    __ZSH[LL]=""
-    __ZSH[UR]=""
-    __ZSH[LR]=""
-}
-
 # Upper Left and Right prompt
 
 __ZSH[LEFT]='%n@%M: ${vcs_info_msg_0_}%B%~%b'
@@ -216,13 +202,19 @@ function set_prompt() {
 
     if [[ ${prompt_size} -gt ${termwidth} ]]
     then
-        short_prompt
+        __ZSH[UL]=""
+        __ZSH[LL]=""
+        __ZSH[UR]=""
+        __ZSH[LR]=""
         __ZSH[PROMPT_SPACER]=""
         __ZSH[RIGHT_EXP]=""
         return
     fi
 
-    long_prompt
+    __ZSH[UL]="${__ZSH[ULCORNER]}"
+    __ZSH[LL]="${__ZSH[LLCORNER]}"
+    __ZSH[UR]=" ${__ZSH[URCORNER]}"
+    __ZSH[LR]=" ${__ZSH[LRCORNER]}"
 
     # Parameter Expansion Flags: l:expr::string1::string2:
     __ZSH[PROMPT_SPACER]="\${(l.((${termwidth} - ${prompt_size})).. .)}"
