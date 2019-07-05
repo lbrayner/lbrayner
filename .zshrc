@@ -154,6 +154,16 @@ function maybe_show_vcs_info () {
     esac
 }
 
+function set_jobs (){
+    jobs=""
+    local jobs_seq="%j"
+    local job_count=${(%)jobs_seq}
+    if [[ ${job_count} -gt 0 ]]
+    then
+        jobs=" (${job_count})"
+    fi
+}
+
 # http://aperiodic.net/phil/prompt/
 # See if we can use extended characters to look nicer.
 
@@ -177,12 +187,13 @@ __ZSH[LRCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[j]:--}${__ZSH[S
 
 # Upper Left and Right prompt
 
-__ZSH[PROMPT_INFO]='%n@%M: ${vcs_info_msg_0_}%B%~%b'
-__ZSH[PROMPT_INFO_NO_ESC_SEQS]='%n@%M: ${vcs_info_msg_0_}%~'
+__ZSH[PROMPT_INFO]='%n@%M${jobs}: ${vcs_info_msg_0_}%B%~%b'
+__ZSH[PROMPT_INFO_NO_ESC_SEQS]='%n@%M${jobs}: ${vcs_info_msg_0_}%~'
 __ZSH[TIME_STRING]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%H}h%D{%M} %D{%S}s'
 
 function set_prompt() {
     maybe_show_vcs_info
+    set_jobs
 
     # Parameter Expansion Flags: Prompt Expansion
    __ZSH[TIMESTAMP]="${(%)__ZSH[TIME_STRING]}"
