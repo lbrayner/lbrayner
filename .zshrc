@@ -55,6 +55,17 @@ function expand-alias() {
 
 zle -N expand-alias
 
+# https://github.com/wincent/wincent
+# Make CTRL-Z background things and unbackground them.
+function fg-bg() {
+  if [[ $#BUFFER -eq 0 ]]; then
+    fg
+  else
+    zle push-input
+  fi
+}
+zle -N fg-bg
+
 # Binding keys and handling keymaps
 
 bindkey '^[;'     insert-newest-file
@@ -69,6 +80,7 @@ bindkey '^w'      backward-kill-word
 bindkey '^u'      backward-kill-line
 bindkey '^r'      history-incremental-search-backward
 bindkey '^k'      kill-line
+bindkey '^z'      fg-bg
 bindkey '^[Od'    backward-word
 bindkey '^[Oc'    forward-word
 bindkey '^[f'     forward-word
