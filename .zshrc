@@ -234,6 +234,15 @@ add-zsh-hook precmd set_prompt
 PROMPT='${__ZSH[UL]}'"${__ZSH[PROMPT_INFO]}"'${(e)__ZSH[PROMPT_SPACER]}${__ZSH[TIMESTAMP]}'\
 $'${__ZSH[UR]}\n${__ZSH[LL]}$ '
 
+# Single-line prompt if SSH but not TMUX
+if [[ -n "${SSH_TTY}" ]] && [[ -z "${TMUX}" ]]
+then
+    add-zsh-hook -d precmd set_prompt
+    add-zsh-hook precmd maybe_show_vcs_info
+    __ZSH[LR]=""
+    PROMPT="${__ZSH[PROMPT_INFO]}\$ "
+fi
+
 # RPROMPT
 
 # print: http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
