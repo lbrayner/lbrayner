@@ -248,11 +248,23 @@ fi
 # print: http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
 # https://superuser.com/a/911665/750142
 
+# https://vi.stackexchange.com/a/14203
+# tmux: DCS sequence
 function steady_ibeam (){
+    if [[ -n "${TMUX}" ]]
+    then
+        print -Pn "\ePtmux;\e\e[6 q\e\\"
+        return
+    fi
 	print -Pn "\e[6 q"
 }
 
 function steady_block (){
+    if [[ -n "${TMUX}" ]]
+    then
+        print -Pn "\ePtmux;\e\e[2 q\e\\"
+        return
+    fi
 	print -Pn "\e[2 q"
 }
 
