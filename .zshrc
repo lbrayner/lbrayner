@@ -106,7 +106,7 @@ bindkey -a '\e[4~' end-of-line
 # Sourcing files
 
 function source_file(){
-    if [ -f ${1} ]
+    if [[ -f ${1} ]]
     then
         source ${1}
     fi
