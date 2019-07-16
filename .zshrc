@@ -91,7 +91,14 @@ bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 bindkey '^ '      expand-alias
 
-# normal mode bindings
+# DELETE, HOME & END keys
+
+## insert mode bindings
+bindkey '\e[3~' delete-char
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+
+## normal mode bindings
 bindkey -a '\e[3~' delete-char
 bindkey -a '\e[1~' beginning-of-line
 bindkey -a '\e[4~' end-of-line
