@@ -34,7 +34,7 @@ alias putty='TERM=putty-256color'
 
 # youtube-dl
 
-alias yd='youtube-dl --no-mtime --all-subs --no-playlist -f137,140'
+alias yd='youtube-dl --no-mtime --all-subs --no-playlist -f137+140'
 alias yf='youtube-dl --no-playlist -F'
 alias ys='youtube-dl --no-playlist --skip-download --no-mtime --all-subs'
 
