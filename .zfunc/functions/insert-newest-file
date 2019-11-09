@@ -18,7 +18,18 @@ then
 else
     __inf_offset=-0
     typeset -g __inf_lcursor=$lcursor
-    ls -1tr > ${__inf_cache}
+    typeset __dir="."
+    if [[ ${BUFFER[CURSOR]} == "/" ]]
+    then
+        zle .insert-last-word 0
+        cursor=$CURSOR
+        typeset __last_word="${BUFFER:${lcursor}}"
+        if [[ -d "${__last_word}" ]]
+        then
+            __dir="${__last_word}"
+        fi
+    fi
+    ls -1tr "${__dir}" > ${__inf_cache}
 fi
 
 LBUFFER[lcursor+1,cursor+1]=`printf %q "$(head -n ${__inf_offset} ${__inf_cache} | tail -n 1 | tr -d '\n')"`
