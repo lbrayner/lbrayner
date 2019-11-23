@@ -24,7 +24,11 @@ else
         zle .insert-last-word 0
         cursor=$CURSOR
         typeset __last_word="${BUFFER:${lcursor}}"
-        __last_word="${__last_word:Q}"
+        __last_word="${(Q)__last_word}"
+        if [[ ${__last_word[1]} == "~" ]]
+        then
+            __last_word=~/"${__last_word:2}"
+        fi
         if [[ -d "${__last_word}" ]]
         then
             __dir="${__last_word}"
