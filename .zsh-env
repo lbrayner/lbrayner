@@ -1,6 +1,9 @@
-home_bin=~/bin
-head=${home_bin}
-export PATH=${head}:${PATH#*${head}:}
+if ! [[ $(uname) =~ BSD ]]
+then
+    home_bin=~/bin
+    head=${home_bin}
+    export PATH=${head}:${PATH#*${head}:}
+fi
 
 # FZF
 export FZF_DEFAULT_OPTS=--bind=ctrl-j:accept,ctrl-k:kill-line,\

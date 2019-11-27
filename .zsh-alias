@@ -13,9 +13,12 @@ alias bl='bc -l'
 # ls
 
 alias lt="ls -lrth | tail"
-alias ls='ls --color=auto'
 alias lm="ls -lrth"
-alias media="ls -lrth ^*vtt"
+
+if [[ $(uname) == Linux ]]
+then
+    alias ls='ls --color=auto'
+fi
 
 # svn
 
