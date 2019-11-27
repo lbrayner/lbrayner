@@ -5,22 +5,8 @@ HISTSIZE=1000
 SAVEHIST=1000
 KEYTIMEOUT=1
 
-# https://stackoverflow.com/a/15394738
-# will not clobber fpath
-local_functions=$HOME/.zfunc/functions
-if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
-    fpath=( "${local_functions}" "${fpath[@]}" )
-fi
-# vi insert mode keymap
-bindkey -v
 autoload -Uz compinit
 compinit
-
-# https://github.com/wincent/wincent
-# http://zsh.sourceforge.net/Doc/Release/Parameters.html#Array-Parameters
-# Create a hash table for globally stashing variables without polluting main
-# scope with a bunch of identifiers.
-typeset -A __ZSH
 
 # http://zsh.sourceforge.net/Doc/Release/Options.html
 
@@ -29,6 +15,46 @@ setopt HIST_IGNORE_SPACE
 setopt GLOB_COMPLETE
 setopt complete_aliases
 setopt extended_glob
+
+# Sourcing files
+
+function source_file(){
+    if [[ -f ${1} ]]
+    then
+        source ${1}
+    fi
+}
+
+# interactive shells
+# user is responsible for not clobbering environment variables
+source_file ~/.profile
+
+# setting environment variables
+# user is responsible for not clobbering environment variables
+source_file ~/.zsh-env
+
+# setting local environment variables
+# user is responsible for not clobbering environment variables
+source_file ~/.zsh-env.local
+
+# setting aliases
+source_file ~/.zsh-alias
+
+# setting local aliases
+source_file ~/.zsh-alias.local
+
+# colors
+source_file ~/.zsh-colors
+
+# vi insert mode keymap
+bindkey -v
+
+# https://stackoverflow.com/a/15394738
+# will not clobber fpath
+local_functions=$HOME/.zfunc/functions
+if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
+    fpath=( "${local_functions}" "${fpath[@]}" )
+fi
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
 
@@ -91,36 +117,6 @@ bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 bindkey '^ '      expand-alias
 
-# Sourcing files
-
-function source_file(){
-    if [[ -f ${1} ]]
-    then
-        source ${1}
-    fi
-}
-
-# interactive shells
-# user is responsible for not clobbering environment variables
-source_file ~/.profile
-
-# setting environment variables
-# user is responsible for not clobbering environment variables
-source_file ~/.zsh-env
-
-# setting local environment variables
-# user is responsible for not clobbering environment variables
-source_file ~/.zsh-env.local
-
-# setting aliases
-source_file ~/.zsh-alias
-
-# setting local aliases
-source_file ~/.zsh-alias.local
-
-# colors
-source_file ~/.zsh-colors
-
 ###            ###
 ### The prompt ###
 ###            ###
@@ -135,6 +131,12 @@ zstyle ':vcs_info:git*:*' formats '[%b%m%c%u] ' # default ' (%s)-[%b]%c%u-'
 zstyle ':vcs_info:git*:*' actionformats '[%b|%a%m%c%u] ' # default ' (%s)-[%b|%a]%c%u-'
 zstyle ':vcs_info:svn*:*' formats '[%b%m] ' # default ' (%s)-[%b]%c%u-'
 zstyle ':vcs_info:svn*:*' actionformats '[%b|%a%m] ' # default ' (%s)-[%b|%a]%c%u-'
+
+# https://github.com/wincent/wincent
+# http://zsh.sourceforge.net/Doc/Release/Parameters.html#Array-Parameters
+# Create a hash table for globally stashing variables without polluting main
+# scope with a bunch of identifiers.
+typeset -A __ZSH
 
 # https://github.com/wincent/wincent
 # Remember each command we run.
