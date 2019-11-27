@@ -113,7 +113,8 @@ function maybe_show_vcs_info () {
 __ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B%~%b'
 
 # Simpler mode for basic ttys
-if [[ "${TERM#*256}" == "${TERM}" ]]
+# or if SSH but not TMUX
+if [[ "${TERM#*256}" == "${TERM}" ]] || ([[ -n "${SSH_TTY}" ]] && [[ -z "${TMUX}" ]])
 then
     add-zsh-hook precmd maybe_show_vcs_info
     PROMPT="${__ZSH[PROMPT_INFO]}\$ "
@@ -188,15 +189,6 @@ add-zsh-hook precmd set_prompt
 PROMPT='${__ZSH[UL]}'"${__ZSH[PROMPT_INFO]}"'${(e)__ZSH[PROMPT_SPACER]}${__ZSH[TIMESTAMP]}'\
 $'${__ZSH[UR]}\n${__ZSH[LL]}$ '
 
-# Single-line prompt if SSH but not TMUX
-if [[ -n "${SSH_TTY}" ]] && [[ -z "${TMUX}" ]]
-then
-    add-zsh-hook -d precmd set_prompt
-    add-zsh-hook precmd maybe_show_vcs_info
-    __ZSH[LR]=""
-    PROMPT="${__ZSH[PROMPT_INFO]}\$ "
-fi
-
 ###         ###
 ### Vi Mode ###
 ###         ###
@@ -241,13 +233,9 @@ function rprompt_cmd (){
 function rprompt_insert (){
     RPROMPT="${__ZSH[INSERT]}"'${__ZSH[LR]}'
 }
+rprompt_insert
 
 function zle-line-init zle-keymap-select () {
-    if [[ "${TERM#*256}" = "${TERM}" ]]
-    then
-        return
-    fi
-
     if [[ $KEYMAP = vicmd ]]
     then
         # the command mode for vi
@@ -265,11 +253,6 @@ function zle-line-init zle-keymap-select () {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-if [[ "${TERM#*256}" != "${TERM}" ]]
-then
-    rprompt_insert
-fi
-
 # https://stackoverflow.com/a/15394738
 # will not clobber fpath
 local_functions=$HOME/.zfunc/functions
@@ -277,11 +260,9 @@ if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
     fpath=( "${local_functions}" "${fpath[@]}" )
 fi
 
-### Vi Mode per se  ###
-
 # zle, The Z-Shell Line Editor: http://zsh.sourceforge.net/Guide/zshguide04.html
 
-# Widgets
+### Widgets ###
 
 autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
@@ -309,6 +290,8 @@ function fg-bg() {
   fi
 }
 zle -N fg-bg
+
+### Vi Mode per se  ###
 
 # vi insert mode keymap
 bindkey -v
