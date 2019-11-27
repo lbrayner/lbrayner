@@ -3,80 +3,37 @@ xterm*termName: xterm-256color
 ! To disable the scrollbar
 URxvt.scrollBar: false
 
-!URxvt*font:                   xft:Bitstream Vera Sans Mono:size=10, xft:DejaVuSansMono
+/* URxvt*font:                   xft:Bitstream Vera Sans Mono:size=10, xft:Inconsolata\ for\ Powerline */
+/* URxvt*font:                   xft:System San Francisco Display:size=10, xft:Inconsolata\ for\ Powerline */
 /* URxvt*font:                   xft:DejaVuSansMono:size=9.8,xft:Inconsolata\ for\ Powerline */
 /* URxvt*font:                   xft:DejaVuSansMono:size=9.7,xft:Inconsolata\ for\ Powerline */
-URxvt.font:                   xft:Iosevka Term Slab:size=9.8,xft:Inconsolata\ for\ Powerline
+/* URxvt.font:                   xft:Iosevka Term Slab:size=11,xft:Inconsolata\ for\ Powerline */
+URxvt.font:                   xft:Iosevka:size=11,xft:Inconsolata\ for\ Powerline
+/* URxvt.font:                   xft:Iosevka Term:size=11,xft:Inconsolata\ for\ Powerline */
+/* URxvt.lineSpace: 0 */
+/* URxvt.letterspace: 10 */
 /* URxvt.boldFont:               xft:Iosevka Term Slab:size=9.8,style=Bold */
 /* URxvt*font:                   xft:Iosevka Term Slab:size=10.5,xft:Inconsolata\ for\ Powerline */
 /* URxvt*font:                   xft:DejaVuSansMono:size=9.8,xft:FontAwesome */
 !URxvt*font:                   xft:Bitstream Vera Sans Mono:size=10.5,xft:Inconsolata\ for\ Powerline
+/* URxvt.internalBorder:  10 */
+/* URxvt.internalBorder:  0 */
+
+/* Xft.dpi: 96 */
+/* Xft.antialias: true */
+/* Xft.hinting: true */
+/* Xft.hintstyle: hintfull */
+/* Xft.rgba: rgb */
 
 Xft.dpi: 96
 Xft.antialias: true
 Xft.hinting: true
-Xft.hintstyle: hintfull
 Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
 
 URxvt*fading:                 0
-
-#define S_base03        #002b36
-#define S_base02        #073642
-#define S_base01        #586e75
-#define S_base00        #657b83
-#define S_base0         #839496
-#define S_base1         #93a1a1
-#define S_base2         #eee8d5
-#define S_base3         #fdf6e3
-
-URxvt*background:            S_base3
-!URxvt*foreground:            S_base00
-URxvt*foreground:            #000000
-URxvt*fadeColor:             S_base3
-URxvt*cursorColor:           S_base01
-URxvt*pointerColorBackground:S_base1
-URxvt*pointerColorForeground:S_base01
-
-#define S_yellow        #b58900
-#define S_orange        #cb4b16
-#define S_red           #dc322f
-#define S_magenta       #d33682
-#define S_violet        #6c71c4
-#define S_blue          #268bd2
-#define S_cyan          #2aa198
-#define S_green         #859900
-
-!! black dark/light
-URxvt*color0:                S_base02
-URxvt*color8:                S_base03
-
-!! red dark/light
-URxvt*color1:                S_red
-URxvt*color9:                S_orange
-
-!! green dark/light
-URxvt*color2:                S_green
-URxvt*color10:               S_base01
-
-!! yellow dark/light
-URxvt*color3:                S_yellow
-URxvt*color11:               S_base00
-
-!! blue dark/light
-URxvt*color4:                S_blue
-URxvt*color12:               S_base0
-
-!! magenta dark/light
-URxvt*color5:                S_magenta
-URxvt*color13:               S_violet
-
-!! cyan dark/light
-URxvt*color6:                S_cyan
-URxvt*color14:               S_base1
-
-!! white dark/light
-URxvt*color7:                S_base2
-URxvt*color15:               S_base3
 
 !st - suckless terminal
 
@@ -100,88 +57,6 @@ URxvt*color15:               S_base3
 /* st.color13:               #6c71c4 */
 /* st.color14:               #586e75 */
 /* st.color15:               #002b36 */
-
-!URxvt*background:             #fdf6e3
-!URxvt*foreground:             #000000
-!URxvt*fadeColor:              #fdf6e3
-!URxvt*cursorColor:            #586e75
-!URxvt*pointerColorBackground: #93a1a1
-!URxvt*pointerColorForeground: #586e75
-!URxvt*color0:                 #073642
-!URxvt*color8:                 #fdf6e3
-!URxvt*color10:                #93a1a1
-!URxvt*color11:                #839496
-!URxvt*color12:                #657b83
-!URxvt*color14:                #586e75
-!URxvt*color7:                 #839496
-!URxvt*color15:                #002b36
-
-!URxvt*background: #002b36
-!URxvt*foreground: #657b83
-!!!*fading: 40
-!URxvt*fadeColor: #002b36
-!URxvt*cursorColor: #93a1a1
-!URxvt*pointerColorBackground: #586e75
-!URxvt*pointerColorForeground: #93a1a1
-!
-!!! black dark/light
-!URxvt*color0: #073642
-!URxvt*color8: #002b36
-!
-!!! red dark/light
-!URxvt*color1: #dc322f
-!URxvt*color9: #cb4b16
-!
-!!! green dark/light
-!URxvt*color2: #859900
-!URxvt*color10: #586e75
-!
-!!! yellow dark/light
-!URxvt*color3: #b58900
-!URxvt*color11: #657b83
-!
-!!! blue dark/light
-!URxvt*color4: #268bd2
-!URxvt*color12: #839496
-!
-!!! magenta dark/light
-!URxvt*color5: #d33682
-!URxvt*color13: #6c71c4
-!
-!!! cyan dark/light
-!URxvt*color6: #2aa198
-!URxvt*color14: #93a1a1
-!
-!!! white dark/light
-!URxvt*color7: #eee8d5
-!URxvt*color15: #fdf6e3
-
-!URxvt*fading:                         30
-!URxvt*background:                     #002b36
-!URxvt*foreground:                     #657b83
-!URxvt*fadeColor:                      #002b36
-!URxvt*cursorColor:                    #93a1a1
-!URxvt*pointerColorBackground:         #586e75
-!URxvt*pointerColorForeground:         #93a1a1
-!URxvt*colorUL:                        #859900
-!URxvt*colorBD:                        #268bd2
-!URxvt*color0:                         #073642
-!URxvt*color8:                         #002b36
-!URxvt*color1:                         #dc322f
-!URxvt*color9:                         #cb4b16
-!URxvt*color2:                         #859900
-!URxvt*color10:                        #586e75
-!URxvt*color3:                         #b58900
-!URxvt*color11:                        #657b83
-!URxvt*color4:                         #268bd2
-!URxvt*color12:                        #839496
-!URxvt*color5:                         #d33682
-!URxvt*color13:                        #6c71c4
-!URxvt*color6:                         #2aa198
-!URxvt*color14:                        #93a1a1
-!URxvt*color7:                         #eee8d5
-!URxvt*color15:                        #fdf6e3
-!
 
 ! emulate XTerm for proper recognition of key combinations in Vim
 !URxvt.keysym.Up              : \033[A  !breaks arrow keys in Vim
@@ -251,3 +126,122 @@ URxvt.keysym.M-C-S-End        : \033[1;8F
 
 URxvt.pointerBlank            : true
 URxvt.pointerBlankDelay       : 2
+
+/* SOLARIZED LIGHT */
+
+#define S_base03        #002b36
+#define S_base02        #073642
+#define S_base01        #586e75
+#define S_base00        #657b83
+#define S_base0         #839496
+#define S_base1         #93a1a1
+#define S_base2         #eee8d5
+#define S_base3         #fdf6e3
+
+URxvt*background:            S_base3
+!URxvt*foreground:            S_base00
+URxvt*foreground:            #000000
+URxvt*fadeColor:             S_base3
+URxvt*cursorColor:           S_base01
+URxvt*pointerColorBackground:S_base1
+URxvt*pointerColorForeground:S_base01
+
+#define S_yellow        #b58900
+#define S_orange        #cb4b16
+#define S_red           #dc322f
+#define S_magenta       #d33682
+#define S_violet        #6c71c4
+#define S_blue          #268bd2
+#define S_cyan          #2aa198
+#define S_green         #859900
+
+!! black dark/light
+URxvt*color0:                S_base02
+URxvt*color8:                S_base03
+
+!! red dark/light
+URxvt*color1:                S_red
+URxvt*color9:                S_orange
+
+!! green dark/light
+URxvt*color2:                S_green
+URxvt*color10:               S_base01
+
+!! yellow dark/light
+URxvt*color3:                S_yellow
+URxvt*color11:               S_base00
+
+!! blue dark/light
+URxvt*color4:                S_blue
+URxvt*color12:               S_base0
+
+!! magenta dark/light
+URxvt*color5:                S_magenta
+URxvt*color13:               S_violet
+
+!! cyan dark/light
+URxvt*color6:                S_cyan
+URxvt*color14:               S_base1
+
+!! white dark/light
+URxvt*color7:                S_base2
+URxvt*color15:               S_base3
+
+/* SOLARIZED DARK */
+
+/* #define S_base03        #002b36 */
+/* #define S_base02        #073642 */
+/* #define S_base01        #586e75 */
+/* #define S_base00        #657b83 */
+/* #define S_base0         #839496 */
+/* #define S_base1         #93a1a1 */
+/* #define S_base2         #eee8d5 */
+/* #define S_base3         #fdf6e3 */
+
+/* URxvt*background:            S_base03 */
+/* URxvt*foreground:            S_base0 */
+/* URxvt*fadeColor:             S_base03 */
+/* URxvt*cursorColor:           S_base1 */
+/* URxvt*pointerColorBackground:S_base01 */
+/* URxvt*pointerColorForeground:S_base1 */
+
+/* #define S_yellow        #b58900 */
+/* #define S_orange        #cb4b16 */
+/* #define S_red           #dc322f */
+/* #define S_magenta       #d33682 */
+/* #define S_violet        #6c71c4 */
+/* #define S_blue          #268bd2 */
+/* #define S_cyan          #2aa198 */
+/* #define S_green         #859900 */
+
+/* !! black dark/light */
+/* URxvt*color0:                S_base02 */
+/* URxvt*color8:                S_base03 */
+
+/* !! red dark/light */
+/* URxvt*color1:                S_red */
+/* URxvt*color9:                S_orange */
+
+/* !! green dark/light */
+/* URxvt*color2:                S_green */
+/* URxvt*color10:               S_base01 */
+
+/* !! yellow dark/light */
+/* URxvt*color3:                S_yellow */
+/* URxvt*color11:               S_base00 */
+
+/* !! blue dark/light */
+/* URxvt*color4:                S_blue */
+/* URxvt*color12:               S_base0 */
+
+/* !! magenta dark/light */
+/* URxvt*color5:                S_magenta */
+/* URxvt*color13:               S_violet */
+
+/* !! cyan dark/light */
+/* URxvt*color6:                S_cyan */
+/* URxvt*color14:               S_base1 */
+
+/* !! white dark/light */
+/* URxvt*color7:                S_base2 */
+/* URxvt*color15:               S_base3 */
