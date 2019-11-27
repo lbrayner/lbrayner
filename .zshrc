@@ -112,16 +112,12 @@ function maybe_show_vcs_info () {
 # Conditional Substrings in Prompts: %(x.true-text.false-text)
 __ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B%~%b'
 
-function single_line_prompt(){
-    add-zsh-hook precmd maybe_show_vcs_info
-    __ZSH[LR]=""
-    PROMPT="${__ZSH[PROMPT_INFO]}\$ "
-}
-
 # Simpler mode for basic ttys
 if [[ "${TERM#*256}" == "${TERM}" ]]
 then
-    single_line_prompt
+    add-zsh-hook precmd maybe_show_vcs_info
+    PROMPT="${__ZSH[PROMPT_INFO]}\$ "
+    RPROMPT=
     return
 fi
 
@@ -196,7 +192,9 @@ $'${__ZSH[UR]}\n${__ZSH[LL]}$ '
 if [[ -n "${SSH_TTY}" ]] && [[ -z "${TMUX}" ]]
 then
     add-zsh-hook -d precmd set_prompt
-    single_line_prompt
+    add-zsh-hook precmd maybe_show_vcs_info
+    __ZSH[LR]=""
+    PROMPT="${__ZSH[PROMPT_INFO]}\$ "
 fi
 
 ###         ###
