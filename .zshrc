@@ -8,6 +8,9 @@ KEYTIMEOUT=1
 autoload -Uz compinit
 compinit
 
+# emacs mode initially
+bindkey -e
+
 # http://zsh.sourceforge.net/Doc/Release/Options.html
 
 setopt HIST_IGNORE_ALL_DUPS
@@ -46,80 +49,14 @@ source_file ~/.zsh-alias.local
 # colors
 source_file ~/.zsh-colors
 
-# vi insert mode keymap
-bindkey -v
-
-# https://stackoverflow.com/a/15394738
-# will not clobber fpath
-local_functions=$HOME/.zfunc/functions
-if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
-    fpath=( "${local_functions}" "${fpath[@]}" )
-fi
-
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
 
 autoload -U select-word-style
 select-word-style bash
 
-# zle, The Z-Shell Line Editor: http://zsh.sourceforge.net/Guide/zshguide04.html
-
-# Widgets
-
-autoload -Uz copy-earlier-word
-zle -N copy-earlier-word
-
-autoload -Uz insert-newest-file
-zle -N insert-newest-file
-
-autoload -Uz smart-insert-last-word
-zle -N insert-last-word smart-insert-last-word
-
-function expand-alias() {
-    zle _expand_alias
-    zle expand-word
-}
-
-zle -N expand-alias
-
-# https://github.com/wincent/wincent
-# Make CTRL-Z background things and unbackground them.
-function fg-bg() {
-  if [[ $#BUFFER -eq 0 ]]; then
-    fg
-  else
-    zle push-input
-  fi
-}
-zle -N fg-bg
-
-# Binding keys and handling keymaps
-
-bindkey '^[;'     insert-newest-file
-bindkey '^[.'     insert-last-word
-bindkey '^[m'     copy-earlier-word
-bindkey '^[d'     kill-word
-bindkey '^P'      up-history
-bindkey '^N'      down-history
-bindkey '^?'      backward-delete-char
-bindkey '^h'      backward-delete-char
-bindkey '^w'      backward-kill-word
-bindkey '^u'      backward-kill-line
-bindkey '^r'      history-incremental-search-backward
-bindkey '^k'      kill-line
-bindkey '^z'      fg-bg
-bindkey '^[Od'    backward-word
-bindkey '^[Oc'    forward-word
-bindkey '^[f'     forward-word
-bindkey '^[OD'    backward-word
-bindkey '^[b'     backward-word
-bindkey '^[OC'    forward-word
-bindkey '^[[1;5D' backward-word
-bindkey '^[[1;5C' forward-word
-bindkey '^ '      expand-alias
-
-###            ###
-### The prompt ###
-###            ###
+###                  ###
+### The basic prompt ###
+###                  ###
 
 setopt prompt_subst
 
@@ -131,6 +68,7 @@ zstyle ':vcs_info:git*:*' formats '[%b%m%c%u] ' # default ' (%s)-[%b]%c%u-'
 zstyle ':vcs_info:git*:*' actionformats '[%b|%a%m%c%u] ' # default ' (%s)-[%b|%a]%c%u-'
 zstyle ':vcs_info:svn*:*' formats '[%b%m] ' # default ' (%s)-[%b]%c%u-'
 zstyle ':vcs_info:svn*:*' actionformats '[%b|%a%m] ' # default ' (%s)-[%b|%a]%c%u-'
+vcs_info
 
 # https://github.com/wincent/wincent
 # http://zsh.sourceforge.net/Doc/Release/Parameters.html#Array-Parameters
@@ -171,6 +109,26 @@ function maybe_show_vcs_info () {
 # http://aperiodic.net/phil/prompt/
 # See if we can use extended characters to look nicer.
 
+# Conditional Substrings in Prompts: %(x.true-text.false-text)
+__ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B%~%b'
+
+function single_line_prompt(){
+    add-zsh-hook precmd maybe_show_vcs_info
+    __ZSH[LR]=""
+    PROMPT="${__ZSH[PROMPT_INFO]}\$ "
+}
+
+# Simpler mode for basic ttys
+if [[ "${TERM#*256}" == "${TERM}" ]]
+then
+    single_line_prompt
+    return
+fi
+
+###                     ###
+### The advanced prompt ###
+###                     ###
+
 typeset -A ALTCHAR
 
 # Substitutions: http://zsh.sourceforge.net/Guide/zshguide05.html
@@ -191,8 +149,6 @@ __ZSH[LRCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[j]:--}${__ZSH[S
 
 # Upper Left and Right prompt
 
-# Conditional Substrings in Prompts: %(x.true-text.false-text)
-__ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B%~%b'
 __ZSH[PROMPT_INFO_NO_ESC_SEQS]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%~'
 __ZSH[TIME_STRING]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%H}h%D{%M} %D{%S}s'
 
@@ -240,12 +196,14 @@ $'${__ZSH[UR]}\n${__ZSH[LL]}$ '
 if [[ -n "${SSH_TTY}" ]] && [[ -z "${TMUX}" ]]
 then
     add-zsh-hook -d precmd set_prompt
-    add-zsh-hook precmd maybe_show_vcs_info
-    __ZSH[LR]=""
-    PROMPT="${__ZSH[PROMPT_INFO]}\$ "
+    single_line_prompt
 fi
 
-# RPROMPT
+###         ###
+### Vi Mode ###
+###         ###
+
+### RPROMPT ###
 
 # print: http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
 # https://superuser.com/a/911665/750142
@@ -309,9 +267,75 @@ function zle-line-init zle-keymap-select () {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-vcs_info
-
 if [[ "${TERM#*256}" != "${TERM}" ]]
 then
     rprompt_insert
 fi
+
+# https://stackoverflow.com/a/15394738
+# will not clobber fpath
+local_functions=$HOME/.zfunc/functions
+if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
+    fpath=( "${local_functions}" "${fpath[@]}" )
+fi
+
+### Vi Mode per se  ###
+
+# zle, The Z-Shell Line Editor: http://zsh.sourceforge.net/Guide/zshguide04.html
+
+# Widgets
+
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+
+autoload -Uz insert-newest-file
+zle -N insert-newest-file
+
+autoload -Uz smart-insert-last-word
+zle -N insert-last-word smart-insert-last-word
+
+function expand-alias() {
+    zle _expand_alias
+    zle expand-word
+}
+
+zle -N expand-alias
+
+# https://github.com/wincent/wincent
+# Make CTRL-Z background things and unbackground them.
+function fg-bg() {
+  if [[ $#BUFFER -eq 0 ]]; then
+    fg
+  else
+    zle push-input
+  fi
+}
+zle -N fg-bg
+
+# vi insert mode keymap
+bindkey -v
+
+# Binding keys and handling keymaps
+
+bindkey '^[;'     insert-newest-file
+bindkey '^[.'     insert-last-word
+bindkey '^[m'     copy-earlier-word
+bindkey '^[d'     kill-word
+bindkey '^P'      up-history
+bindkey '^N'      down-history
+bindkey '^?'      backward-delete-char
+bindkey '^h'      backward-delete-char
+bindkey '^w'      backward-kill-word
+bindkey '^u'      backward-kill-line
+bindkey '^r'      history-incremental-search-backward
+bindkey '^k'      kill-line
+bindkey '^z'      fg-bg
+bindkey '^[Od'    backward-word
+bindkey '^[Oc'    forward-word
+bindkey '^[f'     forward-word
+bindkey '^[OD'    backward-word
+bindkey '^[b'     backward-word
+bindkey '^[OC'    forward-word
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
+bindkey '^ '      expand-alias
