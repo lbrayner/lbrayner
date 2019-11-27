@@ -196,7 +196,7 @@ bindsym $mod+Shift+minus move container to workspace $workspace11
 bindsym $mod+Shift+equal move container to workspace 12
 
 assign [class="brave"] $workspace4
-assign [class="firefox"] $workspace4
+assign [class="Firefox"] $workspace4
 assign [class="Google-chrome"] $workspace4
 assign [class="Thunderbird"] $workspace5
 assign [class="whatsapp-desktop"] $workspace5
