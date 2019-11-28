@@ -7,7 +7,12 @@ alias emacsd='pkill emacs$ ; emacs --daemon'
 alias vi='HOME=/dummy vi'
 alias vnone="vim -R -u NONE"
 alias ta='tmux attach-session'
-alias rm='rm -I'
+
+if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+then
+    alias rm='rm -I'
+fi
+
 alias bl='bc -l'
 
 # ls
