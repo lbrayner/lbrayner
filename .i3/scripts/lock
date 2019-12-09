@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+icon="$HOME/.xlock/icon.png"
+tmpbg="$(mktemp --suffix=".png")"
+
+echo $tmpbg
+
+if [[ $? -ne 0 ]] ;
+then
+	echo "Could not create temporary file." 1>&2
+	exit 1
+fi
+
+(( $# )) && { icon=$1; }
+
+scrot $tmpbg
+convert "$tmpbg" -scale 10% -scale 1000% "$tmpbg" 
+convert "$tmpbg" "$icon" -gravity center -composite -matte "$tmpbg"
+i3lock -u -i "$tmpbg"
