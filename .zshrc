@@ -332,3 +332,10 @@ bindkey '\e[4~' end-of-line
 bindkey -a '\e[3~' delete-char
 bindkey -a '\e[1~' beginning-of-line
 bindkey -a '\e[4~' end-of-line
+
+###                     ###
+### Syntax highlighting ###
+###                     ###
+
+# Linux
+source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
