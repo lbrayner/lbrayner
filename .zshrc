@@ -98,7 +98,7 @@ function maybe_show_vcs_info () {
     # http://tim.vanwerkhoven.org/post/2012/10/28/ZSH/Bash-string-manipulation
 
     case "$last[(w)1]" in
-      cd|cp|git|rm|touch|mv)
+      cd|cp|git|svn|rm|touch|mv)
           vcs_info
           ;;
       *)
