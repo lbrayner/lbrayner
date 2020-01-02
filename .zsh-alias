@@ -45,6 +45,7 @@ alias putty='TERM=putty-256color'
 alias yd='youtube-dl --no-mtime --all-subs --no-playlist -f137+140'
 alias yf='youtube-dl --no-playlist -F'
 alias ys='youtube-dl --no-playlist --skip-download --no-mtime --all-subs'
+alias yn='youtube-dl --no-playlist --get-filename'
 
 # pandoc
 
@@ -66,7 +67,7 @@ alias nothidden='find . ! -path \*/.\* -type f'
 
 # rsync
 
-alias rsync='rsync --progress'
+alias rsync='rsync --progress --inplace'
 
 # wget
 
