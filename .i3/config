@@ -207,7 +207,7 @@ for_window [class="TeamViewer"] floating disable
 for_window [class="Eclipse"] floating disable
 for_window [class="Icedove"] floating disable
 for_window [class="libreoffice"] floating disable
-for_window [class="org-gov-serpro-pgddirf-Dirf"] floating disable
+for_window [class="serpro-dirf-pgd-Dirf"] floating disable
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
