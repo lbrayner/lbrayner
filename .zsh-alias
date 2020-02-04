@@ -32,7 +32,7 @@ alias sl='\svn log'
 alias svl='\svn log -rHEAD:1 -l1'
 alias svs='\svn status'
 alias smi='\svn propget svn:mergeinfo'
-alias sei='\svn propedit svn:ignore .'
+alias sei='\svn propedit svn:global-ignores .'
 alias sdc='\svn diff -c'
 
 # other
