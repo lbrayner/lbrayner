@@ -277,7 +277,7 @@ colors {
 bindsym $mod+X mode "$mode_system"
 bindsym control+mod1+Delete mode "$mode_system"
 
-set $mode_system System (c) lock, (o) logout
+set $mode_system System: (c) lock, (o) logout
 
 mode "$mode_system" {
     # bindsym k exec --no-startup-id ~/.config/i3/scripts/i3exit.sh lock, mode "default"
