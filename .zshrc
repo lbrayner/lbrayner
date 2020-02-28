@@ -51,9 +51,6 @@ source_file ~/.zsh-colors
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
 
-autoload -U select-word-style
-select-word-style bash
-
 ###                  ###
 ### The basic prompt ###
 ###                  ###
@@ -280,6 +277,24 @@ function expand-alias() {
 
 zle -N expand-alias
 
+function bash-backward-kill-word () {
+    WORDCHARS='' zle backward-kill-word
+}
+
+zle -N bash-backward-kill-word
+
+function bash-backward-word () {
+    WORDCHARS='' zle backward-word
+}
+
+zle -N bash-backward-word
+
+function bash-forward-word () {
+    WORDCHARS='' zle forward-word
+}
+
+zle -N bash-forward-word
+
 # https://github.com/wincent/wincent
 # Make CTRL-Z background things and unbackground them.
 function fg-bg() {
@@ -311,6 +326,7 @@ bindkey '^u'      backward-kill-line
 bindkey '^r'      history-incremental-search-backward
 bindkey '^k'      kill-line
 bindkey '^z'      fg-bg
+bindkey '^[^?'    bash-backward-kill-word
 bindkey '^[Od'    backward-word
 bindkey '^[Oc'    forward-word
 bindkey '^[f'     forward-word
@@ -319,6 +335,8 @@ bindkey '^[b'     backward-word
 bindkey '^[OC'    forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
+bindkey '^[[1;2D' bash-backward-word
+bindkey '^[[1;2C' bash-forward-word
 bindkey '^ '      expand-alias
 
 # DELETE, HOME & END keys
