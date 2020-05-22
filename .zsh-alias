@@ -74,4 +74,8 @@ alias rsync='rsync --progress'
 
 alias wget='wget --no-use-server-timestamps'
 
+# curl
+alias crange='curl -H Range:bytes=0-'
+alias cresume='curl -C -'
+
 # vim: ft=zsh
