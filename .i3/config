@@ -31,6 +31,7 @@ set $workspace_f2 "F2"
 set $workspace_f3 "F3"
 set $workspace_f5 "F5"
 set $workspace_f6 "F6"
+set $workspace_f7 "F7"
 set $workspace_f9 "F9 "
 set $workspace_f12 "F12"
 
@@ -167,6 +168,7 @@ bindsym $mod+F2 workspace $workspace_f2
 bindsym $mod+F3 workspace $workspace_f3
 bindsym $mod+F5 workspace $workspace_f5
 bindsym $mod+F6 workspace $workspace_f6
+bindsym $mod+F7 workspace $workspace_f7
 bindsym $mod+F9 workspace $workspace_f9
 bindsym $mod+F12 workspace $workspace_f12
 
@@ -189,6 +191,7 @@ bindsym $mod+Shift+F2 move container to workspace $workspace_f2
 bindsym $mod+Shift+F3 move container to workspace $workspace_f3
 bindsym $mod+Shift+F5 move container to workspace $workspace_f5
 bindsym $mod+Shift+F6 move container to workspace $workspace_f6
+bindsym $mod+Shift+F7 move container to workspace $workspace_f7
 bindsym $mod+Shift+F9 move container to workspace $workspace_f9
 bindsym $mod+Shift+F12 move container to workspace $workspace_f12
 
@@ -292,3 +295,6 @@ mode "$mode_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+
+# Don't know if the following is effective
+exec xrdb $HOME/.Xresources
