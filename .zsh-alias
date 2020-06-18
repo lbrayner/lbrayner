@@ -34,6 +34,7 @@ alias svs='\svn status'
 alias smi='\svn propget svn:mergeinfo'
 alias sei='\svn propedit svn:global-ignores .'
 alias sdc='\svn diff -c'
+alias svurl='\svn info --show-item=url'
 
 # other
 
@@ -72,5 +73,9 @@ alias rsync='rsync --progress --inplace'
 # wget
 
 alias wget='wget --no-use-server-timestamps'
+
+# ps
+
+alias ps='ps aux | grep'
 
 # vim: ft=zsh
