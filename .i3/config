@@ -203,6 +203,7 @@ assign [class="Firefox"] $workspace4
 assign [class="Google-chrome"] $workspace4
 assign [class="Thunderbird"] $workspace5
 assign [class="whatsapp-desktop"] $workspace5
+assign [class="libreoffice"] $workspace11
 assign [class="Eclipse"] $workspace_f6
 assign [class="Emacs"] $workspace_f2
 
