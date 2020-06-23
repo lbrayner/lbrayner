@@ -12,10 +12,10 @@ do
     sleep 300
     if ! pgrep i3lock 2>&1 >/dev/null
     then
-        idle=`xprintidle`
+        idle=$(xprintidle)
         if [[ ${idle} -gt 290000 ]]
         then
-            /mnt/shared-data/other/bin/lock.sh
+            ~/.i3/scripts/lock
         fi
     fi
 done
