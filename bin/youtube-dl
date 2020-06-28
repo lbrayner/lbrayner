@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+. cygargs
+
+set_args "${@}"
+
+PYTHONIOENCODING=utf-8 ~/AppData/Local/Programs/Python/Python37-32/python.exe \
+    "$(cygpath -ma ~)/git/youtube-dl/youtube-dl" "${args[@]}"
