@@ -68,7 +68,7 @@ alias nothidden='find . ! -path \*/.\* -type f'
 
 # rsync
 
-alias rsync='rsync --progress --inplace'
+alias rsync='rsync --progress'
 
 # wget
 
