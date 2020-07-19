@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Terminating all instances of the emacs client
+# pkill emacsclient
+
+# Terminating all instances of vim and neovim that may be open in a tmux session
+pkill vim
+
+# Terminating all instances of the X Virtual Frame Buffer
+pkill Xvfb
+
+# Terminating all instances of the X11 VNC Server
+pkill x11vnc
+
+# Terminating all instances of the ssh client
+pkill '\bssh\b'
