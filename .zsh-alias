@@ -32,7 +32,8 @@ alias sl='\svn log'
 alias svl='\svn log -rHEAD:1 -l1'
 alias svs='\svn status'
 alias smi='\svn propget svn:mergeinfo'
-alias sei='\svn propedit svn:global-ignores .'
+alias seg='\svn propedit svn:global-ignores .'
+alias sei='\svn propedit svn:ignore .'
 alias sdc='\svn diff -c'
 alias svurl='\svn info --show-item=url'
 
@@ -77,5 +78,8 @@ alias wget='wget --no-use-server-timestamps'
 # ps
 
 alias ps='ps aux | grep'
+
+# the silver searcher
+alias ag='ag -a'
 
 # vim: ft=zsh
