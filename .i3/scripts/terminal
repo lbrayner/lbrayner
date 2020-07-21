@@ -1,7 +1,9 @@
 #!/bin/sh
 
+# set -x
+
 print_usage() {
-	printf '\n%s\n' "$(basename "${0}") [-c PATH] [ARGS...]"
+	printf '\n%s\n' "$(basename "${0}") [-c PATH] -- [ARGS...]"
 }
 
 path=""
@@ -28,4 +30,4 @@ then
     cd "${path}"
 fi
 
-/usr/local/bin/st "${@}" >/dev/null 2>&1 &
+/usr/local/bin/st -f "Iosevka:size=12" "${@}" >/dev/null 2>&1 &
