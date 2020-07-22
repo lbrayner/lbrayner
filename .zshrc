@@ -95,7 +95,7 @@ function maybe_show_vcs_info () {
     # http://tim.vanwerkhoven.org/post/2012/10/28/ZSH/Bash-string-manipulation
 
     case "$last[(w)1]" in
-      cd|cp|git|rm|touch|mv)
+      cd|cp|git|svn|rm|touch|mv)
           vcs_info
           ;;
       *)
@@ -330,6 +330,9 @@ bindkey '^[^?'    bash-backward-kill-word
 bindkey '^[Od'    backward-word
 bindkey '^[Oc'    forward-word
 bindkey '^[f'     forward-word
+bindkey '^a'      beginning-of-line
+bindkey '^d'      delete-char
+bindkey '^e'      end-of-line
 bindkey '^[OD'    backward-word
 bindkey '^[b'     backward-word
 bindkey '^[OC'    forward-word
@@ -343,7 +346,9 @@ bindkey '^ '      expand-alias
 
 ## insert mode bindings
 bindkey '\e[3~' delete-char
+bindkey '\e[P'  delete-char
 bindkey '\e[1~' beginning-of-line
+bindkey '\e[H'  beginning-of-line
 bindkey '\e[4~' end-of-line
 
 ## normal mode bindings
