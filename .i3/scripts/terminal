@@ -3,15 +3,22 @@
 # set -x
 
 print_usage() {
-	printf '\n%s\n' "$(basename "${0}") [-c PATH] -- [ARGS...]"
+	printf '\n%s\n' "$(basename "${0}") [-d] [-l] [-c PATH] -- [ARGS...]"
 }
 
 path=""
-while getopts ":c:h" opt
+background="-u" # light by default
+while getopts ":c:dlh" opt
 do
     case ${opt} in
         c)
             path="${OPTARG}"
+            ;;
+        d)
+            background=""
+            ;;
+        l)
+            background="-u"
             ;;
         h)
             print_usage
@@ -30,4 +37,4 @@ then
     cd "${path}"
 fi
 
-/usr/local/bin/st -f "Iosevka:size=12" "${@}" >/dev/null 2>&1 &
+/usr/local/bin/st ${background} -f "Iosevka:size=12" "${@}" >/dev/null 2>&1 &
