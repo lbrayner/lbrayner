@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# set -x
+set -e
+
+print_usage() {
+	printf '\n%s\n' "$(basename $0) FILE"
+}
+
+if [[ ! ${#} -eq 1 ]]
+then
+	print_usage 1>&2
+	exit 1
+fi
+
+file="${1}"
+
+cp -f "${file}" ~/.local/share/wallpaper
+
+name="${file##*/}"
+
+ln -sf ~/.local/share/wallpaper/"${name}" ~/.local/share/wallpaper/current
+
+hsetroot -cover ~/.local/share/wallpaper/current
