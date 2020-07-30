@@ -353,7 +353,9 @@ bindkey '\e[4~' end-of-line
 
 ## normal mode bindings
 bindkey -a '\e[3~' delete-char
+bindkey -a '\e[P'  delete-char
 bindkey -a '\e[1~' beginning-of-line
+bindkey -a '\e[H'  beginning-of-line
 bindkey -a '\e[4~' end-of-line
 
 ###                     ###
