@@ -12,11 +12,44 @@ cpu_usage(){
     echo ${usage}
 }
 
+memory_info(){
+    type=${1}
+    awk -v type=$type '
+    /^MemTotal:/ {
+        mem_total=$2
+    }
+    /^MemFree:/ {
+        mem_free=$2
+    }
+    /^Buffers:/ {
+        mem_free+=$2
+    }
+    /^Cached:/ {
+        mem_free+=$2
+    }
+    /^SwapTotal:/ {
+        swap_total=$2
+    }
+    /^SwapFree:/ {
+        swap_free=$2
+    }
+    END {
+        # full text
+        if (type == "swap")
+            printf("%.1fG\n", (swap_total-swap_free)/1024/1024)
+        else
+            printf("%.1fG\n", mem_free/1024/1024)
+    }
+    ' /proc/meminfo
+}
+
 while true
 do
     date_and_time="$(date_and_time)"
     cpu_usage=$(cpu_usage)
-    status="$(printf ' CPU %6.2f | %s ' ${cpu_usage} "${date_and_time}")"
+    memory_info="$(memory_info)"
+    status="$(printf ' RAM %s   CPU %6.2f   %s ' \
+        "${memory_info}" ${cpu_usage} "${date_and_time}")"
     xsetroot -name "${status}"
-    sleep 4
+    sleep 9
 done
