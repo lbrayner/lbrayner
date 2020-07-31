@@ -6,18 +6,17 @@ date_and_time(){
     date '+%Y %b %e %a %Hh%M'
 }
 
+# From i3blocks
 cpu_usage(){
     idle=$(mpstat 1 1 | sed -n 's/^Average.* \([0-9]\+\.[0-9]\+\)/\1/p')
     usage="$(echo "100-${idle}"|bc -l)"
     echo ${usage}
 }
 
+# From i3blocks
 memory_info(){
     type=${1}
     awk -v type=$type '
-    /^MemTotal:/ {
-        mem_total=$2
-    }
     /^MemFree:/ {
         mem_free=$2
     }
@@ -36,9 +35,9 @@ memory_info(){
     END {
         # full text
         if (type == "swap")
-            printf("%.1fG\n", (swap_total-swap_free)/1024/1024)
+            printf("%4.1fG\n", (swap_total-swap_free)/1024/1024)
         else
-            printf("%.1fG\n", mem_free/1024/1024)
+            printf("%4.1fG\n", mem_free/1024/1024)
     }
     ' /proc/meminfo
 }
@@ -48,7 +47,7 @@ do
     date_and_time="$(date_and_time)"
     cpu_usage=$(cpu_usage)
     memory_info="$(memory_info)"
-    status="$(printf ' RAM %s   CPU %6.2f   %s ' \
+    status="$(printf ' RAM %s   CPU %6.2f%%   %s ' \
         "${memory_info}" ${cpu_usage} "${date_and_time}")"
     xsetroot -name "${status}"
     sleep 9
