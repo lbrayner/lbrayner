@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# set -x
+
+date_and_time(){
+    date '+%Y %b %e %a %Hh%M'
+}
+
+cpu_usage(){
+    idle=$(mpstat 1 1 | sed -n 's/^Average.* \([0-9]\+\.[0-9]\+\)/\1/p')
+    usage="$(echo "100-${idle}"|bc -l)"
+    echo ${usage}
+}
+
+while true
+do
+    date_and_time="$(date_and_time)"
+    cpu_usage=$(cpu_usage)
+    status="$(printf ' CPU %6.2f | %s ' ${cpu_usage} "${date_and_time}")"
+    xsetroot -name "${status}"
+    sleep 4
+done
