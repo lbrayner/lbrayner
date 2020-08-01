@@ -3,7 +3,7 @@
 # set -x
 
 date_and_time(){
-    date '+%Y %b %e %a %Hh%M'
+    date '+%b %e %a %Hh%M'
 }
 
 # From i3blocks
@@ -58,11 +58,11 @@ internet2(){
 internet(){
     if ! internet1 && ! internet2
     then
-        echo "NO INTERNET"
+        echo "*"
         exit
     fi
 
-    echo OK
+    echo "@"
 }
 
 while true
