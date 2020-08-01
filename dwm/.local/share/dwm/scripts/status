@@ -69,7 +69,6 @@ status=""
 while true
 do
     seconds=$(date '+%-S')
-
     ([ -z "${status}" ] || [ $((seconds%60)) -eq 0 ]) && date_and_time="$(date_and_time)"
     ([ -z "${status}" ] || [ $((seconds%5))  -eq 0 ]) && cpu_usage=$(cpu_usage)
     ([ -z "${status}" ] || [ $((seconds%10)) -eq 0 ]) && memory_info="$(memory_info)"
