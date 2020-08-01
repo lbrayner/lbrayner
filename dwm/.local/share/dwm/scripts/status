@@ -42,13 +42,19 @@ memory_info(){
     ' /proc/meminfo
 }
 
+# From i3blocks
+hdd_info(){
+    df -h -P -l / | awk '/^\// {print $4}'
+}
+
 while true
 do
     date_and_time="$(date_and_time)"
     cpu_usage=$(cpu_usage)
     memory_info="$(memory_info)"
-    status="$(printf ' RAM %s   CPU %6.2f%%   %s ' \
-        "${memory_info}" ${cpu_usage} "${date_and_time}")"
+    hdd_info=$(hdd_info)
+    status="$(printf ' HDD %s   RAM %s   CPU %6.2f%%   %s ' \
+        ${hdd_info} "${memory_info}" ${cpu_usage} "${date_and_time}")"
     xsetroot -name "${status}"
     sleep 9
 done
