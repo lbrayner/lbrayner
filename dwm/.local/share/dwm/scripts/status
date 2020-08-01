@@ -72,7 +72,7 @@ do
     memory_info="$(memory_info)"
     hdd_info=$(hdd_info)
     internet="$(internet)"
-    status="$(printf ' %s   [%5s]   %5s   %6.2f%%   %s ' \
+    status="$(printf ' %s  [%5s]  %5s  %6.2f%%  %s ' \
        "${internet}" ${hdd_info} "${memory_info}" ${cpu_usage} "${date_and_time}")"
     xsetroot -name "${status}"
     sleep 9
