@@ -53,7 +53,7 @@ do
     cpu_usage=$(cpu_usage)
     memory_info="$(memory_info)"
     hdd_info=$(hdd_info)
-    status="$(printf ' HDD %s   RAM %s   CPU %6.2f%%   %s ' \
+    status="$(printf ' [%5s]   %5s   %6.2f%%   %s ' \
         ${hdd_info} "${memory_info}" ${cpu_usage} "${date_and_time}")"
     xsetroot -name "${status}"
     sleep 9
