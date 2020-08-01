@@ -1,1 +1,3 @@
 .local/share/dwm/autostart.sh
+.local/share/dwm/autostart.sh
+.local/share/dwm/autostart_blocking.local.sh
