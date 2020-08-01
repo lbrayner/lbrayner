@@ -47,14 +47,33 @@ hdd_info(){
     df -h -P -l / | awk '/^\// {print $4}'
 }
 
+internet1(){
+    ping -W 1 -c 1 8.8.8.8 >/dev/null 2>&1 # google's dns
+}
+
+internet2(){
+    ping -W 1 -c 1 208.67.222.222 >/dev/null 2>&1 # opendns
+}
+
+internet(){
+    if ! internet1 && ! internet2
+    then
+        echo "NO INTERNET"
+        exit
+    fi
+
+    echo OK
+}
+
 while true
 do
     date_and_time="$(date_and_time)"
     cpu_usage=$(cpu_usage)
     memory_info="$(memory_info)"
     hdd_info=$(hdd_info)
-    status="$(printf ' [%5s]   %5s   %6.2f%%   %s ' \
-        ${hdd_info} "${memory_info}" ${cpu_usage} "${date_and_time}")"
+    internet="$(internet)"
+    status="$(printf ' %s   [%5s]   %5s   %6.2f%%   %s ' \
+       "${internet}" ${hdd_info} "${memory_info}" ${cpu_usage} "${date_and_time}")"
     xsetroot -name "${status}"
     sleep 9
 done
