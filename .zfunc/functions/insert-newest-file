@@ -1,3 +1,6 @@
+# Inserts files, from newest to oldest, of the folder to the left of the cursor,
+# if it exists; else it inserts from $PWD.
+
 emulate -L zsh
 
 typeset -g __inf_offset
@@ -21,6 +24,9 @@ else
     typeset __dir="."
     if [[ ${BUFFER[CURSOR]} == "/" ]]
     then
+        typeset -g __killed
+        __killed="${BUFFER:${CURSOR}}"
+        zle .kill-line
         zle .insert-last-word 0
         cursor=$CURSOR
         typeset __last_word="${BUFFER:${lcursor}}"
@@ -46,5 +52,6 @@ then
 fi
 
 LBUFFER[lcursor+1,cursor+1]=${__newest_file}
+RBUFFER="${__killed}"
 
 # vim:ft=zsh
