@@ -22,11 +22,10 @@ else
     __inf_offset=-0
     typeset -g __inf_lcursor=$lcursor
     typeset __dir="."
+    typeset -g __killed="${BUFFER:${CURSOR}}"
+    zle .kill-line
     if [[ ${BUFFER[CURSOR]} == "/" ]]
     then
-        typeset -g __killed=""
-        __killed="${BUFFER:${CURSOR}}"
-        zle .kill-line
         zle .insert-last-word 0
         cursor=$CURSOR
         typeset __last_word="${BUFFER:${lcursor}}"
