@@ -14,11 +14,14 @@ then
 fi
 
 file="${1}"
+destination=~/.local/share/wallpaper
 
-cp -f "${file}" ~/.local/share/wallpaper
+! [[ -d "${destination}" ]] && mkdir -p "${destination}"
+
+cp -f "${file}" "${destination}"
 
 name="${file##*/}"
 
-ln -sf ~/.local/share/wallpaper/"${name}" ~/.local/share/wallpaper/current
+ln -sf "${destination}/${name}" "${destination}"/current
 
-hsetroot -cover ~/.local/share/wallpaper/current
+hsetroot -cover "${destination}"/current
