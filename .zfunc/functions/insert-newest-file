@@ -24,7 +24,7 @@ else
     typeset __dir="."
     if [[ ${BUFFER[CURSOR]} == "/" ]]
     then
-        typeset -g __killed
+        typeset -g __killed=""
         __killed="${BUFFER:${CURSOR}}"
         zle .kill-line
         zle .insert-last-word 0
