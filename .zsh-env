@@ -6,14 +6,14 @@ alt-p:previous-history,alt-n:next-history
 # less
 export LESS="-R -F -X"
 
+if [[ $(uname) =~ BSD ]]
+then
+    return
+fi
+
 #
 # Adding to $PATH
 #
-
-if [[ $(uname) =~ BSD ]]
-then
-    exit
-fi
 
 insertpath () {
     case ":$PATH:" in
