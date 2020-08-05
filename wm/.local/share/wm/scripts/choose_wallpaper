@@ -1,0 +1,21 @@
+#!/bin/sh
+
+print_usage() {
+	printf '\n%s\n' "$(basename $0) FOLDER"
+}
+
+if [ ! ${#} -eq 1 ]
+then
+	print_usage 1>&2
+	exit 1
+fi
+
+folder="${1}"
+
+if [ ! -d "${1}" ]
+then
+	print_usage 1>&2
+	exit 1
+fi
+
+find "${folder}" ! -path \*/.\* -type f | sort | sxiv -io | tail -n1 | xargs set_wallpaper
