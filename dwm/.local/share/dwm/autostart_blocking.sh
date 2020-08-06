@@ -3,6 +3,7 @@
 hsetroot -cover ~/.local/share/wallpaper/current
 
 ~/.local/share/dwm/scripts/status &
+~/.local/share/wm/scripts/sxhkd
 # Don't run compton if using a virtual frame buffer
 pgrep -f "Xvfb.*${DISPLAY}\b" || compton -b
 

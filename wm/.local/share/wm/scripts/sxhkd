@@ -1,0 +1,6 @@
+#!/bin/sh
+
+pid=${$}
+pgrep sxhkd | grep -v ${pid} | xargs -r kill -9
+
+sxhkd >/dev/null 2>&1 &
