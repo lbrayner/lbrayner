@@ -1,3 +1,0 @@
-macro index / "<vfolder-from-query>$my_nm_prefix "
-
-# vim:ft=muttrc
