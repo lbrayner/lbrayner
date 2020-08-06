@@ -4,4 +4,7 @@ Print
 super + Print
     snip
 
+super + ctrl + shift + l
+    lock
+
 # vim:ft=conf
