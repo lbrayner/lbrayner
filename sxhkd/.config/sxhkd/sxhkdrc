@@ -1,4 +1,7 @@
 Print
     screenshot
 
+super + Print
+    snip
+
 # vim:ft=conf
