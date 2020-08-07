@@ -138,25 +138,18 @@ __ZSH[SHIFT_OUT]="%{$terminfo[rmacs]%}"
 # Parameter Expansion: ${name:-word}
 __ZSH[ULCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[l]:--}${__ZSH[SHIFT_OUT]}
 __ZSH[LLCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[m]:--}${__ZSH[SHIFT_OUT]}
-__ZSH[URCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[k]:--}${__ZSH[SHIFT_OUT]}
-__ZSH[LRCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[j]:--}${__ZSH[SHIFT_OUT]}
 
-# Upper Left and Right prompt
+# Upper Left prompt
 
 __ZSH[PROMPT_INFO_NO_ESC_SEQS]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%~'
-__ZSH[TIME_STRING]='%D{%Y} %D{%b} %D{%e} %D{%a} %D{%H}h%D{%M} %D{%S}s'
 
 function set_prompt() {
     maybe_show_vcs_info
 
-    # Parameter Expansion Flags: Prompt Expansion
-   __ZSH[TIMESTAMP]="${(%)__ZSH[TIME_STRING]}"
-
-    local termwidth
-    (( termwidth = ${COLUMNS} - 2 - 1 - 1 )) # 2 ALTCHARs & 1 space & 1 extra space (RPROMPT)
+    local termwidth=${COLUMNS}
     # Parameter Expansion Flags: parameter expansion, command substitution and
     # arithmetic expansion
-    local prompt_contents="${(e%)__ZSH[PROMPT_INFO_NO_ESC_SEQS]}${__ZSH[TIMESTAMP]}"
+    local prompt_contents="${(e%)__ZSH[PROMPT_INFO_NO_ESC_SEQS]}"
     # length of scalar
     local contents_size=${#${prompt_contents}}
 
@@ -164,27 +157,18 @@ function set_prompt() {
     then
         __ZSH[UL]=""
         __ZSH[LL]=""
-        __ZSH[UR]=""
-        __ZSH[LR]=""
-        __ZSH[PROMPT_SPACER]=""
-        __ZSH[TIMESTAMP]=""
         return
     fi
 
     __ZSH[UL]="${__ZSH[ULCORNER]}"
     __ZSH[LL]="${__ZSH[LLCORNER]}"
-    __ZSH[UR]=" ${__ZSH[URCORNER]}"
-    __ZSH[LR]=" ${__ZSH[LRCORNER]}"
-
-    # Parameter Expansion Flags: l:expr::string1::string2:
-    __ZSH[PROMPT_SPACER]="\${(l.((${termwidth} - ${contents_size})).. .)}"
 }
 
 add-zsh-hook precmd set_prompt
 
 # Setting the PROMPT variable
-PROMPT='${__ZSH[UL]}'"${__ZSH[PROMPT_INFO]}"'${(e)__ZSH[PROMPT_SPACER]}${__ZSH[TIMESTAMP]}'\
-$'${__ZSH[UR]}\n${__ZSH[LL]}$ '
+PROMPT='${__ZSH[UL]}'"${__ZSH[PROMPT_INFO]}"\
+$'\n${__ZSH[LL]}$ '
 
 ###         ###
 ### Vi Mode ###
@@ -224,12 +208,13 @@ __ZSH[INSERT]="-- INSERT --"
 __ZSH[NORMAL]="[NORMAL]"
 
 function rprompt_cmd (){
-    RPROMPT="${__ZSH[NORMAL]}"'${__ZSH[LR]}'
+    [[ -n "${TMUX}" ]] && RPROMPT="${__ZSH[NORMAL]}"
 }
 
 function rprompt_insert (){
-    RPROMPT="${__ZSH[INSERT]}"'${__ZSH[LR]}'
+    [[ -n "${TMUX}" ]] && RPROMPT="${__ZSH[INSERT]}"
 }
+
 rprompt_insert
 
 function zle-line-init zle-keymap-select () {
@@ -357,3 +342,10 @@ bindkey -a '\e[P'  delete-char
 bindkey -a '\e[1~' beginning-of-line
 bindkey -a '\e[H'  beginning-of-line
 bindkey -a '\e[4~' end-of-line
+
+###                     ###
+### Syntax highlighting ###
+###                     ###
+
+# Linux
+source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
