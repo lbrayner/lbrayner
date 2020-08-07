@@ -9,8 +9,7 @@ date_and_time(){
 # From i3blocks
 cpu_usage(){
     idle=$(mpstat 1 1 | sed -n 's/^Average.* \([0-9]\+\.[0-9]\+\)/\1/p')
-    usage="$(echo "100-${idle}"|bc -l)"
-    echo ${usage}
+    echo "100-${idle}" | bc -l
 }
 
 # From i3blocks
@@ -66,7 +65,7 @@ internet(){
 
 # Killing all other instances
 pid=${$}
-pgrep -f '/bin/sh.*\.local/share/dwm/scripts/status' \
+pgrep -f '/bin/sh .*\.local/share/dwm/scripts/status$' \
     | grep -v ${pid} | xargs -r kill -9
 
 status=""
