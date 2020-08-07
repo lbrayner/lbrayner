@@ -174,8 +174,6 @@ $'\n${__ZSH[LL]}$ '
 ### Vi Mode ###
 ###         ###
 
-### RPROMPT ###
-
 # print: http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
 # https://superuser.com/a/911665/750142
 
@@ -204,6 +202,8 @@ function preexec (){
     steady_block
 }
 
+### RPROMPT ###
+
 __ZSH[INSERT]="-- INSERT --"
 __ZSH[NORMAL]="[NORMAL]"
 
@@ -220,11 +220,11 @@ rprompt_insert
 function zle-line-init zle-keymap-select () {
     if [[ $KEYMAP = vicmd ]]
     then
-        # the command mode for vi
+        # vi command mode
         steady_block
         rprompt_cmd
     else
-        # the insert mode for vi
+        # vi insert mode
         steady_ibeam
         rprompt_insert
     fi
