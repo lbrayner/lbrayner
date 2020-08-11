@@ -5,7 +5,8 @@ alias sz='source ~/.zshrc'
 # miscellaneous
 alias emacsd='pkill emacs$ ; emacs --daemon'
 alias vi='HOME=/dummy vi'
-alias vnone="vim -R -u NONE"
+alias vlite="vim -R -u NONE"
+alias nvlite="nvim -R -u NONE"
 alias ta='tmux attach-session'
 
 if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
