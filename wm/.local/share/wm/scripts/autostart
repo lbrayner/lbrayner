@@ -1,0 +1,37 @@
+is_number(){
+    [ -n "${1##*[!0-9]*}" ]
+}
+
+exec_n(){
+    if is_number "${1}"
+    then
+        times=${1}
+        shift
+    else
+        times=1
+    fi
+
+    for i in $(seq ${times})
+    do
+        "${@}" &
+        sleep 1
+    done
+}
+
+maxwait=30
+
+start_prog(){
+    "${@}" &                   # Handle arguments with whitspaces
+    mypid=${!}                 # Pid of last background process
+    for i in $(seq ${maxwait}) # count from 1 to maxwait
+    do
+    	if xdotool search --onlyvisible --pid ${mypid}
+        then
+    	    return 0
+    	fi
+	sleep 1
+    done
+    xmessage "Error on executing: ${@}" &
+}
+
+# vim: ft=sh
