@@ -5,7 +5,8 @@ alias sz='source ~/.zshrc'
 # miscellaneous
 alias emacsd='pkill emacs$ ; emacs --daemon'
 alias vi='HOME=/dummy vi'
-alias vnone="vim -R -u NONE"
+alias vlite="vim -R -u NONE"
+alias nvlite="nvim -R -u NONE"
 alias ta='tmux attach-session'
 
 if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
@@ -23,23 +24,24 @@ alias lm="ls -lrth"
 if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
 then
     alias ls='ls --color=auto -h'
+    alias lt="ls -lrth --color=always | tail"
 fi
 
 # svn
 
-alias sst='svn status'
-alias sby='sh -c "svn "'
-alias sl='svn log'
-alias svl='svn log -rHEAD:1 -l1'
-alias svs='svn status'
-alias smi='svn propget svn:mergeinfo'
-alias sei='svn propedit svn:ignore .'
-alias sdc='svn diff -c'
-
-alias -g today="$(date +'{%Y-%m-%d}')"
+alias sst='\svn status'
+alias sl='\svn log'
+alias svl='\svn log -rHEAD:1 -l1'
+alias svs='\svn status'
+alias smi='\svn propget svn:mergeinfo'
+alias seg='\svn propedit svn:global-ignores .'
+alias sei='\svn propedit svn:ignore .'
+alias sdc='\svn diff -c'
+alias svurl='\svn info --show-item=url'
 
 # other
 
+alias -g today="$(date +'{%Y-%m-%d}')"
 alias putty='TERM=putty-256color'
 
 # youtube-dl
@@ -47,6 +49,7 @@ alias putty='TERM=putty-256color'
 alias yd='youtube-dl --no-mtime --all-subs --no-playlist -f137+140'
 alias yf='youtube-dl --no-playlist -F'
 alias ys='youtube-dl --no-playlist --skip-download --no-mtime --all-subs'
+alias yn='youtube-dl --no-playlist --get-filename'
 
 # pandoc
 
@@ -77,5 +80,8 @@ alias wget='wget --no-use-server-timestamps'
 # curl
 alias crange='curl -H Range:bytes=0-'
 alias cresume='curl -C -'
+
+# the silver searcher
+alias ag='ag -a'
 
 # vim: ft=zsh
