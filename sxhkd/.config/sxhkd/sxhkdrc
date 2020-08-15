@@ -10,4 +10,9 @@ super + ctrl + shift + l
 super + w
     rofi -show window
 
+# mpc
+
+super + period
+    mpc toggle
+
 # vim:ft=conf
