@@ -24,6 +24,7 @@ alias lm="ls -lrth"
 if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
 then
     alias ls='ls --color=auto -h'
+    alias lt="ls -lrth --color=always | tail"
 fi
 
 # svn
