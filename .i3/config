@@ -73,7 +73,7 @@ hide_edge_borders both
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec terminal
+bindsym $mod+Return exec ~/.local/share/wm/scripts/terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -284,13 +284,8 @@ bindsym control+mod1+Delete mode "$mode_system"
 set $mode_system System: (c) lock, (o) logout
 
 mode "$mode_system" {
-    # bindsym k exec --no-startup-id ~/.config/i3/scripts/i3exit.sh lock, mode "default"
-    bindsym c exec --no-startup-id ~/.i3/scripts/lock, mode "default"
+    bindsym c exec --no-startup-id ~/.local/share/wm/scripts/lock, mode "default"
     bindsym o exec --no-startup-id ~/.i3/scripts/logout, mode "default"
-    # bindsym u exec --no-startup-id ~/.config/i3/scripts/i3exit.sh suspend, mode "default"
-    # bindsym h exec --no-startup-id ~/.config/i3/scripts/i3exit.sh hibernate, mode "default"
-    # bindsym r exec --no-startup-id ~/.config/i3/scripts/i3exit.sh reboot, mode "default"
-    # bindsym s exec --no-startup-id ~/.config/i3/scripts/i3exit.sh shutdown, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
