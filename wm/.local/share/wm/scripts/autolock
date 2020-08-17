@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# set -x
+
+# Killing all other instances
+pid=${$}
+pgrep -f 'bash .*\.local/share/wm/scripts/autolock$' \
+    | grep -v ${pid} | xargs -r kill -9
+
+while true
+do
+    sleep 300
+    if ! pgrep i3lock 2>&1 >/dev/null
+    then
+        idle=$(xprintidle)
+        if [[ ${idle} -gt 290000 ]]
+        then
+            ~/.local/share/wm/scripts/lock
+        fi
+    fi
+done

@@ -5,7 +5,7 @@ super + Print
     snip
 
 super + ctrl + shift + l
-    lock
+    ~/.local/share/wm/scripts/lock
 
 super + w
     rofi -show window

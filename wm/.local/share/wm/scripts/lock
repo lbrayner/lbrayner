@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# set -x
+
+icon=~/.local/share/wm/resources/lock.png
+tmpbg="$(mktemp --suffix=".png")"
+
+maim "$tmpbg"
+convert "$tmpbg" -scale 10% -scale 1000% "$tmpbg"
+convert "$tmpbg" "$icon" -gravity center -composite -matte "$tmpbg"
+i3lock -u -i "$tmpbg"
