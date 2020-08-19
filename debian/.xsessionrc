@@ -1,5 +1,6 @@
-[ -f ~/.profile ] && source ~/.profile
-[ -f ~/.local/share/wm/scripts/login ] && source ~/.local/share/wm/scripts/login
+. ~/.profile
+
+~/.local/share/wm/scripts/login
 
 [ ! -s ~/.config/mpd/pid ] && mpd
 [ -s ~/.config/mpd/pid ] && [ ! -s ~/.mpdscribble/pid ] && mpdscribble
