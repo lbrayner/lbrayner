@@ -1,0 +1,9 @@
+[ -f ~/.profile ] && source ~/.profile
+[ -f ~/.local/share/wm/scripts/login ] && source ~/.local/share/wm/scripts/login
+
+[ ! -s ~/.config/mpd/pid ] && mpd
+[ -s ~/.config/mpd/pid ] && [ ! -s ~/.mpdscribble/pid ] && mpdscribble
+
+[ -f ~/.xsessionrc.local ] && ~/.xsessionrc.local
+
+# vim: ft=sh
