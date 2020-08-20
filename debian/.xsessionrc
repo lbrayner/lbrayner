@@ -5,6 +5,6 @@
 [ ! -s ~/.config/mpd/pid ] && mpd
 [ -s ~/.config/mpd/pid ] && [ ! -s ~/.mpdscribble/pid ] && mpdscribble
 
-[ -f ~/.xsessionrc.local ] && ~/.xsessionrc.local
+[ -f ~/.xsessionrc.local ] && source ~/.xsessionrc.local
 
 # vim: ft=sh
