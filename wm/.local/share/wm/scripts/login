@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Terminating all instances of the emacs client
-# pkill emacsclient
+# Terminating all instances of the graphical emacs client
+pkill -f 'emacsclient -c'
 
 # Terminating all instances of vim and neovim that may be open in a tmux session
 pkill vim
