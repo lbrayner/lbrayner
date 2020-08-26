@@ -14,3 +14,6 @@ pkill x11vnc
 
 # Terminating all instances of the ssh client
 pkill '\bssh\b'
+
+# Terminating pulseaudio (and allow applications to start it on demand)
+pkill pulseaudio
