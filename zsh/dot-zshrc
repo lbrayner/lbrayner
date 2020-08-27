@@ -1,3 +1,4 @@
+# vim:ft=zsh
 # http://zsh.sourceforge.net/Doc/Release/Parameters.html
 
 HISTFILE=~/.histfile
