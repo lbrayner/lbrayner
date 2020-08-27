@@ -1,9 +1,10 @@
-. ~/.profile
+[ -f ~/.profile ] && source ~/.profile
 
-~/.local/share/wm/scripts/login
+[ -x ~/.local/share/wm/scripts/login ] && ~/.local/share/wm/scripts/login
 
-[ ! -s ~/.config/mpd/pid ] && mpd
-[ -s ~/.config/mpd/pid ] && [ ! -s ~/.mpdscribble/pid ] && mpdscribble
+[ -x "$(command -v mpd)" ] && [ ! -s ~/.config/mpd/pid ] && mpd
+[ -x "$(command -v mpdscribble)" ] && \
+    [ -s ~/.config/mpd/pid ] && [ ! -s ~/.mpdscribble/pid ] && mpdscribble
 
 [ -f ~/.xsessionrc.local ] && source ~/.xsessionrc.local
 
