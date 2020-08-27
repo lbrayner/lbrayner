@@ -247,7 +247,8 @@ TRAPWINCH(){
 # https://stackoverflow.com/a/15394738
 # will not clobber fpath
 local_functions=$HOME/.zfunc/functions
-if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
+if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]
+then
     fpath=( "${local_functions}" "${fpath[@]}" )
 fi
 
@@ -292,11 +293,11 @@ zle -N bash-forward-word
 # https://github.com/wincent/wincent
 # Make CTRL-Z background things and unbackground them.
 function fg-bg() {
-  if [[ $#BUFFER -eq 0 ]]; then
-    fg
-  else
-    zle push-input
-  fi
+    if [[ $#BUFFER -eq 0 ]]; then
+        fg
+    else
+        zle push-input
+    fi
 }
 zle -N fg-bg
 
