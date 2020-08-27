@@ -235,10 +235,20 @@ function zle-line-init zle-keymap-select () {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+# http://zsh.sourceforge.net/Doc/Release/Functions.html
+# 9.3.2 Trap Functions
+# The SIGWINCH signal is sent to a process when its controlling
+# terminal changes its size (a window change).
+TRAPWINCH(){
+    # So that the cursor doesn't revert to a block
+    zle && zle zle-line-init
+}
+
 # https://stackoverflow.com/a/15394738
 # will not clobber fpath
 local_functions=$HOME/.zfunc/functions
-if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]; then
+if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]
+then
     fpath=( "${local_functions}" "${fpath[@]}" )
 fi
 
@@ -283,11 +293,11 @@ zle -N bash-forward-word
 # https://github.com/wincent/wincent
 # Make CTRL-Z background things and unbackground them.
 function fg-bg() {
-  if [[ $#BUFFER -eq 0 ]]; then
-    fg
-  else
-    zle push-input
-  fi
+    if [[ $#BUFFER -eq 0 ]]; then
+        fg
+    else
+        zle push-input
+    fi
 }
 zle -N fg-bg
 
