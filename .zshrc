@@ -235,6 +235,15 @@ function zle-line-init zle-keymap-select () {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+# http://zsh.sourceforge.net/Doc/Release/Functions.html
+# 9.3.2 Trap Functions
+# The SIGWINCH signal is sent to a process when its controlling
+# terminal changes its size (a window change).
+TRAPWINCH(){
+    # So that the cursor doesn't revert to a block
+    zle zle-line-init
+}
+
 # https://stackoverflow.com/a/15394738
 # will not clobber fpath
 local_functions=$HOME/.zfunc/functions
