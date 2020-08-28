@@ -245,3 +245,5 @@ URxvt*color15:               S_base3
 /* !! white dark/light */
 /* URxvt*color7:                S_base2 */
 /* URxvt*color15:               S_base3 */
+
+# vim: ft=xdefaults

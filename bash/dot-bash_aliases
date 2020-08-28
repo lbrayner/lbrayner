@@ -4,3 +4,5 @@ alias lm="ls -lrth"
 alias mysql='mysql --auto-rehash'
 alias nview='nvim -R'
 alias nvimdiff='nvim -d'
+
+# vim: ft=sh

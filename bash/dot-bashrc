@@ -47,3 +47,5 @@ export EDITOR=/usr/bin/vim
 alias lm='ls -lrth'
 alias rsync='rsync --progress'
 alias ta='tmux attach'
+
+# vim: ft=sh
