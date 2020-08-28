@@ -15,7 +15,7 @@ do
         idle=$(xprintidle)
         if [[ ${idle} -gt 290000 ]]
         then
-            ~/.local/share/wm/scripts/lock
+            lock
         fi
     fi
 done
