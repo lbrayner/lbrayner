@@ -78,7 +78,7 @@ do
     ([ -z "${status}" ] || [ $((seconds%10)) -eq 0 ]) && memory_info="$(memory_info)"
     ([ -z "${status}" ] || [ $((seconds%5))  -eq 0 ]) && cpu_usage=$(cpu_usage)
     ([ -z "${status}" ] || [ $((seconds%60)) -eq 0 ]) && date_and_time="$(date_and_time)"
-    status="$(printf ' %s  [%5s]  %5s  %6.2f%%  %s ' \
+    status="$(printf ' %s  [%6s]  %5s  %6.2f%%  %s ' \
        "${internet}" ${hdd_info} "${memory_info}" ${cpu_usage} "${date_and_time}")"
     xsetroot -name "${status}"
     sleep 4
