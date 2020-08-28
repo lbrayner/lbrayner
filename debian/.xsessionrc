@@ -6,6 +6,9 @@
 [ -x "$(command -v mpdscribble)" ] && \
     [ -s ~/.config/mpd/pid ] && [ ! -s ~/.mpdscribble/pid ] && mpdscribble
 
+[ -x "$(command -v devmon)" ] && pgrep -f '/bin/bash /usr/bin/devmon' || \
+    devmon 2>&1 >/dev/null &
+
 [ -f ~/.xsessionrc.local ] && source ~/.xsessionrc.local
 
 # vim: ft=sh
