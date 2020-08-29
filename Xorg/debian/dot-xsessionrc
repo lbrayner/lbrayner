@@ -1,3 +1,0 @@
-[ -x ~/.local/share/wm/scripts/login ] && ~/.local/share/wm/scripts/login
-
-# vim: ft=sh
