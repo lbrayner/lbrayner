@@ -9,7 +9,6 @@ pgrep -f "Xvfb.*${DISPLAY}\b" || autolock &
 
 # If not using a virtual frame buffer
 pgrep -f "Xvfb.*${DISPLAY}\b" || compton -b
-espanso restart
 
 [ -x ~/.local/share/dwm/autostart_blocking.local.sh ] && \
     ~/.local/share/dwm/autostart_blocking.local.sh

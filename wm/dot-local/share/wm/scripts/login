@@ -18,7 +18,7 @@ pkill '\bssh\b'
 # Terminating pulseaudio (and allow applications to start it on demand)
 pkill pulseaudio
 
-# Starting mpd & mpdscribble
+# Starting mpd (Music Player Daemon) & mpdscribble (Libre.fm & Last.fm scrobbler)
 [ -x "$(command -v mpd)" ] && [ ! -s ~/.config/mpd/pid ] && mpd
 [ -x "$(command -v mpdscribble)" ] && \
     [ -s ~/.config/mpd/pid ] && [ ! -s ~/.mpdscribble/pid ] && mpdscribble
@@ -26,6 +26,9 @@ pkill pulseaudio
 # Starting udevil's devmon
 [ -x "$(command -v devmon)" ] && pgrep -f '/bin/bash /usr/bin/devmon' || \
     devmon 2>&1 >/dev/null &
+
+# Starting espanso (Cross-platform Text Expander written in Rust)
+[ -x "$(command -v espanso)" ] && espanso restart
 
 # Sourcing ~/.profile if it exists
 [ -f ~/.profile ] && source ~/.profile
