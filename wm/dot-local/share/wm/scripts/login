@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # Terminating all instances of the graphical emacs client
 pkill -f 'emacsclient -c'
 
@@ -19,4 +17,4 @@ pkill -f 'emacsclient -c'
 [ -f ~/.profile ] && source ~/.profile
 
 # Sourcing a local script if it exists
-[ -x ~/.local/share/wm/scripts/login.local ] && ~/.local/share/wm/scripts/login.local
+[ -f ~/.local/share/wm/scripts/login.local ] && source ~/.local/share/wm/scripts/login.local

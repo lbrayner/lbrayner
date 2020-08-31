@@ -13,6 +13,6 @@ pkill '\bssh\b'
 # Terminating pulseaudio (and allow applications to start it on demand)
 pkill pulseaudio
 
-[ -x ~/.local/share/wm/scripts/login ] && ~/.local/share/wm/scripts/login
+[ -f ~/.local/share/wm/scripts/login ] && source ~/.local/share/wm/scripts/login
 
 # vim: ft=sh
