@@ -18,3 +18,5 @@ pkill -f 'emacsclient -c'
 
 # Sourcing a local script if it exists
 [ -f ~/.local/share/wm/scripts/login.local ] && source ~/.local/share/wm/scripts/login.local
+
+# vim: ft=sh
