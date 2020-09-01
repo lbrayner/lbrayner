@@ -2,7 +2,8 @@
 
 # set -x
 
-icon=~/.local/share/wm/resources/lock.png
+cd ~/.local/share/wm/resources/characters
+icon="$(ls -1 | shuf -n1)"
 tmpbg="$(mktemp --suffix=".png")"
 
 maim "$tmpbg"
