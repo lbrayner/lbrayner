@@ -1,3 +1,4 @@
+# vim:ft=zsh
 # http://zsh.sourceforge.net/Doc/Release/Parameters.html
 
 HISTFILE=~/.histfile
@@ -241,7 +242,7 @@ zle -N zle-keymap-select
 # terminal changes its size (a window change).
 TRAPWINCH(){
     # So that the cursor doesn't revert to a block
-    zle && zle zle-line-init
+    zle && zle zle-keymap-select
 }
 
 # https://stackoverflow.com/a/15394738
