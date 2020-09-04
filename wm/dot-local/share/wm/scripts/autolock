@@ -10,6 +10,10 @@ pgrep -f 'bash .*\.local/share/wm/scripts/autolock$' \
 while true
 do
     sleep 300
+
+    # If there is no X session, then die
+    xset q 2>&1 >/dev/null || exit 1
+
     if ! pgrep i3lock 2>&1 >/dev/null
     then
         idle=$(xprintidle)

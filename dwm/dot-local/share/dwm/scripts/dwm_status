@@ -65,7 +65,7 @@ internet(){
 
 # Killing all other instances
 pid=${$}
-pgrep -f '/bin/sh .*\.local/share/dwm/scripts/status$' \
+pgrep -f '/bin/sh .*\.local/share/dwm/scripts/dwm_status$' \
     | grep -v ${pid} | xargs -r kill -9
 
 status=""
@@ -73,6 +73,13 @@ status=""
 while true
 do
     seconds=$(date '+%-S')
+
+    if [ $((seconds%60)) -eq 0 ]
+    then
+        # If there is no X session, then die
+        xset q 2>&1 >/dev/null || exit 1
+    fi
+
     ([ -z "${status}" ] || [ $((seconds%10)) -eq 0 ]) && internet="$(internet)"
     ([ -z "${status}" ] || [ $((seconds%20)) -eq 0 ]) && hdd_info=$(hdd_info)
     ([ -z "${status}" ] || [ $((seconds%10)) -eq 0 ]) && memory_info="$(memory_info)"
