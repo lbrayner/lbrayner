@@ -77,9 +77,19 @@ alias rsync='rsync --progress'
 
 alias wget='wget --no-use-server-timestamps'
 
+# grep
+
+if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+then
+    alias grep='grep --color=auto'
+fi
+
 # ps
 
-alias ps='ps aux | grep'
+if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+then
+    alias ps='ps aux | grep --color=auto'
+fi
 
 # the silver searcher
 alias ag='ag -a'
