@@ -7,16 +7,16 @@ pkill -f 'emacsclient -c'
     [ -s ~/.config/mpd/pid ] && [ ! -s ~/.mpdscribble/pid ] && mpdscribble
 
 # Starting udevil's devmon
-[ -x "$(command -v devmon)" ] && pgrep -f '/bin/bash /usr/bin/devmon' || \
-    devmon 2>&1 >/dev/null &
+[ -x "$(command -v devmon)" ] && (pgrep -f '/bin/bash /usr/bin/devmon' || \
+    devmon 2>&1 >/dev/null &)
 
 # Starting espanso (Cross-platform Text Expander written in Rust)
 [ -x "$(command -v espanso)" ] && espanso restart
 
 # Sourcing ~/.profile if it exists
-[ -f ~/.profile ] && source ~/.profile
+[ -f ~/.profile ] && . ~/.profile
 
 # Sourcing a local script if it exists
-[ -f ~/.local/share/wm/scripts/login.local ] && source ~/.local/share/wm/scripts/login.local
+[ -f ~/.local/share/wm/scripts/login.local ] && . ~/.local/share/wm/scripts/login.local
 
 # vim: ft=sh
