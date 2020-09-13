@@ -104,11 +104,21 @@ function maybe_show_vcs_info () {
     esac
 }
 
+function truncate_cwd () {
+    local max_length=${1}
+    local head="${__ZSH[CWD]%/*}"
+    local tail="${__ZSH[CWD]##*/}"
+    local head_max_length
+    (( head_max_length = ${max_length}-${#tail}-1-3 ))
+    local truncated_head="${head:0:${head_max_length}}"
+    __ZSH[CWD]="${truncated_head}.../${tail}"
+}
+
 # http://aperiodic.net/phil/prompt/
 # See if we can use extended characters to look nicer.
 
 # Conditional Substrings in Prompts: %(x.true-text.false-text)
-__ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B%~%b'
+__ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B${__ZSH[CWD]}%b'
 
 # Simpler mode for basic ttys
 # or if SSH but not TMUX
@@ -142,34 +152,37 @@ __ZSH[LLCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[m]:--}${__ZSH[S
 
 # Upper Left prompt
 
-__ZSH[PROMPT_INFO_NO_ESC_SEQS]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%~'
+__ZSH[PROMPT_INFO_NO_CWD]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}'
 
 function set_prompt() {
     maybe_show_vcs_info
 
-    local termwidth=${COLUMNS}
+    local cwdes='%~'
+    __ZSH[CWD]="${(%)cwdes}"
+
     # Parameter Expansion Flags: parameter expansion, command substitution and
     # arithmetic expansion
-    local prompt_contents="${(e%)__ZSH[PROMPT_INFO_NO_ESC_SEQS]}"
+    local prompt_contents_no_cwd="${(e%)__ZSH[PROMPT_INFO_NO_CWD]}"
     # length of scalar
-    local contents_size=${#${prompt_contents}}
+    local prompt_size
+    (( prompt_size=${#prompt_contents_no_cwd} + ${#__ZSH[CWD]} ))
+    local max_width
+    # __ZSH[ULCORNER] is 1 character wide
+    (( max_width=${COLUMNS} - 1 - 1 )) # a 1 column margin
 
-    if [[ ${contents_size} -gt ${termwidth} ]]
+    if [[ ${prompt_size} -gt ${max_width} ]]
     then
-        __ZSH[UL]=""
-        __ZSH[LL]=""
-        return
+        local max_length
+        (( max_length=${max_width} - ${#prompt_contents_no_cwd} ))
+        truncate_cwd ${max_length}
     fi
-
-    __ZSH[UL]="${__ZSH[ULCORNER]}"
-    __ZSH[LL]="${__ZSH[LLCORNER]}"
 }
 
 add-zsh-hook precmd set_prompt
 
 # Setting the PROMPT variable
-PROMPT='${__ZSH[UL]}'"${__ZSH[PROMPT_INFO]}"\
-$'\n${__ZSH[LL]}$ '
+PROMPT='${__ZSH[ULCORNER]}'"${__ZSH[PROMPT_INFO]}"\
+$'\n${__ZSH[LLCORNER]}$ '
 
 ###         ###
 ### Vi Mode ###
