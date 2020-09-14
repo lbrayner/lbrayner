@@ -104,16 +104,6 @@ function maybe_show_vcs_info () {
     esac
 }
 
-function truncate_cwd () {
-    local max_length=${1}
-    local head="${__ZSH[CWD]%/*}"
-    local tail="${__ZSH[CWD]##*/}"
-    local head_max_length
-    (( head_max_length = ${max_length}-${#tail}-1-3 ))
-    local truncated_head="${head:0:${head_max_length}}"
-    __ZSH[CWD]="${truncated_head}.../${tail}"
-}
-
 # http://aperiodic.net/phil/prompt/
 # See if we can use extended characters to look nicer.
 
@@ -174,7 +164,12 @@ function set_prompt() {
     then
         local max_length
         (( max_length=${max_width} - ${#prompt_contents_no_cwd} ))
-        truncate_cwd ${max_length}
+        local head="${__ZSH[CWD]%/*}"
+        local tail="${__ZSH[CWD]##*/}"
+        local head_max_length
+        (( head_max_length = ${max_length}-${#tail}-1-3 ))
+        local truncated_head="${head:0:${head_max_length}}"
+        __ZSH[CWD]="${truncated_head}.../${tail}"
     fi
 }
 
@@ -196,13 +191,13 @@ $'\n${__ZSH[LLCORNER]}$ '
 function steady_ibeam (){
     # Do nothing on TMUX
     [[ -n "${TMUX}" ]] && return
-	print -Pn "\e[6 q"
+    print -Pn "\e[6 q"
 }
 
 function steady_block (){
     # Do nothing on TMUX
     [[ -n "${TMUX}" ]] && return
-	print -Pn "\e[2 q"
+    print -Pn "\e[2 q"
 }
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
