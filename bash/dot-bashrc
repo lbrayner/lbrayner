@@ -41,7 +41,12 @@ export PATH
 # Variables
 #
 
-export EDITOR=/usr/bin/vim
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+    export EDITOR=/usr/bin/vim
+fi
+
+[[ $(uname) =~ BSD ]] && export EDITOR=/usr/local/bin/vim
 
 #
 # Aliases
