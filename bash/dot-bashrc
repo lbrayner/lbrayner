@@ -5,7 +5,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+    alias ls='ls --color=auto'
+fi
 PS1='[\u@\h \W]\$ '
 
 # What follows are my additions
