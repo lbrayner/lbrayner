@@ -9,7 +9,7 @@ alias vlite="vim -R -u NONE"
 alias nvlite="nvim -R -u NONE"
 alias ta='tmux attach-session'
 
-if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
     alias rm='rm -I'
 fi
@@ -21,7 +21,7 @@ alias bl='bc -l'
 alias lt="ls -lrth | tail"
 alias lm="ls -lrth"
 
-if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
     alias ls='ls --color=auto -h'
     alias lt="ls -lrth --color=always | tail"
@@ -79,14 +79,14 @@ alias wget='wget --no-use-server-timestamps'
 
 # grep
 
-if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
     alias grep='grep --color=auto'
 fi
 
 # ps
 
-if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+if [[ $(uname) == Linux ]]
 then
     alias ps='ps aux | grep --color=auto'
 fi
