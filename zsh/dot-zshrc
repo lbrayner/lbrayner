@@ -131,6 +131,8 @@ typeset -A ALTCHAR
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 # Parameter Expansion: s:string:
 set -A ALTCHAR ${(s..)terminfo[acsc]}
+# On PuTTY, don't forget to tick "Enable VT100 line drawing even in UTF-8 mode"
+# at Window -> Translation for these special characters to be drawn correctly
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # %{...%} Include a string as a literal escape sequence
