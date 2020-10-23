@@ -42,8 +42,8 @@ else
     ls -1tr "${__dir}" > ${__inf_cache}
 fi
 
-typeset __newest_file=`printf %q "$(head -n ${__inf_offset} ${__inf_cache} | \
-    tail -n 1 | tr -d '\n')"`
+typeset __newest_file=$(printf %q "$(head -n ${__inf_offset} ${__inf_cache} | \
+    tail -n 1 | tr -d '\n')")
 
 if [[ "${__newest_file}" == "''" ]]
 then
