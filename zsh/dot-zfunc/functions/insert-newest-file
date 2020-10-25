@@ -47,9 +47,7 @@ typeset __count __line_count=$(wc -l < ${__inf_cache})
 
 [[ ${__count} -le 0 ]] && return 1
 
-typeset __lines="-n ${__count}"
-
-typeset __newest_file=$(printf %q "$(head ${__lines} ${__inf_cache} | \
+typeset __newest_file=$(printf %q "$(head -n ${__count} ${__inf_cache} | \
     tail -n 1 | tr -d '\n')")
 
 LBUFFER[lcursor+1,cursor+1]=${__newest_file}
