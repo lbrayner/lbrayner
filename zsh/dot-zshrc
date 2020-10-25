@@ -47,8 +47,11 @@ source_file ~/.zsh-alias
 # setting local aliases
 source_file ~/.zsh-alias.local
 
-# colors
-source_file ~/.zsh-colors
+# GNU ls colors
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+    source_file ~/.zsh-colors
+fi
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
 
