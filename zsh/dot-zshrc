@@ -366,5 +366,12 @@ bindkey -a '\e[4~' end-of-line
 ### Syntax highlighting ###
 ###                     ###
 
-# Linux
-source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ $(uname) == Linux ]]
+then
+    source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [[ $(uname) =~ BSD ]]
+then
+    source_file /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
