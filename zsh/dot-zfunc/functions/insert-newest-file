@@ -8,10 +8,7 @@ typeset __inf_cache_dir=~/.cache
 typeset __inf_cache=~/.cache/insert_newest_file_cache
 integer cursor=$CURSOR lcursor=$CURSOR
 
-if [[ ! -e ${__inf_cache_dir} ]]
-then
-    mkdir ${__inf_cache_dir}
-fi
+[[ ! -e ${__inf_cache_dir} ]] && mkdir ${__inf_cache_dir}
 
 if [[ $WIDGET = $LASTWIDGET ]]
 then
@@ -30,14 +27,8 @@ else
         cursor=$CURSOR
         typeset __last_word="${BUFFER:${lcursor}}"
         __last_word="${(Q)__last_word}"
-        if [[ ${__last_word[1]} == "~" ]]
-        then
-            __last_word=~/"${__last_word:2}"
-        fi
-        if [[ -d "${__last_word}" ]]
-        then
-            __dir="${__last_word}"
-        fi
+        [[ ${__last_word[1]} == "~" ]] && __last_word=~/"${__last_word:2}"
+        [[ -d "${__last_word}" ]] && __dir="${__last_word}"
     fi
     ls -1tr "${__dir}" > ${__inf_cache}
 fi
