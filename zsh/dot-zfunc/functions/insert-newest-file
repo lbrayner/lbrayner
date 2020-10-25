@@ -16,10 +16,10 @@ fi
 if [[ $WIDGET = $LASTWIDGET ]]
 then
     lcursor=$__inf_lcursor
-    __inf_offset=${__inf_offset:--0}
-    (( __inf_offset-- ))
+    __inf_offset=${__inf_offset:-0}
+    (( __inf_offset++ ))
 else
-    __inf_offset=-0
+    __inf_offset=0
     typeset -g __inf_lcursor=$lcursor
     typeset __dir="."
     typeset -g __killed="${BUFFER:${CURSOR}}"
@@ -42,13 +42,15 @@ else
     ls -1tr "${__dir}" > ${__inf_cache}
 fi
 
-typeset __newest_file=$(printf %q "$(head -n ${__inf_offset} ${__inf_cache} | \
-    tail -n 1 | tr -d '\n')")
+typeset __count __line_count=$(wc -l < ${__inf_cache})
+(( __count = __line_count - __inf_offset ))
 
-if [[ "${__newest_file}" == "''" ]]
-then
-    return 1
-fi
+[[ ${__count} -le 0 ]] && return 1
+
+typeset __lines="-n ${__count}"
+
+typeset __newest_file=$(printf %q "$(head ${__lines} ${__inf_cache} | \
+    tail -n 1 | tr -d '\n')")
 
 LBUFFER[lcursor+1,cursor+1]=${__newest_file}
 RBUFFER="${__killed}"
