@@ -14,8 +14,6 @@ then
     alias rm='rm -I'
 fi
 
-alias bl='bc -l'
-
 # ls
 
 alias lt="ls -lrth | tail"
@@ -29,8 +27,6 @@ fi
 
 # svn
 
-alias sst='\svn status'
-alias sl='\svn log'
 alias svl='\svn log -rHEAD:1 -l1'
 alias svs='\svn status'
 alias smi='\svn propget svn:mergeinfo'
@@ -38,11 +34,6 @@ alias seg='\svn propedit svn:global-ignores .'
 alias sei='\svn propedit svn:ignore .'
 alias sdc='\svn diff -c'
 alias svurl='\svn info --show-item=url'
-
-# other
-
-alias -g today="$(date +'{%Y-%m-%d}')"
-alias putty='TERM=putty-256color'
 
 # youtube-dl
 
