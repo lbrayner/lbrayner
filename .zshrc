@@ -47,10 +47,76 @@ source_file ~/.zsh-alias
 # setting local aliases
 source_file ~/.zsh-alias.local
 
-# colors
-source_file ~/.zsh-colors
+# GNU ls colors
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+    source_file ~/.zsh-colors
+fi
 
+# https://stackoverflow.com/a/15394738
+# will not clobber fpath
+local_functions=$HOME/.zfunc/functions
+if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]
+then
+    fpath=( "${local_functions}" "${fpath[@]}" )
+fi
+
+# zle, The Z-Shell Line Editor: http://zsh.sourceforge.net/Guide/zshguide04.html
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
+
+### Widgets ###
+
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+
+autoload -Uz smart-insert-last-word
+zle -N insert-last-word smart-insert-last-word
+
+function emacs-backward-kill-word () {
+    WORDCHARS='' zle backward-kill-word
+}
+
+zle -N emacs-backward-kill-word
+
+function emacs-backward-word () {
+    WORDCHARS='' zle backward-word
+}
+
+zle -N emacs-backward-word
+
+function emacs-forward-word () {
+    WORDCHARS='' zle forward-word
+}
+
+zle -N emacs-forward-word
+
+function expand-alias() {
+    zle _expand_alias
+    zle expand-word
+}
+
+zle -N expand-alias
+
+autoload -Uz insert-newest-file
+zle -N insert-newest-file
+
+# Key bindings
+
+bindkey '^[m'     copy-earlier-word
+bindkey '^[.'     insert-last-word
+bindkey '^[^?'    emacs-backward-kill-word
+bindkey '^[[1;2D' emacs-backward-word
+bindkey '^[[1;2C' emacs-forward-word
+bindkey '^ '      expand-alias
+bindkey '^[;'     insert-newest-file
+
+# DELETE, HOME & END keys
+
+bindkey '\e[3~' delete-char
+bindkey '\e[P'  delete-char
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[H'  beginning-of-line
+bindkey '\e[4~' end-of-line
 
 ###                  ###
 ### The basic prompt ###
@@ -108,13 +174,14 @@ function maybe_show_vcs_info () {
 # See if we can use extended characters to look nicer.
 
 # Conditional Substrings in Prompts: %(x.true-text.false-text)
-__ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B%~%b'
+__ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B${__ZSH[CWD]}%b'
 
 # Simpler mode for basic ttys
 # or if SSH but not TMUX
 if [[ "${TERM#*256}" == "${TERM}" ]] || ([[ -n "${SSH_TTY}" ]] && [[ -z "${TMUX}" ]])
 then
     add-zsh-hook precmd maybe_show_vcs_info
+    __ZSH[CWD]="%1d"
     PROMPT="${__ZSH[PROMPT_INFO]}\$ "
     RPROMPT=
     return
@@ -130,6 +197,8 @@ typeset -A ALTCHAR
 # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 # Parameter Expansion: s:string:
 set -A ALTCHAR ${(s..)terminfo[acsc]}
+# On PuTTY, don't forget to tick "Enable VT100 line drawing even in UTF-8 mode"
+# at Window -> Translation for these special characters to be drawn correctly
 
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 # %{...%} Include a string as a literal escape sequence
@@ -142,34 +211,42 @@ __ZSH[LLCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[m]:--}${__ZSH[S
 
 # Upper Left prompt
 
-__ZSH[PROMPT_INFO_NO_ESC_SEQS]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%~'
+__ZSH[PROMPT_INFO_NO_CWD]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}'
 
 function set_prompt() {
     maybe_show_vcs_info
 
-    local termwidth=${COLUMNS}
+    local cwdes='%~'
+    __ZSH[CWD]="${(%)cwdes}"
+
     # Parameter Expansion Flags: parameter expansion, command substitution and
     # arithmetic expansion
-    local prompt_contents="${(e%)__ZSH[PROMPT_INFO_NO_ESC_SEQS]}"
+    local prompt_contents_no_cwd="${(e%)__ZSH[PROMPT_INFO_NO_CWD]}"
     # length of scalar
-    local contents_size=${#${prompt_contents}}
+    local prompt_size
+    (( prompt_size=${#prompt_contents_no_cwd} + ${#__ZSH[CWD]} ))
+    local max_width
+    # __ZSH[ULCORNER] is 1 character wide
+    (( max_width=${COLUMNS} - 1 - 1 )) # a 1 column margin
 
-    if [[ ${contents_size} -gt ${termwidth} ]]
+    if [[ ${prompt_size} -gt ${max_width} ]]
     then
-        __ZSH[UL]=""
-        __ZSH[LL]=""
-        return
+        local max_length
+        (( max_length=${max_width} - ${#prompt_contents_no_cwd} ))
+        local head="${__ZSH[CWD]%/*}"
+        local tail="${__ZSH[CWD]##*/}"
+        local head_max_length
+        (( head_max_length = ${max_length}-${#tail}-1-3 ))
+        local truncated_head="${head:0:${head_max_length}}"
+        __ZSH[CWD]="${truncated_head}.../${tail}"
     fi
-
-    __ZSH[UL]="${__ZSH[ULCORNER]}"
-    __ZSH[LL]="${__ZSH[LLCORNER]}"
 }
 
 add-zsh-hook precmd set_prompt
 
 # Setting the PROMPT variable
-PROMPT='${__ZSH[UL]}'"${__ZSH[PROMPT_INFO]}"\
-$'\n${__ZSH[LL]}$ '
+PROMPT='${__ZSH[ULCORNER]}'"${__ZSH[PROMPT_INFO]}"\
+$'\n${__ZSH[LLCORNER]}$ '
 
 ###         ###
 ### Vi Mode ###
@@ -183,13 +260,13 @@ $'\n${__ZSH[LL]}$ '
 function steady_ibeam (){
     # Do nothing on TMUX
     [[ -n "${TMUX}" ]] && return
-	print -Pn "\e[6 q"
+    print -Pn "\e[6 q"
 }
 
 function steady_block (){
     # Do nothing on TMUX
     [[ -n "${TMUX}" ]] && return
-	print -Pn "\e[2 q"
+    print -Pn "\e[2 q"
 }
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
@@ -239,51 +316,12 @@ TRAPWINCH(){
     zle && zle zle-keymap-select
 }
 
-# https://stackoverflow.com/a/15394738
-# will not clobber fpath
-local_functions=$HOME/.zfunc/functions
-if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]
-then
-    fpath=( "${local_functions}" "${fpath[@]}" )
-fi
+### Vi Mode per se  ###
 
-# zle, The Z-Shell Line Editor: http://zsh.sourceforge.net/Guide/zshguide04.html
+# vi insert mode keymap
+bindkey -v
 
-### Widgets ###
-
-autoload -Uz copy-earlier-word
-zle -N copy-earlier-word
-
-autoload -Uz insert-newest-file
-zle -N insert-newest-file
-
-autoload -Uz smart-insert-last-word
-zle -N insert-last-word smart-insert-last-word
-
-function expand-alias() {
-    zle _expand_alias
-    zle expand-word
-}
-
-zle -N expand-alias
-
-function bash-backward-kill-word () {
-    WORDCHARS='' zle backward-kill-word
-}
-
-zle -N bash-backward-kill-word
-
-function bash-backward-word () {
-    WORDCHARS='' zle backward-word
-}
-
-zle -N bash-backward-word
-
-function bash-forward-word () {
-    WORDCHARS='' zle forward-word
-}
-
-zle -N bash-forward-word
+# More widgets
 
 # https://github.com/wincent/wincent
 # Make CTRL-Z background things and unbackground them.
@@ -296,12 +334,7 @@ function fg-bg() {
 }
 zle -N fg-bg
 
-### Vi Mode per se  ###
-
-# vi insert mode keymap
-bindkey -v
-
-# Binding keys and handling keymaps
+# Vi Mode key bindings and handling keymaps
 
 bindkey '^[;'     insert-newest-file
 bindkey '^[.'     insert-last-word
@@ -316,7 +349,7 @@ bindkey '^u'      backward-kill-line
 bindkey '^r'      history-incremental-search-backward
 bindkey '^k'      kill-line
 bindkey '^z'      fg-bg
-bindkey '^[^?'    bash-backward-kill-word
+bindkey '^[^?'    emacs-backward-kill-word
 bindkey '^[Od'    backward-word
 bindkey '^[Oc'    forward-word
 bindkey '^[f'     forward-word
@@ -328,8 +361,8 @@ bindkey '^[b'     backward-word
 bindkey '^[OC'    forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
-bindkey '^[[1;2D' bash-backward-word
-bindkey '^[[1;2C' bash-forward-word
+bindkey '^[[1;2D' emacs-backward-word
+bindkey '^[[1;2C' emacs-forward-word
 bindkey '^ '      expand-alias
 
 # DELETE, HOME & END keys
@@ -352,5 +385,12 @@ bindkey -a '\e[4~' end-of-line
 ### Syntax highlighting ###
 ###                     ###
 
-# Linux
-source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ $(uname) == Linux ]]
+then
+    source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [[ $(uname) =~ BSD ]]
+then
+    source_file /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
