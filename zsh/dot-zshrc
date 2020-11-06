@@ -53,7 +53,70 @@ then
     source_file ~/.zsh-colors
 fi
 
+# https://stackoverflow.com/a/15394738
+# will not clobber fpath
+local_functions=$HOME/.zfunc/functions
+if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]
+then
+    fpath=( "${local_functions}" "${fpath[@]}" )
+fi
+
+# zle, The Z-Shell Line Editor: http://zsh.sourceforge.net/Guide/zshguide04.html
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
+
+### Widgets ###
+
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+
+autoload -Uz smart-insert-last-word
+zle -N insert-last-word smart-insert-last-word
+
+function emacs-backward-kill-word () {
+    WORDCHARS='' zle backward-kill-word
+}
+
+zle -N emacs-backward-kill-word
+
+function emacs-backward-word () {
+    WORDCHARS='' zle backward-word
+}
+
+zle -N emacs-backward-word
+
+function emacs-forward-word () {
+    WORDCHARS='' zle forward-word
+}
+
+zle -N emacs-forward-word
+
+function expand-alias() {
+    zle _expand_alias
+    zle expand-word
+}
+
+zle -N expand-alias
+
+autoload -Uz insert-newest-file
+zle -N insert-newest-file
+
+# Key bindings
+
+bindkey '^[m'     copy-earlier-word
+bindkey '^[.'     insert-last-word
+bindkey '^[^?'    emacs-backward-kill-word
+bindkey '^[[1;2D' emacs-backward-word
+bindkey '^[[1;2C' emacs-forward-word
+bindkey '^ '      expand-alias
+bindkey '^[;'     insert-newest-file
+
+# DELETE, HOME & END keys
+
+bindkey '\e[3~' delete-char
+bindkey '\e[P'  delete-char
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[H'  beginning-of-line
+bindkey '\e[4~' end-of-line
 
 ###                  ###
 ### The basic prompt ###
@@ -253,51 +316,12 @@ TRAPWINCH(){
     zle && zle zle-keymap-select
 }
 
-# https://stackoverflow.com/a/15394738
-# will not clobber fpath
-local_functions=$HOME/.zfunc/functions
-if [[ ! " ${fpath[@]} " =~ " ${local_functions} " ]]
-then
-    fpath=( "${local_functions}" "${fpath[@]}" )
-fi
+### Vi Mode per se  ###
 
-# zle, The Z-Shell Line Editor: http://zsh.sourceforge.net/Guide/zshguide04.html
+# vi insert mode keymap
+bindkey -v
 
-### Widgets ###
-
-autoload -Uz copy-earlier-word
-zle -N copy-earlier-word
-
-autoload -Uz insert-newest-file
-zle -N insert-newest-file
-
-autoload -Uz smart-insert-last-word
-zle -N insert-last-word smart-insert-last-word
-
-function expand-alias() {
-    zle _expand_alias
-    zle expand-word
-}
-
-zle -N expand-alias
-
-function emacs-backward-kill-word () {
-    WORDCHARS='' zle backward-kill-word
-}
-
-zle -N emacs-backward-kill-word
-
-function emacs-backward-word () {
-    WORDCHARS='' zle backward-word
-}
-
-zle -N emacs-backward-word
-
-function emacs-forward-word () {
-    WORDCHARS='' zle forward-word
-}
-
-zle -N emacs-forward-word
+# More widgets
 
 # https://github.com/wincent/wincent
 # Make CTRL-Z background things and unbackground them.
@@ -310,12 +334,7 @@ function fg-bg() {
 }
 zle -N fg-bg
 
-### Vi Mode per se  ###
-
-# vi insert mode keymap
-bindkey -v
-
-# Binding keys and handling keymaps
+# Vi Mode key bindings and handling keymaps
 
 bindkey '^[;'     insert-newest-file
 bindkey '^[.'     insert-last-word
