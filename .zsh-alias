@@ -75,7 +75,7 @@ alias rsync='rsync --progress'
 
 # wget
 
-alias wget='wget --no-use-server-timestamps'
+alias wget='wget --no-use-server-timestamps -c'
 
 # curl
 alias crange='curl -H Range:bytes=0-'
