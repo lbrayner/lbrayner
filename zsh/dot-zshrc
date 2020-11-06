@@ -318,7 +318,6 @@ TRAPWINCH(){
 
 ### Vi Mode per se  ###
 
-# vi insert mode keymap
 bindkey -v
 
 # More widgets
@@ -367,14 +366,14 @@ bindkey '^ '      expand-alias
 
 # DELETE, HOME & END keys
 
-## insert mode bindings
+## Insert mode bindings
 bindkey '\e[3~' delete-char
 bindkey '\e[P'  delete-char
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[H'  beginning-of-line
 bindkey '\e[4~' end-of-line
 
-## normal mode bindings
+## Normal mode bindings
 bindkey -a '\e[3~' delete-char
 bindkey -a '\e[P'  delete-char
 bindkey -a '\e[1~' beginning-of-line
