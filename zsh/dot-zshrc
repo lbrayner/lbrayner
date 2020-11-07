@@ -29,10 +29,6 @@ function source_file(){
     fi
 }
 
-# interactive shells
-# user is responsible for not clobbering environment variables
-source_file ~/.profile
-
 # setting aliases
 source_file ~/.zsh-alias
 

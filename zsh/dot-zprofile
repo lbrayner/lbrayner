@@ -1,0 +1,6 @@
+if ! pgrep -U $(id -u) gpg-agent >/dev/null 2>&1
+then
+    eval $(gpg-agent --daemon --default-cache-ttl 7200)
+fi
+
+# vim:ft=zsh
