@@ -29,4 +29,7 @@ insertpath ~/bin
 
 export PATH
 
+# local environment configuration
+[[ -f ~/.zshenv.local ]] && . ~/.zshenv.local
+
 # vim:ft=zsh
