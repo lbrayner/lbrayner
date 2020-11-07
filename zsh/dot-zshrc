@@ -38,6 +38,18 @@ then
     source_file ~/.zshcolors
 fi
 
+### Syntax highlighting ###
+
+if [[ $(uname) == Linux ]]
+then
+    source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [[ $(uname) =~ BSD ]]
+then
+    source_file /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
 # https://stackoverflow.com/a/15394738
 # will not clobber fpath
 local_functions=$HOME/.zfunc/functions
@@ -364,17 +376,3 @@ bindkey -a '\e[P'  delete-char
 bindkey -a '\e[1~' beginning-of-line
 bindkey -a '\e[H'  beginning-of-line
 bindkey -a '\e[4~' end-of-line
-
-###                     ###
-### Syntax highlighting ###
-###                     ###
-
-if [[ $(uname) == Linux ]]
-then
-    source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if [[ $(uname) =~ BSD ]]
-then
-    source_file /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
