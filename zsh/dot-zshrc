@@ -62,12 +62,22 @@ fi
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
 
 ### Widgets ###
+#
+
+# autoload -U select-word-style
+# select-word-style bash
 
 autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 
 autoload -Uz smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
+
+function emacs-kill-word () {
+    WORDCHARS='' zle kill-word
+}
+
+zle -N emacs-kill-word
 
 function emacs-backward-kill-word () {
     WORDCHARS='' zle backward-kill-word
@@ -101,8 +111,11 @@ zle -N insert-newest-file
 
 bindkey '^[m'     copy-earlier-word
 bindkey '^[.'     insert-last-word
+bindkey '^[d'     emacs-kill-word
 bindkey '^[^?'    emacs-backward-kill-word
+bindkey '^[b'     emacs-backward-word
 bindkey '^[[1;2D' emacs-backward-word
+bindkey '^[f'     emacs-forward-word
 bindkey '^[[1;2C' emacs-forward-word
 bindkey '^ '      expand-alias
 bindkey '^[;'     insert-newest-file
@@ -335,7 +348,7 @@ zle -N fg-bg
 bindkey '^[;'     insert-newest-file
 bindkey '^[.'     insert-last-word
 bindkey '^[m'     copy-earlier-word
-bindkey '^[d'     kill-word
+bindkey '^[d'     emacs-kill-word
 bindkey '^P'      up-history
 bindkey '^N'      down-history
 bindkey '^?'      backward-delete-char
@@ -357,7 +370,9 @@ bindkey '^[b'     backward-word
 bindkey '^[OC'    forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
+bindkey '^[b'     emacs-backward-word
 bindkey '^[[1;2D' emacs-backward-word
+bindkey '^[f'     emacs-forward-word
 bindkey '^[[1;2C' emacs-forward-word
 bindkey '^ '      expand-alias
 
