@@ -30,15 +30,12 @@ function source_file(){
 }
 
 # setting aliases
-source_file ~/.zsh-alias
-
-# setting local aliases
-source_file ~/.zsh-alias.local
+source_file ~/.zshalias
 
 # GNU ls colors
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
-    source_file ~/.zsh-colors
+    source_file ~/.zshcolors
 fi
 
 # https://stackoverflow.com/a/15394738

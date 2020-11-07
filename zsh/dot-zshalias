@@ -85,4 +85,7 @@ fi
 # the silver searcher
 alias ag='ag -a'
 
+# local aliases
+[[ -f ~/.zshalias.local ]] && . ~/.zshalias.local
+
 # vim: ft=zsh
