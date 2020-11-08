@@ -23,34 +23,22 @@ setopt extended_glob
 # Sourcing files
 
 function source_file(){
-    if [[ -f ${1} ]]
-    then
-        source ${1}
-    fi
+    [[ -f ${1} ]] && . ${1}
 }
 
-# interactive shells
-# user is responsible for not clobbering environment variables
-source_file ~/.profile
-
-# setting environment variables
-# user is responsible for not clobbering environment variables
-source_file ~/.zsh-env
-
-# setting local environment variables
-# user is responsible for not clobbering environment variables
-source_file ~/.zsh-env.local
-
 # setting aliases
-source_file ~/.zsh-alias
+source_file ~/.zshalias
 
-# setting local aliases
-source_file ~/.zsh-alias.local
+### Syntax highlighting ###
 
-# GNU ls colors
-if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+if [[ $(uname) == Linux ]]
 then
-    source_file ~/.zsh-colors
+    source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [[ $(uname) =~ BSD ]]
+then
+    source_file /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # https://stackoverflow.com/a/15394738
@@ -65,12 +53,22 @@ fi
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Functions
 
 ### Widgets ###
+#
+
+# autoload -U select-word-style
+# select-word-style bash
 
 autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 
 autoload -Uz smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
+
+function emacs-kill-word () {
+    WORDCHARS='' zle kill-word
+}
+
+zle -N emacs-kill-word
 
 function emacs-backward-kill-word () {
     WORDCHARS='' zle backward-kill-word
@@ -104,8 +102,11 @@ zle -N insert-newest-file
 
 bindkey '^[m'     copy-earlier-word
 bindkey '^[.'     insert-last-word
+bindkey '^[d'     emacs-kill-word
 bindkey '^[^?'    emacs-backward-kill-word
+bindkey '^[b'     emacs-backward-word
 bindkey '^[[1;2D' emacs-backward-word
+bindkey '^[f'     emacs-forward-word
 bindkey '^[[1;2C' emacs-forward-word
 bindkey '^ '      expand-alias
 bindkey '^[;'     insert-newest-file
@@ -318,7 +319,6 @@ TRAPWINCH(){
 
 ### Vi Mode per se  ###
 
-# vi insert mode keymap
 bindkey -v
 
 # More widgets
@@ -339,7 +339,7 @@ zle -N fg-bg
 bindkey '^[;'     insert-newest-file
 bindkey '^[.'     insert-last-word
 bindkey '^[m'     copy-earlier-word
-bindkey '^[d'     kill-word
+bindkey '^[d'     emacs-kill-word
 bindkey '^P'      up-history
 bindkey '^N'      down-history
 bindkey '^?'      backward-delete-char
@@ -350,47 +350,33 @@ bindkey '^r'      history-incremental-search-backward
 bindkey '^k'      kill-line
 bindkey '^z'      fg-bg
 bindkey '^[^?'    emacs-backward-kill-word
-bindkey '^[Od'    backward-word
-bindkey '^[Oc'    forward-word
-bindkey '^[f'     forward-word
 bindkey '^a'      beginning-of-line
 bindkey '^d'      delete-char
 bindkey '^e'      end-of-line
+bindkey '^[[D'    backward-char
+bindkey '^[[C'    forward-char
 bindkey '^[OD'    backward-word
-bindkey '^[b'     backward-word
-bindkey '^[OC'    forward-word
 bindkey '^[[1;5D' backward-word
+bindkey '^[OC'    forward-word
 bindkey '^[[1;5C' forward-word
+bindkey '^[b'     emacs-backward-word
 bindkey '^[[1;2D' emacs-backward-word
+bindkey '^[f'     emacs-forward-word
 bindkey '^[[1;2C' emacs-forward-word
 bindkey '^ '      expand-alias
 
 # DELETE, HOME & END keys
 
-## insert mode bindings
+## Insert mode bindings
 bindkey '\e[3~' delete-char
 bindkey '\e[P'  delete-char
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[H'  beginning-of-line
 bindkey '\e[4~' end-of-line
 
-## normal mode bindings
+## Normal mode bindings
 bindkey -a '\e[3~' delete-char
 bindkey -a '\e[P'  delete-char
 bindkey -a '\e[1~' beginning-of-line
 bindkey -a '\e[H'  beginning-of-line
 bindkey -a '\e[4~' end-of-line
-
-###                     ###
-### Syntax highlighting ###
-###                     ###
-
-if [[ $(uname) == Linux ]]
-then
-    source_file /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if [[ $(uname) =~ BSD ]]
-then
-    source_file /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
