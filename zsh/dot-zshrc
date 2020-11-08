@@ -350,14 +350,12 @@ bindkey '^r'      history-incremental-search-backward
 bindkey '^k'      kill-line
 bindkey '^z'      fg-bg
 bindkey '^[^?'    emacs-backward-kill-word
-bindkey '^[Od'    backward-word
-bindkey '^[Oc'    forward-word
 bindkey '^a'      beginning-of-line
 bindkey '^d'      delete-char
 bindkey '^e'      end-of-line
 bindkey '^[OD'    backward-word
-bindkey '^[OC'    forward-word
 bindkey '^[[1;5D' backward-word
+bindkey '^[OC'    forward-word
 bindkey '^[[1;5C' forward-word
 bindkey '^[b'     emacs-backward-word
 bindkey '^[[1;2D' emacs-backward-word
