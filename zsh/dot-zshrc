@@ -353,6 +353,8 @@ bindkey '^[^?'    emacs-backward-kill-word
 bindkey '^a'      beginning-of-line
 bindkey '^d'      delete-char
 bindkey '^e'      end-of-line
+bindkey '^[[D'    backward-char
+bindkey '^[[C'    forward-char
 bindkey '^[OD'    backward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[OC'    forward-word
