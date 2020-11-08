@@ -355,8 +355,10 @@ bindkey '^d'      delete-char
 bindkey '^e'      end-of-line
 bindkey '^[OD'    backward-word
 bindkey '^[[1;5D' backward-word
+bindkey '^[[D'    backward-word
 bindkey '^[OC'    forward-word
 bindkey '^[[1;5C' forward-word
+bindkey '^[[C'    forward-word
 bindkey '^[b'     emacs-backward-word
 bindkey '^[[1;2D' emacs-backward-word
 bindkey '^[f'     emacs-forward-word
