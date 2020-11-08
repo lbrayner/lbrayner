@@ -11,6 +11,12 @@ then
     return
 fi
 
+# GNU ls colors
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+    [[ -f ~/.zshcolors ]] && . ~/.zshcolors
+fi
+
 #
 # Adding to $PATH
 #
