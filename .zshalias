@@ -1,6 +1,8 @@
 # zsh
 
-alias sz='source ~/.zshrc'
+alias szc='. ~/.zshrc'
+alias sza='. ~/.zshalias'
+alias sze='. ~/.zshenv'
 
 # miscellaneous
 alias emacsd='pkill emacs$ ; emacs --daemon'
@@ -9,19 +11,17 @@ alias vlite="vim -R -u NONE"
 alias nvlite="nvim -R -u NONE"
 alias ta='tmux attach-session'
 
-if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
     alias rm='rm -I'
 fi
-
-alias bl='bc -l'
 
 # ls
 
 alias lt="ls -lrth | tail"
 alias lm="ls -lrth"
 
-if [[ $(uname) == Linux ]] || [[ $(uname) =~ CYGWIN ]]
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
     alias ls='ls --color=auto -h'
     alias lt="ls -lrth --color=always | tail"
@@ -29,8 +29,6 @@ fi
 
 # svn
 
-alias sst='\svn status'
-alias sl='\svn log'
 alias svl='\svn log -rHEAD:1 -l1'
 alias svs='\svn status'
 alias smi='\svn propget svn:mergeinfo'
@@ -38,11 +36,6 @@ alias seg='\svn propedit svn:global-ignores .'
 alias sei='\svn propedit svn:ignore .'
 alias sdc='\svn diff -c'
 alias svurl='\svn info --show-item=url'
-
-# other
-
-alias -g today="$(date +'{%Y-%m-%d}')"
-alias putty='TERM=putty-256color'
 
 # youtube-dl
 
@@ -77,11 +70,24 @@ alias rsync='rsync --progress'
 
 alias wget='wget --no-use-server-timestamps -c'
 
-# curl
-alias crange='curl -H Range:bytes=0-'
-alias cresume='curl -C -'
+# grep
+
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+    alias grep='grep --color=auto'
+fi
+
+# ps
+
+if [[ $(uname) == Linux ]]
+then
+    alias ps='ps aux | grep --color=auto'
+fi
 
 # the silver searcher
 alias ag='ag -a'
+
+# local aliases
+[[ -f ~/.zshalias.local ]] && . ~/.zshalias.local
 
 # vim: ft=zsh
