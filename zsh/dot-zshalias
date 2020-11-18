@@ -1,6 +1,8 @@
 # zsh
 
-alias sz='source ~/.zshrc'
+alias szc='. ~/.zshrc'
+alias sza='. ~/.zshalias'
+alias sze='. ~/.zshenv'
 
 # miscellaneous
 alias emacsd='pkill emacs$ ; emacs --daemon'
