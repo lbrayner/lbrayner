@@ -10,6 +10,9 @@ super + ctrl + shift + l
 super + w
     rofi -show window
 
+super + y
+    x11primary2clip
+
 # mpc
 
 super + period
