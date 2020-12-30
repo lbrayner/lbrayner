@@ -5,7 +5,7 @@ super + Print
     snip
 
 super + ctrl + shift + l
-    lock
+    slock
 
 super + w
     rofi -show window
