@@ -20,40 +20,21 @@ PS1='[\u@\h \W]\$ '
 HISTCONTROL=ignoreboth
 
 #
-# Adding to $PATH
-#
-
-insertpath () {
-    case ":$PATH:" in
-        *:"$1":*)
-            ;;
-        *)
-            PATH=${1}:${PATH}
-    esac
-}
-
-# Adding ~/bin to $PATH
-insertpath ~/bin
-
-export PATH
-
-#
 # Variables
 #
 
-if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
-then
-    export EDITOR=/usr/bin/vim
-fi
-
-[[ $(uname) =~ BSD ]] && export EDITOR=/usr/local/bin/vim
+[[ -f ~/.bash_env ]] && . ~/.bash_env
 
 #
 # Aliases
 #
 
-alias lm='ls -lrth'
-alias rsync='rsync --progress'
-alias ta='tmux attach'
+[[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
 
-# vim: ft=sh
+#
+# bashrc.local
+#
+
+[[ -f ~/.bashrc.local ]] && . ~/.bashrc.local
+
+# vim: ft=bash

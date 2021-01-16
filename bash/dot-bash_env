@@ -1,0 +1,44 @@
+# FZF
+export FZF_DEFAULT_OPTS=--bind=ctrl-j:accept,ctrl-k:kill-line,\
+ctrl-p:up,ctrl-n:down,\
+alt-p:previous-history,alt-n:next-history
+
+# less
+export LESS="-R -F -X"
+
+if [[ $(uname) =~ BSD ]]
+then
+    return
+fi
+
+# EDITOR
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+    export EDITOR=/usr/bin/vim
+fi
+
+[[ $(uname) =~ BSD ]] && export EDITOR=/usr/local/bin/vim
+
+#
+# Adding to $PATH
+#
+
+insertpath () {
+    case ":$PATH:" in
+        *:"$1":*)
+            ;;
+        *)
+            PATH=${1}:${PATH}
+    esac
+}
+
+# Adding ~/bin to $PATH
+insertpath ~/bin
+
+export PATH
+
+# Local variables
+
+[[ -f ~/.bash_env.local ]] && . ~/.bash_env.local
+
+# vim: ft=bash
