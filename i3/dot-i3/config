@@ -20,19 +20,22 @@ set $base0F #fcc09e
 set $workspace1 "1 "
 set $workspace2 "2 "
 set $workspace3 "3 "
-set $workspace4 "4 "
+set $workspace4 "4 "
 set $workspace5 "5 "
 set $workspace6 "6 "
-set $workspace9 "9 "
-set $workspace10 "10 "
+set $workspace7 "7 "
+set $workspace9 "9 "
+set $workspace10 "10"
 set $workspace11 "11 "
-set $workspace_f1 "F1"
+set $workspace_f1 "F1 "
 set $workspace_f2 "F2"
 set $workspace_f3 "F3"
+set $workspace_f4 "F4 "
 set $workspace_f5 "F5"
 set $workspace_f6 "F6"
 set $workspace_f7 "F7"
-set $workspace_f9 "F9 "
+set $workspace_f8 "F8"
+set $workspace_f9 "F9"
 set $workspace_f12 "F12"
 
 
@@ -73,7 +76,7 @@ hide_edge_borders both
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec ~/.local/share/wm/bin/terminal
+bindsym $mod+Return exec ~/bin/terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -159,16 +162,18 @@ bindsym $mod+3 workspace $workspace3
 bindsym $mod+4 workspace $workspace4
 bindsym $mod+5 workspace $workspace5
 bindsym $mod+6 workspace $workspace6
-bindsym $mod+7 workspace 7
+bindsym $mod+7 workspace $workspace7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 bindsym $mod+F1 workspace $workspace_f1
 bindsym $mod+F2 workspace $workspace_f2
 bindsym $mod+F3 workspace $workspace_f3
+bindsym $mod+F4 workspace $workspace_f4
 bindsym $mod+F5 workspace $workspace_f5
 bindsym $mod+F6 workspace $workspace_f6
 bindsym $mod+F7 workspace $workspace_f7
+bindsym $mod+F8 workspace $workspace_f8
 bindsym $mod+F9 workspace $workspace_f9
 bindsym $mod+F12 workspace $workspace_f12
 
@@ -182,30 +187,28 @@ bindsym $mod+Shift+3 move container to workspace $workspace3
 bindsym $mod+Shift+4 move container to workspace $workspace4
 bindsym $mod+Shift+5 move container to workspace $workspace5
 bindsym $mod+Shift+6 move container to workspace $workspace6
-bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+7 move container to workspace $workspace7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 bindsym $mod+Shift+F1 move container to workspace $workspace_f1
 bindsym $mod+Shift+F2 move container to workspace $workspace_f2
 bindsym $mod+Shift+F3 move container to workspace $workspace_f3
+bindsym $mod+Shift+F4 move container to workspace $workspace_f4
 bindsym $mod+Shift+F5 move container to workspace $workspace_f5
 bindsym $mod+Shift+F6 move container to workspace $workspace_f6
 bindsym $mod+Shift+F7 move container to workspace $workspace_f7
+bindsym $mod+Shift+F8 move container to workspace $workspace_f8
 bindsym $mod+Shift+F9 move container to workspace $workspace_f9
 bindsym $mod+Shift+F12 move container to workspace $workspace_f12
 
 bindsym $mod+Shift+minus move container to workspace $workspace11
 bindsym $mod+Shift+equal move container to workspace 12
 
-assign [class="brave"] $workspace4
-assign [class="Firefox"] $workspace4
-assign [class="Google-chrome"] $workspace4
-assign [class="Thunderbird"] $workspace5
-assign [class="whatsapp-desktop"] $workspace5
-assign [class="libreoffice"] $workspace11
-assign [class="Eclipse"] $workspace_f6
-assign [class="Emacs"] $workspace_f2
+assign [class="brave"] $workspace9
+assign [class="Firefox"] $workspace9
+assign [class="Google-chrome"] $workspace9
+assign [class="Eclipse"] $workspace6
 
 for_window [class="TeamViewer"] floating disable
 for_window [class="Eclipse"] floating disable
@@ -284,7 +287,7 @@ bindsym control+mod1+Delete mode "$mode_system"
 set $mode_system System: (c) lock, (o) logout
 
 mode "$mode_system" {
-    bindsym c exec --no-startup-id ~/.local/share/wm/scripts/lock, mode "default"
+    bindsym c exec --no-startup-id slock mode "default"
     bindsym o exec --no-startup-id ~/.i3/scripts/logout, mode "default"
 
     # back to normal: Enter or Escape
