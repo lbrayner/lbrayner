@@ -6,11 +6,6 @@ alt-p:previous-history,alt-n:next-history
 # less
 export LESS="-R -F -X"
 
-if [[ $(uname) =~ BSD ]]
-then
-    return
-fi
-
 # GNU ls colors
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
