@@ -4,14 +4,7 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-
-if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
-then
-    alias ls='ls --color=auto'
-fi
-PS1='[\u@\h \W]\$ '
-
-# What follows are my additions
+PS1='\u@\h: \[\e[1;37m\]\w\[\e[0m\]\n\$ '
 
 #
 # Options
