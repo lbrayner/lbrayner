@@ -4,7 +4,7 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-PS1='\u@\h: \[\e[1;37m\]\w\[\e[0m\]\n\$ '
+PS1='\u@\h: \[\e[1;34m\]\w\[\e[0m\]\n\$ '
 
 #
 # Options
