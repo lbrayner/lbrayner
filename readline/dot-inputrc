@@ -1,1 +1,3 @@
-"\e\C-l": alias-expand-line
+Control-SPC: history-and-alias-expand-line
+
+# vim: ft=readline
