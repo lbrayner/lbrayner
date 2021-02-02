@@ -81,7 +81,8 @@ fi
 # the silver searcher
 alias ag='ag -a'
 
-# local aliases
+# Local aliases
+
 [[ -f ~/.bash_aliases.local ]] && . ~/.bash_aliases.local
 
-# vim: ft=bash
+# vim: ft=sh
