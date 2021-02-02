@@ -5,7 +5,7 @@ alias sza='. ~/.zshalias'
 alias sze='. ~/.zshenv'
 
 # miscellaneous
-alias emacsd='pkill emacs$ ; emacs --daemon'
+alias emacsd='pkill "emacs\$" ; emacs --daemon'
 alias vi='HOME=/dummy vi'
 alias vlite="vim -R -u NONE"
 alias nvlite="nvim -R -u NONE"
