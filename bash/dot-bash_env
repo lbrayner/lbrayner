@@ -36,4 +36,4 @@ export PATH
 
 [[ -f ~/.bash_env.local ]] && . ~/.bash_env.local
 
-# vim: ft=sh
+# vim: ft=bash

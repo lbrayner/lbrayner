@@ -30,4 +30,4 @@ HISTCONTROL=ignoreboth
 
 [[ -f ~/.bashrc.local ]] && . ~/.bashrc.local
 
-# vim: ft=sh
+# vim: ft=bash
