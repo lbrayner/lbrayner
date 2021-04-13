@@ -7,7 +7,7 @@ print_usage() {
 }
 
 path=""
-background="-u" # light by default
+background="" # dark by default
 while getopts ":c:dlh" opt
 do
     case ${opt} in
