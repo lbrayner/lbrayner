@@ -76,7 +76,7 @@ fi
 
 if [[ $(uname) == Linux ]]
 then
-    alias ps='\ps aux | grep --color=auto'
+    alias ps='\ps aux | grep'
 fi
 
 # the silver searcher
