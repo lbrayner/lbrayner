@@ -1,3 +1,7 @@
+# bash
+
+alias h='\history | tail -n 20'
+
 # miscellaneous
 alias emacsd='\pkill emacs; emacs --daemon'
 alias vi='HOME=/dummy vi'
