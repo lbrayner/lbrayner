@@ -21,4 +21,9 @@ super + y
 super + period
     mpc toggle
 
+# mpv
+
+super + semicolon
+    echo "cycle pause" | socat - /tmp/mpvsocket
+
 # vim:ft=conf
