@@ -47,15 +47,19 @@ hdd_info(){
 }
 
 internet1(){
-    ping -W 1 -c 1 8.8.8.8 >/dev/null 2>&1 # google's dns
+    ping -W 1 -c 1 1.1.1 >/dev/null 2>&1 # cloudflare
 }
 
 internet2(){
     ping -W 1 -c 1 208.67.222.222 >/dev/null 2>&1 # opendns
 }
 
+internet3(){
+    ping -W 1 -c 1 8.8.8.8 >/dev/null 2>&1 # google
+}
+
 internet(){
-    if ! internet1 && ! internet2
+    if ! internet1 && ! internet2 && ! internet3
     then
         echo "*"
         exit
