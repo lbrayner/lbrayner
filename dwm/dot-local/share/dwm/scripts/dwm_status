@@ -14,9 +14,14 @@ format_cpu_load(){
 cpu_load(){
     idle=$(mpstat 1 1 | sed -n 's/^Average.* \([0-9]\+\.[0-9]\+\)/\1/p')
     load=$(echo "100-${idle}" | bc -l)
-    if [ -n "${load%.*}" ] && [ ${load%.*} -gt 90 ]
+    if [ -n "${load%.*}" ] && [ ${load%.*} -gt 80 ]
     then
         echo "<span color='red'>$(format_cpu_load ${load})</span>"
+        exit
+    fi
+    if [ -n "${load%.*}" ] && [ ${load%.*} -gt 50 ]
+    then
+        echo "<span color='yellow'>$(format_cpu_load ${load})</span>"
         exit
     fi
     format_cpu_load ${load}
@@ -71,7 +76,7 @@ internet3(){
 internet(){
     if ! internet1 && ! internet2 && ! internet3
     then
-        echo "<span color='red'>*</span>"
+        echo "<span color='yellow'>*</span>"
         exit
     fi
     echo "<span color='#89CFF0'>@</span>"
