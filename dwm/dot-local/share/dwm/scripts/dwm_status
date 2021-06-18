@@ -96,12 +96,12 @@ pgrep -f '/bin/sh .*\.local/share/dwm/scripts/dwm_status$' \
 
 pango_format_cpu_load(){
     load=${1}
-    if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -gt 80 ]
+    if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -ge 80 ]
     then
         echo "<span color='red'>${load}</span>"
         exit
     fi
-    if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -gt 50 ]
+    if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -ge 50 ]
     then
         echo "<span color='yellow'>${load}</span>"
         exit
@@ -111,7 +111,7 @@ pango_format_cpu_load(){
 
 pango(){
     [ -n "${internet}" ] && internet="<span color='yellow'>${internet}</span>"
-    [ -z "${internet}" ] && internet="<span color='#89CFF0'>@</span>"
+    [ -z "${internet}" ] && internet="<span color='green'>@</span>"
     pango_cpu_load="$(pango_format_cpu_load "$(printf '%6.2f%%' ${cpu_load})")"
     printf ' %s  [%6s]  %5s  %s  %s ' \
        "${internet}" ${hdd_info} "${memory_info}" "${pango_cpu_load}" "${date_and_time}"
