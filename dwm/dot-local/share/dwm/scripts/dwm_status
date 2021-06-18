@@ -3,7 +3,10 @@
 # set -x
 
 print_usage() {
-	printf "$(basename "${0}") [-h] [-p]\\n"
+	printf "$(basename "${0}") [-h] [-p]\\n
+ -h    Output a usage message and exit
+ -p    Pango formatted output
+"
 }
 
 pango=""
@@ -24,6 +27,12 @@ do
     esac
 done
 shift $((OPTIND - 1))
+
+if [ ${#} -gt 0 ]
+then
+    print_usage >&2
+    exit 1
+fi
 
 date_and_time(){
     date '+%b %e %a %_Hh%M'
