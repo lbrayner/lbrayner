@@ -6,10 +6,20 @@ date_and_time(){
     date '+%b %e %a %_Hh%M'
 }
 
+format_cpu_load(){
+    printf '%6.2f%%\n' ${1}
+}
+
 # From i3blocks
-cpu_usage(){
+cpu_load(){
     idle=$(mpstat 1 1 | sed -n 's/^Average.* \([0-9]\+\.[0-9]\+\)/\1/p')
-    echo "100-${idle}" | bc -l
+    load=$(echo "100-${idle}" | bc -l)
+    if [ -n "${load%.*}" ] && [ ${load%.*} -gt 90 ]
+    then
+        echo "<span color='red'>$(format_cpu_load ${load})</span>"
+        exit
+    fi
+    format_cpu_load ${load}
 }
 
 # From i3blocks
@@ -61,10 +71,10 @@ internet3(){
 internet(){
     if ! internet1 && ! internet2 && ! internet3
     then
-        echo "*"
+        echo "<span color='red'>*</span>"
         exit
     fi
-    echo "@"
+    echo "<span color='#89CFF0'>@</span>"
 }
 
 # Killing all other instances
@@ -87,10 +97,10 @@ do
     ([ -z "${status}" ] || [ $((seconds%10)) -eq 0 ]) && internet="$(internet)"
     ([ -z "${status}" ] || [ $((seconds%20)) -eq 0 ]) && hdd_info=$(hdd_info)
     ([ -z "${status}" ] || [ $((seconds%10)) -eq 0 ]) && memory_info="$(memory_info)"
-    ([ -z "${status}" ] || [ $((seconds%5))  -eq 0 ]) && cpu_usage=$(cpu_usage)
+    ([ -z "${status}" ] || [ $((seconds%5))  -eq 0 ]) && cpu_load="$(cpu_load)"
     ([ -z "${status}" ] || [ $((seconds%60)) -eq 0 ]) && date_and_time="$(date_and_time)"
-    status="$(printf ' %s  [%6s]  %5s  %6.2f%%  %s ' \
-       "${internet}" ${hdd_info} "${memory_info}" ${cpu_usage} "${date_and_time}")"
+    status="$(printf ' %s  [%6s]  %5s  %s  %s ' \
+       "${internet}" ${hdd_info} "${memory_info}" "${cpu_load}" "${date_and_time}")"
     xsetroot -name "${status}"
     sleep 4
 done
