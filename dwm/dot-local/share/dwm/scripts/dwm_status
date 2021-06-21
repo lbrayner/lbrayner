@@ -78,20 +78,13 @@ hdd_info(){
     df -h -P -l / | awk '/^\// {print $4}'
 }
 
-internet1(){
-    ping -W 1 -c 1 1.1.1 >/dev/null 2>&1 # cloudflare
-}
-
-internet2(){
-    ping -W 1 -c 1 208.67.222.222 >/dev/null 2>&1 # opendns
-}
-
-internet3(){
-    ping -W 1 -c 1 8.8.8.8 >/dev/null 2>&1 # google
+up(){
+    ping -W 1 -c 1 ${1} >/dev/null 2>&1
 }
 
 internet(){
-    if ! internet1 && ! internet2 && ! internet3
+    # cloudflare, opendns & google
+    if ! up 1.1.1.1 && ! up 208.67.222.222 && ! up 8.8.8.8
     then
         echo "*"
         exit 1
