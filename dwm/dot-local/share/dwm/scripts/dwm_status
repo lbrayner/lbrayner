@@ -100,7 +100,7 @@ pango_format_cpu_load(){
     load=${1}
     if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -ge 80 ]
     then
-        echo "<span color='red'>${load}</span>"
+        echo "<span color='orange'>${load}</span>"
         exit
     fi
     if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -ge 50 ]
@@ -112,7 +112,7 @@ pango_format_cpu_load(){
 }
 
 pango(){
-    [ -n "${internet}" ] && internet="<span color='yellow'>${internet}</span>"
+    [ -n "${internet}" ] && internet="<span color='orange'>${internet}</span>"
     [ -z "${internet}" ] && internet="<span color='green'>@</span>"
     pango_cpu_load="$(pango_format_cpu_load "$(printf '%6.2f%%' ${cpu_load})")"
     printf ' %s  [%6s]  %5s  %s  %s ' \
