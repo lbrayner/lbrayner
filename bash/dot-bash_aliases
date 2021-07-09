@@ -38,10 +38,11 @@ alias svurl='\svn info --show-item=url'
 
 # youtube-dl
 
-alias yd='\youtube-dl --no-mtime --all-subs --no-playlist -o "%(title)s-%(id)s.%(ext)s" -f137+140'
-alias yf='\youtube-dl --no-playlist -F'
-alias ys='\youtube-dl --no-playlist --skip-download --no-mtime --all-subs'
-alias yn='\youtube-dl --no-playlist --get-filename'
+alias yd="\\youtube-dl --no-mtime --all-subs --no-playlist -o \
+    '%(title)s-%(id)s.%(ext)s' -f137+140"
+alias yf="\\youtube-dl --no-playlist -F"
+alias ys="\\youtube-dl --no-playlist --skip-download --no-mtime --all-subs"
+alias yn="\\youtube-dl --no-playlist --get-filename"
 
 # pandoc
 
