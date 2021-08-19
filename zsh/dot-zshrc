@@ -278,10 +278,10 @@ function preexec (){
 ### RPROMPT ###
 
 __ZSH[INSERT]="-- INSERT --"
-__ZSH[NORMAL]="[NORMAL]"
+__ZSH[COMMAND]="=NORMAL="
 
 function rprompt_cmd (){
-    [[ -n "${TMUX}" ]] && RPROMPT="${__ZSH[NORMAL]}"
+    [[ -n "${TMUX}" ]] && RPROMPT="${__ZSH[COMMAND]}"
 }
 
 function rprompt_insert (){
