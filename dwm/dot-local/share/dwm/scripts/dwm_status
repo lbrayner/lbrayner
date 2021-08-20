@@ -135,7 +135,7 @@ pango(){
 
 regular(){
     [ -z "${internet}" ] && internet="@"
-    printf ' %s  [%6s]  %5s  %6.2f%%  %s  %3s ' \
+    printf ' %s  [%6s]  %5s  %6.2f%%  %3s  %s ' \
        "${internet}" ${hdd_info} "${memory_info}" ${cpu_load} \
        "${music}" "${date_and_time}"
 }
