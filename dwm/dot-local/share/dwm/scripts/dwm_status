@@ -91,10 +91,10 @@ internet(){
     fi
 }
 
-music(){ # TODO error codes ane not used
-    mpc | grep -q playing && echo "[>]" && exit 64
-    mpc | grep -q paused && echo '["]' && exit 65
-    echo "[-]" && exit 66
+music(){
+    mpc | grep -q playing && echo "[>]" && exit
+    mpc | grep -q paused && echo '["]' && exit
+    echo "[-]"
 }
 
 # Killing all other instances
@@ -103,7 +103,7 @@ pgrep -f '/bin/sh .*\.local/share/dwm/scripts/dwm_status$' \
     | grep -v ${pid} | xargs -r kill -9
 
 pango_format_cpu_load(){
-    load=${1}
+    load="$(printf '%6.2f%%' ${cpu_load})"
     if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -ge 80 ]
     then
         echo "<span color='orange'>${load}</span>"
@@ -118,18 +118,15 @@ pango_format_cpu_load(){
 }
 
 pango_format_music(){
-    # [ ${err_music} -eq 64 ] && echo "<span color='green'>${music}</span>" && exit
-    # [ ${err_music} -eq 65 ] && echo "<span color='yellow'>${music}</span>" && exit
-    # [ ${err_music} -eq 66 ] && echo "<span color='red'>${music}</span>"
-    [ ${music} = "[>]" ] && echo "<span color='green'>${music}</span>" && exit
-    [ ${music} = '["]' ] && echo "<span color='orange'>${music}</span>" && exit
-    [ ${music} = "[-]" ] && echo "<span color='red'>${music}</span>"
+    [ ${music} = "[>]" ] && echo "<span color='cyan'>${music}</span>" && exit
+    [ ${music} = '["]' ] && echo "<span color='magenta'>${music}</span>" && exit
+    [ ${music} = "[-]" ] && echo "<span color='orange'>${music}</span>"
 }
 
 pango(){
     [ -n "${internet}" ] && internet="<span color='orange'>${internet}</span>"
     [ -z "${internet}" ] && internet="<span color='green'>@</span>"
-    pango_cpu_load="$(pango_format_cpu_load "$(printf '%6.2f%%' ${cpu_load})")"
+    pango_cpu_load="$(pango_format_cpu_load)"
     pango_music="$(pango_format_music)"
     printf ' %s  [%6s]  %5s  %s  %3s  %s ' \
        "${internet}" ${hdd_info} "${memory_info}" "${pango_cpu_load}" \
@@ -159,7 +156,7 @@ do
     ([ -z "${status}" ] || [ $((seconds%20)) -eq 0 ]) && hdd_info=$(hdd_info)
     ([ -z "${status}" ] || [ $((seconds%10)) -eq 0 ]) && memory_info="$(memory_info)"
     ([ -z "${status}" ] || [ $((seconds%5))  -eq 0 ]) && cpu_load=$(cpu_load)
-    ([ -z "${status}" ] || [ $((seconds%5))  -eq 0 ]) && music="$(music)" # ; err_music=$?
+    ([ -z "${status}" ] || [ $((seconds%5))  -eq 0 ]) && music="$(music)"
     ([ -z "${status}" ] || [ $((seconds%60)) -eq 0 ]) && date_and_time="$(date_and_time)"
 
     [ -n "${pango}" ] && status="$(pango)" || status="$(regular)"
