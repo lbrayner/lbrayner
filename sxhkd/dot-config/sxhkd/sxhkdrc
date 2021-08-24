@@ -19,7 +19,7 @@ super + y
 # mpc
 
 super + period
-    mpc toggle
+    mpc toggle; pkill -64 dwm_status
 
 # mpv
 

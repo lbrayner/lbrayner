@@ -97,11 +97,6 @@ music(){
     echo "[-]"
 }
 
-# Killing all other instances
-pid=${$}
-pgrep -f '/bin/sh .*\.local/share/dwm/scripts/dwm_status$' \
-    | grep -v ${pid} | xargs -r kill -9
-
 pango_format_cpu_load(){
     load="$(printf '%6.2f%%' ${cpu_load})"
     if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -ge 80 ]
@@ -140,6 +135,29 @@ regular(){
        "${music}" "${date_and_time}"
 }
 
+set_status(){
+    [ -n "${pango}" ] && status="$(pango)" || status="$(regular)"
+    xsetroot -name "${status}"
+}
+
+
+# Traps
+
+set_music(){
+    music="$(music)"
+    set_status
+}
+
+trap set_music RTMAX
+
+# Killing all other instances
+
+pid=${$}
+pgrep -f '/bin/sh .*\.local/share/dwm/scripts/dwm_status$' \
+    | grep -v ${pid} | xargs -r kill -9
+
+# Main loop
+
 status=""
 
 while true
@@ -159,8 +177,6 @@ do
     ([ -z "${status}" ] || [ $((seconds%5))  -eq 0 ]) && music="$(music)"
     ([ -z "${status}" ] || [ $((seconds%60)) -eq 0 ]) && date_and_time="$(date_and_time)"
 
-    [ -n "${pango}" ] && status="$(pango)" || status="$(regular)"
-
-    xsetroot -name "${status}"
-    sleep 4
+    set_status
+    sleep 4 # Least common multiple
 done
