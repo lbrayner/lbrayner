@@ -101,7 +101,7 @@ pango_format_cpu_load(){
     load="$(printf '%6.2f%%' ${cpu_load})"
     if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -ge 80 ]
     then
-        echo "<span color='orange'>${load}</span>"
+        echo "<span color='OrangeRed'>${load}</span>"
         exit
     fi
     if [ -n "${cpu_load%.*}" ] && [ ${cpu_load%.*} -ge 50 ]
@@ -115,11 +115,11 @@ pango_format_cpu_load(){
 pango_format_music(){
     [ ${music} = "[>]" ] && echo "<span color='cyan'>${music}</span>" && exit
     [ ${music} = '["]' ] && echo "<span color='magenta'>${music}</span>" && exit
-    [ ${music} = "[-]" ] && echo "<span color='orange'>${music}</span>"
+    [ ${music} = "[-]" ] && echo "<span color='gray'>${music}</span>"
 }
 
 pango(){
-    [ -n "${internet}" ] && internet="<span color='orange'>${internet}</span>"
+    [ -n "${internet}" ] && internet="<span color='OrangeRed'>${internet}</span>"
     [ -z "${internet}" ] && internet="<span color='green'>@</span>"
     pango_cpu_load="$(pango_format_cpu_load)"
     pango_music="$(pango_format_music)"
@@ -139,7 +139,6 @@ set_status(){
     [ -n "${pango}" ] && status="$(pango)" || status="$(regular)"
     xsetroot -name "${status}"
 }
-
 
 # Traps
 
