@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# From i3blocks
+memory_info(){
+    awk '
+    /^MemFree:/ {
+        mem_free=$2
+    }
+    /^Buffers:/ {
+        mem_free+=$2
+    }
+    /^Cached:/ {
+        mem_free+=$2
+    }
+    END {
+    printf("%4.1fG\n", mem_free/1024/1024)
+    }
+    ' /proc/meminfo
+}
+
+memory_info="$(memory_info)"
+
+printf ' %5s ' "${memory_info}"
