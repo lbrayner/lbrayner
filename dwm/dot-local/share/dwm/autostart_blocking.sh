@@ -4,7 +4,7 @@
 hsetroot -cover ~/.local/share/wallpaper/current
 
 # Dwm status
-~/.local/share/dwm/scripts/dwm_status -p &
+dwmblocks &
 
 # Autolock display if not using a virtual frame buffer
 pgrep -f "Xvfb.*${DISPLAY}\b" || xautolock -time 10 -locker slock &
