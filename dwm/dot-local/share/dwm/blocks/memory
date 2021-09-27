@@ -20,4 +20,4 @@ memory_info(){
 
 memory_info="$(memory_info)"
 
-printf ' %5s ' "${memory_info}"
+printf " %5s \\n" "${memory_info}"
