@@ -1,5 +1,5 @@
 #!/bin/sh
 
-mpc | grep -q playing && echo "<span color='cyan'>[>]</span>" && exit
-mpc | grep -q paused && echo '<span color="magenta">["]</span>'  && exit
-echo "<span color='gray'>[-]</span>"
+mpc | grep -q playing && echo " <span color='cyan'>[>]</span> " && exit
+mpc | grep -q paused && echo ' <span color="magenta">["]</span> '  && exit
+echo " <span color='gray'>[-]</span> "
