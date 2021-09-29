@@ -16,10 +16,12 @@ super + r
 super + y
     x11primary2clip
 
-# mpc
+# mpc, mpv
 
 super + period
-    mpc toggle; pkill -64 dwm_status; pkill -45 dwmblocks
+    mpc toggle; \
+    pkill -45 dwmblocks; \
+    echo '\{ "command": ["set_property", "pause", true] \}' | socat - /tmp/mpvsocket
 
 # mpv
 
