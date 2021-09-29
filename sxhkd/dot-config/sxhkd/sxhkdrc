@@ -23,9 +23,9 @@ super + period
     pkill -45 dwmblocks; \
     echo '\{ "command": ["set_property", "pause", true] \}' | socat - /tmp/mpvsocket
 
-# mpv
-
 super + semicolon
+    mpc pause; \
+    pkill -45 dwmblocks; \
     echo "cycle pause" | socat - /tmp/mpvsocket
 
 # vim:ft=conf
