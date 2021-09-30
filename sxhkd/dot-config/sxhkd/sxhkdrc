@@ -18,6 +18,11 @@ super + y
 
 # mpc, mpv
 
+super + comma
+    mpc pause; \
+    pkill -45 dwmblocks; \
+    echo '\{ "command": ["set_property", "pause", true] \}' | socat - /tmp/mpvsocket
+
 super + period
     mpc toggle; \
     pkill -45 dwmblocks; \
