@@ -5,6 +5,9 @@ super + Print
     snip
 
 super + ctrl + shift + l
+    mpc pause; \
+    pkill -45 dwmblocks; \
+    echo '\{ "command": ["set_property", "pause", true] \}' | socat - /tmp/mpvsocket; \
     slock
 
 super + w
