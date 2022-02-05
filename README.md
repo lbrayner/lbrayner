@@ -10,9 +10,20 @@
 # Shells
 
 - [Zsh](zsh)
+- [Bash](bash)
+
+# Window managers
+
+- [Dwm](dwm)
+- [i3](i3)
 
 # Config files
 
 - Neovim: [lbrayner/dotvim](https://github.com/lbrayner/dotvim)
 - Emacs: [lbrayner/dotemacs](https://github.com/lbrayner/dotemacs)
-- Neomutt [lbrayner/config_neomutt](https://github.com/lbrayner/config_neomutt)
+- Neomutt: [lbrayner/config_neomutt](https://github.com/lbrayner/config_neomutt)
+
+# Other
+
+- Easy dbext bundle, A SQL Vim-based client for everyone:
+  [lbrayner/easy_dbext_bundle.vim](https://github.com/lbrayner/easy_dbext_bundle.vim)
