@@ -9,10 +9,10 @@
 
 # Shells
 
-- zsh: <zsh>
+- [Zsh](zsh)
 
 # Config files
 
-- Neovim: (lbrayner/dotvim)[https://github.com/lbrayner/dotvim]
-- Emacs: (lbrayner/dotemacs)[https://github.com/lbrayner/dotemacs]
-- Neomutt (lbrayner/config_neomutt)[https://github.com/lbrayner/config_neomutt]
+- Neovim: [lbrayner/dotvim](https://github.com/lbrayner/dotvim)
+- Emacs: [lbrayner/dotemacs](https://github.com/lbrayner/dotemacs)
+- Neomutt [lbrayner/config_neomutt](https://github.com/lbrayner/config_neomutt)
