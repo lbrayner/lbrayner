@@ -7,21 +7,24 @@
                    |___/
 ~~~
 
-# Shells
-
-- [Zsh](zsh)
-- [Bash](bash)
-
-# Window managers
-
-- [Dwm](dwm)
-- [i3](i3)
-
 # Config files
 
 - Neovim: [lbrayner/dotvim](https://github.com/lbrayner/dotvim)
 - Emacs: [lbrayner/dotemacs](https://github.com/lbrayner/dotemacs)
 - Neomutt: [lbrayner/config_neomutt](https://github.com/lbrayner/config_neomutt)
+
+# Shells
+
+- [Zsh](zsh)
+- [Bash](bash)
+
+# Suckless
+
+- [Dwm](https://github.com/lbrayner/dwm/tree/lbrayner)
+  - Config files: [dwm](dwm)
+  - Config files: [wm](wm)
+- [dwmblocks](https://github.com/lbrayner/dwmblocks/tree/lbrayner)
+- [st](https://github.com/lbrayner/st/tree/0.8.4)
 
 # Other
 
