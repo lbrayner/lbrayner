@@ -15,16 +15,22 @@
 
 # Shells
 
+Config files organized as [GNU Stow](https://www.gnu.org/software/stow/)
+packages:
+
 - [Zsh](zsh)
 - [Bash](bash)
 
 # Suckless
 
-- [Dwm](https://github.com/lbrayner/dwm/tree/lbrayner)
-  - Config files: [dwm](dwm)
-  - Config files: [wm](wm)
-- [dwmblocks](https://github.com/lbrayner/dwmblocks/tree/lbrayner)
-- [st](https://github.com/lbrayner/st/tree/0.8.4)
+[My fork](https://github.com/lbrayner/dwm/tree/lbrayner) of
+[dwm](https://dwm.suckless.org/), the Dynamic Window Manager.
+
+[My fork](https://github.com/lbrayner/dwmblocks/tree/lbrayner) of dwmblocks, a
+"Modular status bar for dwm written in c."
+
+[My fork](https://github.com/lbrayner/st/tree/0.8.4) of
+[st](https://st.suckless.org/), the Suckless terminal.
 
 # Other
 
