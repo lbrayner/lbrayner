@@ -33,7 +33,7 @@ Suckless software is built with "a focus on simplicity, clarity and frugality".
 [My fork](https://github.com/lbrayner/dwmblocks/tree/lbrayner) of dwmblocks, a
 "Modular status bar for dwm written in c."
 
-[My fork](https://github.com/lbrayner/st/tree/0.8.4) of
+[My fork](https://github.com/lbrayner/st/tree/lbrayner) of
 [st](https://st.suckless.org/), the Suckless terminal.
 
 # Other repositories
