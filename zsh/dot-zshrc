@@ -382,3 +382,8 @@ bindkey -a '\e[P'  delete-char
 bindkey -a '\e[1~' beginning-of-line
 bindkey -a '\e[H'  beginning-of-line
 bindkey -a '\e[4~' end-of-line
+
+# zshrc.local
+# Local configuration and overrides
+
+source_file ~/.zshrc.local

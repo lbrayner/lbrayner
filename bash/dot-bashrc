@@ -26,6 +26,7 @@ HISTCONTROL=ignoreboth
 
 #
 # bashrc.local
+# Local configuration and overrides
 #
 
 [[ -f ~/.bashrc.local ]] && . ~/.bashrc.local
