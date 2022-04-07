@@ -1,6 +1,6 @@
 # zsh
 
-alias h='history'
+alias h='history 0 | tail'
 alias szc='. ~/.zshrc'
 alias sza='. ~/.zshalias'
 alias sze='. ~/.zshenv'
