@@ -1,9 +1,6 @@
 # zsh
 
 alias h='history 0 | tail'
-alias szc='. ~/.zshrc'
-alias sza='. ~/.zshalias'
-alias sze='. ~/.zshenv'
 
 # miscellaneous
 alias emacsd='pkill emacs; emacs --daemon'
