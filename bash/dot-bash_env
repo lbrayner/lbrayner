@@ -1,7 +1,11 @@
 # FZF
+
+! [[ -d ~/.cache ]] && mkdir ~/.cache
+
 export FZF_DEFAULT_OPTS=--bind=ctrl-j:accept,ctrl-k:kill-line,\
 ctrl-p:up,ctrl-n:down,\
-alt-p:previous-history,alt-n:next-history
+alt-p:previous-history,alt-n:next-history\ \
+--history=${HOME}/.cache/fzf_history
 
 # less
 export LESS="-R -F -X"
