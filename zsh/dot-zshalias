@@ -54,11 +54,12 @@ alias ys="youtube-dl --no-playlist --skip-download --no-mtime --write-subs --sub
 # # markdown
 
 alias md2lspdf="pandoc --pdf-engine=wkhtmltopdf --pdf-engine-opt=-O \
-    --pdf-engine-opt=Landscape -s --quiet -f markdown -t html5 -o"
-alias md2pdf="pandoc --pdf-engine=wkhtmltopdf -s --quiet -f markdown -t html5 -o"
-alias md2html="pandoc -s --quiet -f markdown -t html5 -o"
+    --pdf-engine-opt=Landscape --standalone --strip-comments --quiet -f markdown -t html5 -o"
+alias md2pdf="pandoc --pdf-engine=wkhtmltopdf --standalone --strip-comments \
+    --quiet -f markdown -t html5 -o"
+alias md2html="pandoc --standalone --strip-comments --quiet -f markdown -t html5 -o"
 
-# # html
+# wkhtmltopdf
 
 alias html2lspdf="wkhtmltopdf -O Landscape"
 
