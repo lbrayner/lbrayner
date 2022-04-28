@@ -79,7 +79,7 @@ alias wget='\wget --no-use-server-timestamps -c'
 
 # netstat
 
-alias netstat="netstat -p -n -l"
+alias netstat='\netstat -p -n -l'
 
 # grep
 
