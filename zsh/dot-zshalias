@@ -16,8 +16,8 @@ fi
 
 # ls
 
-alias lt="ls -lrth | tail"
-alias lm="ls -lrth"
+alias lt="ls -lhtr | tail"
+alias lm="ls -lhtr"
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
