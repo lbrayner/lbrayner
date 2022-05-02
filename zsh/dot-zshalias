@@ -75,6 +75,10 @@ alias rsync='rsync --progress'
 
 alias wget='wget --no-use-server-timestamps -c'
 
+# netstat
+
+alias netstat="netstat -p -n -l"
+
 # grep
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
