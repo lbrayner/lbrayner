@@ -1,0 +1,21 @@
+[credential]
+    # Debian, Ubuntu
+	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+[alias]
+	s = status --ignore-submodules
+	lns = log --name-status
+	d = difftool
+[user]
+	name = lbrayner
+	email = lbrayner@users.noreply.github.com
+[log]
+	abbrevCommit = true
+[diff]
+	tool = nomod_tmpfiles_vim
+	ignoreSubmodules = dirty
+[difftool "nomod_tmpfiles_vim"]
+	cmd = nomod_tmpfiles_vim -d $LOCAL $REMOTE
+[difftool]
+	prompt = false
+
+# vim: ft=gitconfig
