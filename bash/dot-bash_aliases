@@ -41,13 +41,13 @@ alias svurl='\svn info --show-item=url'
 alias youtube-dl="\\yt-dlp"
 
 alias yc="youtube-dl --no-check-certificate --no-mtime \
-    --write-subs --sub-langs en --no-playlist -o \
+    --write-subs --sub-langs en,en-US --no-playlist -o \
     '%(title)s-%(id)s.%(ext)s' -f137+140"
-alias yd="youtube-dl --no-mtime --write-subs --sub-langs en --no-playlist -o \
+alias yd="youtube-dl --no-mtime --write-subs --sub-langs en,en-US --no-playlist -o \
     '%(title)s-%(id)s.%(ext)s' -f137+140"
 alias yf="youtube-dl --no-playlist -F"
 alias yn="youtube-dl --no-playlist --get-filename"
-alias ys="youtube-dl --no-playlist --skip-download --no-mtime --write-subs --sub-langs en -o \
+alias ys="youtube-dl --no-playlist --skip-download --no-mtime --write-subs --sub-langs en,en-US -o \
     '%(title)s-%(id)s.%(ext)s'"
 
 # pandoc
