@@ -1,6 +1,9 @@
 # zsh
 
-alias h='history 0 | tail'
+# man zshbuiltins (fc -l)
+# If first is not specified, it will be set to -1 (the most recent event), or
+# to -16 if the -l flag is given.
+alias h="history -20"
 
 # miscellaneous
 alias emacsd='pkill emacs; emacs --daemon'
