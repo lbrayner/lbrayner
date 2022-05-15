@@ -1,7 +1,5 @@
-if ! hash gpg-agent
-then
-    return
-fi
+hash gpg-agent || return
+[[ -n ${ZSH_START_GPG_AGENT} ]] || return
 
 if ! pgrep -U $(id -u) gpg-agent >/dev/null 2>&1
 then
