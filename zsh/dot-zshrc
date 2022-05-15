@@ -162,8 +162,11 @@ function maybe_show_vcs_info () {
     # Check first word; via:
     # http://tim.vanwerkhoven.org/post/2012/10/28/ZSH/Bash-string-manipulation
 
-    case "$last[(w)1]" in
-      cd|cp|git|svn|rm|touch|mv)
+    local word="${last[(w)1]}"
+    [[ ${word[1]} == '\' ]] && word="${word:1}"
+
+    case "${word}" in
+      cd|cp|git|ls|mv|rm|svn|touch)
           vcs_info
           ;;
       *)
