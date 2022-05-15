@@ -271,12 +271,7 @@ function steady_block (){
 }
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
-# function precmd (){
-#     RPROMPT=
-# }
-
 function preexec (){
-    # RPROMPT=
     steady_block
 }
 
