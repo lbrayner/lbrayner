@@ -271,7 +271,12 @@ function steady_block (){
 }
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
+# function precmd (){
+#     RPROMPT=
+# }
+
 function preexec (){
+    # RPROMPT=
     steady_block
 }
 
@@ -290,6 +295,7 @@ function rprompt_insert (){
 
 rprompt_insert
 
+# https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
 function zle-line-init zle-keymap-select () {
     if [[ $KEYMAP = vicmd ]]
     then
@@ -307,6 +313,14 @@ function zle-line-init zle-keymap-select () {
 
 zle -N zle-line-init
 zle -N zle-keymap-select
+
+function zle-line-finish () {
+    [[ -z "${TMUX}" ]] && return
+    RPROMPT=
+    zle reset-prompt
+}
+
+zle -N zle-line-finish
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html
 # 9.3.2 Trap Functions
