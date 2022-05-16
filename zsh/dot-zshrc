@@ -295,7 +295,7 @@ rprompt_insert
 
 # https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
 function zle-line-init zle-keymap-select () {
-    if [[ $KEYMAP = vicmd ]]
+    if [[ ${KEYMAP} = vicmd ]]
     then
         # vi command mode
         steady_block
@@ -327,6 +327,13 @@ zle -N zle-line-finish
 TRAPWINCH(){
     # So that the cursor doesn't revert to a block
     zle && zle zle-keymap-select
+}
+
+# How can I keybind Ctrl-C to vi-kill-line only when in viins mode?
+# https://stackoverflow.com/a/65226004
+TRAPINT(){
+    [[ ${KEYMAP} = vicmd ]] && zle kill-whole-line && zle vi-insert && return
+    [[ ${KEYMAP} = main  ]] && zle kill-whole-line && zle reset-prompt
 }
 
 ### Vi Mode per se  ###
