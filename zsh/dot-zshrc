@@ -291,8 +291,6 @@ function rprompt_insert (){
     [[ -n "${TMUX}" ]] && RPROMPT="${__ZSH[INSERT]}"
 }
 
-rprompt_insert
-
 # https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
 function zle-line-init zle-keymap-select () {
     if [[ ${KEYMAP} = vicmd ]]
@@ -332,13 +330,13 @@ TRAPWINCH(){
 # How can I keybind Ctrl-C to vi-kill-line only when in viins mode?
 # https://stackoverflow.com/a/65226004
 TRAPINT(){
-    [[ ${KEYMAP} = vicmd ]] && zle kill-whole-line && zle vi-insert && return
-    [[ ${KEYMAP} = main  ]] && zle kill-whole-line && zle reset-prompt
+    zle && zle kill-whole-line && zle reset-prompt
 }
 
 ### Vi Mode per se  ###
 
 bindkey -v
+rprompt_insert
 
 # More widgets
 
