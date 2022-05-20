@@ -23,7 +23,7 @@ setopt extended_glob
 # Sourcing files
 
 function source_file(){
-    [[ -f ${1} ]] && . ${1}
+    [[ -f "${1}" ]] && . "${1}"
 }
 
 # setting aliases
@@ -64,31 +64,31 @@ zle -N copy-earlier-word
 autoload -Uz smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
 
-function emacs-kill-word () {
+function emacs-kill-word(){
     WORDCHARS='' zle kill-word
 }
 
 zle -N emacs-kill-word
 
-function emacs-backward-kill-word () {
+function emacs-backward-kill-word(){
     WORDCHARS='' zle backward-kill-word
 }
 
 zle -N emacs-backward-kill-word
 
-function emacs-backward-word () {
+function emacs-backward-word(){
     WORDCHARS='' zle backward-word
 }
 
 zle -N emacs-backward-word
 
-function emacs-forward-word () {
+function emacs-forward-word(){
     WORDCHARS='' zle forward-word
 }
 
 zle -N emacs-forward-word
 
-function expand-alias() {
+function expand-alias(){
     zle _expand_alias
     zle expand-word
 }
@@ -143,7 +143,7 @@ typeset -A __ZSH
 
 # https://github.com/wincent/wincent
 # Remember each command we run.
-function record-last-command () {
+function record-last-command(){
     __ZSH[LAST_COMMAND]="${2}"
 }
 
@@ -152,7 +152,7 @@ add-zsh-hook preexec record-last-command
 
 # https://github.com/wincent/wincent
 # Update vcs_info (slow) after any command that probably changed it.
-function maybe_show_vcs_info () {
+function maybe_show_vcs_info(){
     local last="${__ZSH[LAST_COMMAND]}"
 
     # In case user just hit enter, overwrite LAST_COMMAND, because preexec
@@ -217,7 +217,7 @@ __ZSH[LLCORNER]=${__ZSH[SET_CHARSET]}${__ZSH[SHIFT_IN]}${ALTCHAR[m]:--}${__ZSH[S
 
 __ZSH[PROMPT_INFO_NO_CWD]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}'
 
-function set_prompt() {
+function set_prompt(){
     maybe_show_vcs_info
 
     local cwdes='%~'
@@ -261,20 +261,20 @@ $'\n${__ZSH[LLCORNER]}$ '
 
 # https://vi.stackexchange.com/a/14203
 # tmux: DCS sequence
-function steady_ibeam (){
+function steady_ibeam(){
     # Do nothing on TMUX
     [[ -n "${TMUX}" ]] && return
     print -Pn "\e[6 q"
 }
 
-function steady_block (){
+function steady_block(){
     # Do nothing on TMUX
     [[ -n "${TMUX}" ]] && return
     print -Pn "\e[2 q"
 }
 
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
-function preexec (){
+function preexec(){
     steady_block
 }
 
@@ -283,16 +283,16 @@ function preexec (){
 __ZSH[INSERT]="-- INSERT --"
 __ZSH[COMMAND]="=NORMAL="
 
-function rprompt_cmd (){
+function rprompt_cmd(){
     [[ -n "${TMUX}" ]] && RPROMPT="${__ZSH[COMMAND]}"
 }
 
-function rprompt_insert (){
+function rprompt_insert(){
     [[ -n "${TMUX}" ]] && RPROMPT="${__ZSH[INSERT]}"
 }
 
 # https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
-function zle-line-init zle-keymap-select () {
+function zle-line-init zle-keymap-select(){
     if [[ ${KEYMAP} = vicmd ]]
     then
         # vi command mode
@@ -310,7 +310,7 @@ function zle-line-init zle-keymap-select () {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-function zle-line-finish () {
+function zle-line-finish(){
     [[ -z "${TMUX}" ]] && return
     RPROMPT=
     zle reset-prompt
@@ -342,7 +342,7 @@ rprompt_insert
 
 # https://github.com/wincent/wincent
 # Make CTRL-Z background things and unbackground them.
-function fg-bg() {
+function fg-bg(){
     if [[ $#BUFFER -eq 0 ]]; then
         fg
     else
