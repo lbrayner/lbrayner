@@ -166,7 +166,7 @@ function maybe_show_vcs_info(){
     [[ ${word[1]} == '\' ]] && word="${word:1}"
 
     case "${word}" in
-      cd|cp|git|ls|mv|rm|svn|touch)
+      cd|cp|git|ls|mkdir|mv|rm|svn|touch)
           vcs_info
           ;;
       *)
@@ -392,6 +392,7 @@ bindkey '\e[P'  delete-char
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[H'  beginning-of-line
 bindkey '\e[4~' end-of-line
+bindkey '\e[F'  end-of-line
 
 ## Normal mode bindings
 bindkey -a '\e[3~' delete-char
