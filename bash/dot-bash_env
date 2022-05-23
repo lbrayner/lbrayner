@@ -7,9 +7,6 @@ ctrl-p:up,ctrl-n:down,\
 alt-p:previous-history,alt-n:next-history\ \
 --history=${HOME}/.cache/fzf_history
 
-# less
-export LESS="-R -F -X"
-
 # EDITOR
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
