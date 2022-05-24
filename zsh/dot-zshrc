@@ -357,8 +357,8 @@ bindkey '^[;'     insert-newest-file
 bindkey '^[.'     insert-last-word
 bindkey '^[m'     copy-earlier-word
 bindkey '^[d'     emacs-kill-word
-bindkey '^P'      up-history
-bindkey '^N'      down-history
+bindkey '^P'      history-beginning-search-backward
+bindkey '^N'      history-beginning-search-forward
 bindkey '^?'      backward-delete-char
 bindkey '^h'      backward-delete-char
 bindkey '^w'      backward-kill-word
