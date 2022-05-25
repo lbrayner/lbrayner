@@ -98,10 +98,6 @@ fi
 # the silver searcher
 alias ag='\ag -a'
 
-# vidir
-
-alias vidir='VIMCALLER=vidir \vidir'
-
 # Local aliases
 
 [[ -f ~/.bash_aliases.local ]] && . ~/.bash_aliases.local
