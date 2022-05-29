@@ -4,12 +4,14 @@
 [alias]
 	s = status --ignore-submodules
 	lns = log --name-status
+	l = log
 	d = difftool
 [user]
 	name = lbrayner
 	email = lbrayner@users.noreply.github.com
 [log]
 	abbrevCommit = true
+	date = local
 [diff]
 	tool = nomod_tmpfiles_vim
 	ignoreSubmodules = dirty
@@ -17,5 +19,7 @@
 	cmd = nomod_tmpfiles_vim -d $LOCAL $REMOTE
 [difftool]
 	prompt = false
+[merge]
+  conflictstyle = diff3
 
 # vim: ft=gitconfig
