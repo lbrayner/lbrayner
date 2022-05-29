@@ -1,6 +1,8 @@
 #!/bin/sh
 
-pid=${$}
-pgrep sxhkd | grep -v ${pid} | xargs -r kill -9
+set -x
 
-sxhkd >/dev/null 2>&1 &
+pid=${$}
+pgrep sxhkd | grep -v ${pid} | xargs kill -SIGUSR1 >/dev/null 2>&1
+
+[ $? -ne 0 ] && nohup sxhkd >/dev/null 2>&1 &
