@@ -329,8 +329,9 @@ TRAPWINCH(){
 
 # How can I keybind Ctrl-C to vi-kill-line only when in viins mode?
 # https://stackoverflow.com/a/65226004
+# https://unix.stackexchange.com/a/311671
 TRAPINT(){
-    zle && zle kill-whole-line && zle reset-prompt
+    zle && zle kill-buffer && zle -R
 }
 
 ### Vi Mode per se  ###
