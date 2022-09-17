@@ -4,6 +4,7 @@
 
 export FZF_DEFAULT_OPTS=--bind=ctrl-j:accept,ctrl-k:kill-line,\
 ctrl-p:up,ctrl-n:down,\
+ctrl-u:half-page-up,ctrl-d:half-page-down,\
 alt-,:first,alt-.:last,\
 alt-p:previous-history,alt-n:next-history\ \
 --history=${HOME}/.cache/fzf_history
