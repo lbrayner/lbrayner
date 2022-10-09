@@ -39,4 +39,4 @@ Suckless software is built with "a focus on simplicity, clarity and frugality".
 # Other repositories
 
 - Easy dbext bundle, A SQL Vim-based client for everyone:
-  [lbrayner/easy_dbext_bundle.vim](https://github.com/lbrayner/easy_dbext_bundle.vim)
+  [lbrayner/easy_db.vim](https://github.com/lbrayner/easy_db.vim)
