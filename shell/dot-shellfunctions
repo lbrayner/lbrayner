@@ -1,0 +1,5 @@
+function set-title(){
+    echo "\[\e]2;$*\a\]"
+}
+
+# vim: ft=sh
