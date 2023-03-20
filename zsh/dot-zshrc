@@ -29,6 +29,10 @@ function source_file(){
 # setting aliases
 source_file ~/.zshalias
 
+# shell functions
+
+source_file ~/.shellfunctions
+
 ### Syntax highlighting ###
 
 if [[ $(uname) == Linux ]]
