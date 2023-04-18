@@ -186,7 +186,7 @@ __ZSH[PROMPT_INFO]='%n@%M%(1j. (%j).): ${vcs_info_msg_0_}%B${__ZSH[CWD]}%b'
 
 # Simpler mode for basic ttys
 # or if SSH but not TMUX
-if [[ "${TERM#*256}" == "${TERM}" ]] || ([[ -n "${SSH_TTY}" ]] && [[ -z "${TMUX}" ]])
+if [[ "${TERM}" != foot ]] && [[ "${TERM#*256}" == "${TERM}" ]] || ([[ -n "${SSH_TTY}" ]] && [[ -z "${TMUX}" ]])
 then
     add-zsh-hook precmd maybe_show_vcs_info
     __ZSH[CWD]="%1d"
