@@ -24,7 +24,7 @@ alias lm="ls -lhtr"
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
-    alias ls='ls --color=auto -h'
+    alias ls="ls --color=auto -lh"
     alias lt="ls -lrth --color=always | tail"
 fi
 
