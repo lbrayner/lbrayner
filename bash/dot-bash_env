@@ -1,5 +1,9 @@
 # FZF
 
+# Ignore files specified by .gitignore
+# https://github.com/junegunn/fzf.vim/issues/121#issuecomment-209534405
+# export FZF_DEFAULT_COMMAND="rg --files"
+
 ! [[ -d ~/.cache ]] && mkdir ~/.cache
 
 export FZF_DEFAULT_OPTS=--bind=ctrl-j:accept,ctrl-k:kill-line,\
