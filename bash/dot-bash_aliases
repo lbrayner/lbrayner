@@ -59,6 +59,11 @@ alias html2lspdf='\wkhtmltopdf -O Landscape'
 alias here='\find . -mindepth 1 -maxdepth 1 ! -path \*/.\* -type f'
 alias nothidden='\find . ! -path \*/.\* -type f'
 
+# du
+
+# List largest files first
+alias largest='\du -Sah --exclude=\*/.\*'
+
 # rsync
 
 alias rsync='\rsync --progress'
