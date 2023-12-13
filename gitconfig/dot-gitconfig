@@ -1,5 +1,6 @@
+# vim: ft=gitconfig noexpandtab
 [credential]
-    # Debian, Ubuntu
+	# Debian, Ubuntu
 	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 [alias]
 	s = status --ignore-submodules
@@ -8,7 +9,7 @@
 	d = difftool
 [user]
 	name = lbrayner
-	email = lbrayner@users.noreply.github.com
+	email = brayner.l@gmail.com
 [log]
 	abbrevCommit = true
 	date = local
@@ -20,6 +21,4 @@
 [difftool]
 	prompt = false
 [merge]
-  conflictstyle = diff3
-
-# vim: ft=gitconfig
+	conflictstyle = diff3
