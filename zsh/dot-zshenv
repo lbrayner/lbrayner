@@ -12,6 +12,7 @@ alt-v:half-page-up,ctrl-v:half-page-down,\
 alt-,:first,alt-.:last,\
 alt-p:previous-history,alt-n:next-history\ \
 --layout=reverse\ \
+--scroll-off=10\ \
 --history=${HOME}/.cache/fzf_history
 
 # GNU ls colors
