@@ -1,8 +1,6 @@
+#
 # FZF
-
-# Ignore files specified by .gitignore
-# https://github.com/junegunn/fzf.vim/issues/121#issuecomment-209534405
-# export FZF_DEFAULT_COMMAND="rg --files"
+#
 
 ! [[ -d ~/.cache ]] && mkdir ~/.cache
 
@@ -15,7 +13,23 @@ alt-p:previous-history,alt-n:next-history\ \
 --scroll-off=10\ \
 --history=${HOME}/.cache/fzf_history
 
+#
+# Editor
+#
+
+if [[ $(uname) =~ CYGWIN ]]
+then
+    export EDITOR=/usr/bin/vim
+fi
+
+[[ $(uname) =~ BSD ]] && export EDITOR=/usr/local/bin/nvim
+
+# On Linux, use ~/.zshenv.local
+
+#
 # GNU ls colors
+#
+
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
     [[ -f ~/.zshcolors ]] && . ~/.zshcolors
@@ -39,7 +53,10 @@ insertpath ~/bin
 
 export PATH
 
-# local environment configuration
+#
+# Local environment configuration
+#
+
 [[ -f ~/.zshenv.local ]] && . ~/.zshenv.local
 
 # vim:ft=zsh

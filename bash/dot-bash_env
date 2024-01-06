@@ -1,23 +1,30 @@
+#
 # FZF
-
-# Ignore files specified by .gitignore
-# https://github.com/junegunn/fzf.vim/issues/121#issuecomment-209534405
-# export FZF_DEFAULT_COMMAND="rg --files"
+#
 
 ! [[ -d ~/.cache ]] && mkdir ~/.cache
 
 export FZF_DEFAULT_OPTS=--bind=ctrl-j:accept,ctrl-k:kill-line,\
 ctrl-p:up,ctrl-n:down,\
+alt-v:half-page-up,ctrl-v:half-page-down,\
+alt-,:first,alt-.:last,\
 alt-p:previous-history,alt-n:next-history\ \
+--layout=reverse\ \
+--scroll-off=10\ \
 --history=${HOME}/.cache/fzf_history
 
-# EDITOR
-if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+#
+# Editor
+#
+
+if [[ $(uname) =~ CYGWIN ]]
 then
     export EDITOR=/usr/bin/vim
 fi
 
-[[ $(uname) =~ BSD ]] && export EDITOR=/usr/local/bin/vim
+[[ $(uname) =~ BSD ]] && export EDITOR=/usr/local/bin/nvim
+
+# On Linux, use ~/.bash_env.local
 
 #
 # Adding to $PATH
@@ -37,7 +44,9 @@ insertpath ~/bin
 
 export PATH
 
-# Local variables
+#
+# Local environment configuration
+#
 
 [[ -f ~/.bash_env.local ]] && . ~/.bash_env.local
 
