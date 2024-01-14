@@ -1,4 +1,10 @@
 #
+# less
+#
+
+export LESS=-j20
+
+#
 # FZF
 #
 
