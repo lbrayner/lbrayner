@@ -3,10 +3,11 @@
 	# Debian, Ubuntu
 	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 [alias]
-	s = status --ignore-submodules
-	lns = log --name-status
-	l = log
 	d = difftool
+	l = log
+	lns = log --name-status
+	lr = log --graph --reflog
+	s = status --ignore-submodules
 [user]
 	name = lbrayner
 	email = brayner.l@gmail.com
@@ -24,3 +25,5 @@
 	conflictstyle = diff3
 [init]
 	defaultBranch = master
+[core]
+	pager = less -FRX
