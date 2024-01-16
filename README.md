@@ -14,29 +14,16 @@ Stow](https://www.gnu.org/software/stow/) packages such as:
 
 - [Zsh](zsh)
 - [Bash](bash)
-- [sxhkd](sxhkd), the Simple HotKey Daemon
 
-# Other config repositories
+# Neovim
 
-- Neovim: [lbrayner/dotvim](https://github.com/lbrayner/dotvim)
-- Emacs: [lbrayner/dotemacs](https://github.com/lbrayner/dotemacs)
-- Neomutt: [lbrayner/config_neomutt](https://github.com/lbrayner/config_neomutt)
+My home.
 
-# Suckless
+[lbrayner/dotvim](https://github.com/lbrayner/dotvim)
 
-Suckless software is built with "a focus on simplicity, clarity and frugality".
-[Read more](https://suckless.org/philosophy/).
+# My terminal
 
-[My fork](https://github.com/lbrayner/dwm/tree/lbrayner) of
-[dwm](https://dwm.suckless.org/), the Dynamic Window Manager.
-
-[My fork](https://github.com/lbrayner/dwmblocks/tree/lbrayner) of dwmblocks, a
-"Modular status bar for dwm written in c."
-
-[My fork](https://github.com/lbrayner/st/tree/lbrayner) of
-[st](https://st.suckless.org/), the Suckless terminal.
-
-# Other repositories
-
-- Easy dbext bundle, A SQL Vim-based client for everyone:
-  [lbrayner/easy_db.vim](https://github.com/lbrayner/easy_db.vim)
+- [foot](https://codeberg.org/dnkl/foot), a fast, lightweight and minimalistic
+  Wayland terminal emulator.
+- [Build foot on Ubuntu 22.04 (Jammy Jellyfish)](https://github.com/lbrayner/foot-terminal-jammy/tree/undercurl)
+- [Build foot on Ubuntu 20.04 (Focal Fossa)](https://github.com/lbrayner/foot-terminal-focal/tree/undercurl)
