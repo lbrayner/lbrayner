@@ -2,7 +2,7 @@
 # less
 #
 
-export LESS=-j20
+export LESS="-R -j20"
 
 #
 # FZF
