@@ -19,7 +19,7 @@ Stow](https://www.gnu.org/software/stow/) packages such as:
 
 My home.
 
-[lbrayner/dotvim](https://github.com/lbrayner/dotvim)
+[lbrayner/init.lua](https://github.com/lbrayner/init.lua)
 
 # My terminal
 
