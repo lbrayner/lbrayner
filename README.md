@@ -10,10 +10,11 @@
 # This repository
 
 This repository holds configuration files organized as [GNU
-Stow](https://www.gnu.org/software/stow/) packages such as:
+Stow](https://www.gnu.org/software/stow) packages such as:
 
-- [Zsh](zsh)
-- [Bash](bash)
+- [foot](foot): Wayland terminal emulator (see [My terminal](#my-terminal)).
+- [tmux](tmux): a terminal multiplexer (<https://github.com/tmux/tmux/wiki>).
+- [zsh](zsh): the Z shell (<https://www.zsh.org>)
 
 # Neovim
 
