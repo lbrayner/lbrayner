@@ -8,6 +8,7 @@
 	lns = log --name-status
 	lr = log --graph --reflog
 	s = status --ignore-submodules
+	t = ls-tree -r --name-only
 [user]
 	name = lbrayner
 	email = brayner.l@gmail.com
