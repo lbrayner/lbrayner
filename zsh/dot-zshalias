@@ -85,6 +85,9 @@ then
     alias grep='grep --color=auto'
 fi
 
+# ripgrep
+alias rg="rg --sort path"
+
 # ps
 
 if [[ $(uname) == Linux ]]
