@@ -4,6 +4,7 @@
 	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 [alias]
 	d = difftool
+	dn = diff --name-only --stat
 	l = log
 	lns = log --name-status
 	lr = log --graph --reflog
