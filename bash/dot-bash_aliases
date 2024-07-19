@@ -28,7 +28,7 @@ fi
 
 # youtube-dl
 
-alias youtube-dl="\\yt-dlp"
+alias youtube-dl="\\ytdl-patched"
 
 alias yc="youtube-dl --no-check-certificate --no-mtime \
     --write-subs --sub-langs en,en-US --no-playlist -o \
