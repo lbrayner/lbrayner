@@ -13,6 +13,14 @@ PS1='\u@\h: \[\e[1;34m\]\w\[\e[0m\]\n\$ '
 HISTCONTROL=ignoreboth
 
 #
+# Functions
+#
+
+set-title(){
+  echo -en "\033]0;${*}\a"
+}
+
+#
 # Variables
 #
 
