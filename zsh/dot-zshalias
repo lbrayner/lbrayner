@@ -6,15 +6,15 @@
 alias h="history -20"
 
 # miscellaneous
-alias emacsd='pkill emacs; emacs --daemon'
-alias vi='HOME=/dummy vi'
+alias emacsd="pkill emacs; emacs --daemon"
+alias vi="HOME=/dummy vi"
 alias vlite="vim -R -u NONE"
 alias nvlite="nvim -R -u NONE"
-alias ta='tmux attach-session'
+alias ta="tmux attach-session"
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
-  alias rm='rm -I'
+  alias rm="rm -I"
 fi
 
 # ls
@@ -68,11 +68,11 @@ alias largest='du -Sah --exclude=\*/.\*'
 
 # rsync
 
-alias rsync='rsync --progress'
+alias rsync="rsync --progress"
 
 # wget
 
-alias wget='wget --no-use-server-timestamps -c'
+alias wget="wget --no-use-server-timestamps -c"
 
 # netstat
 
@@ -82,7 +82,7 @@ alias netstat="netstat -p -n -l"
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
-  alias grep='grep --color=auto'
+  alias grep="grep --color=auto"
 fi
 
 # ripgrep
@@ -92,17 +92,18 @@ alias rg="rg --sort path"
 
 if [[ $(uname) == Linux ]]
 then
-  alias ps='ps aux | grep --color=auto'
+  alias ps="ps aux | grep --color=auto"
 fi
 
 # the silver searcher
-alias ag='ag -a'
+alias ag="ag -a"
 
 # mpv
 
 alias audio="mpv --vid=no"
 
-# local aliases
+# Local aliases
+
 [[ -f ~/.zshalias.local ]] && . ~/.zshalias.local
 
 # vim: ft=zsh
