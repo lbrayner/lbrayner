@@ -14,7 +14,7 @@ alias ta='tmux attach-session'
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
-    alias rm='rm -I'
+  alias rm='rm -I'
 fi
 
 # ls
@@ -24,8 +24,8 @@ alias lm="ls -lhtr"
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
-    alias ls="ls --color=auto -lh"
-    alias lt="ls -lrth --color=always | tail"
+  alias ls="ls --color=auto -lh"
+  alias lt="ls -lrth --color=always | tail"
 fi
 
 # youtube-dl, yt-dlp
@@ -33,23 +33,23 @@ fi
 alias youtube-dl="ytdl-patched"
 
 alias yc="youtube-dl --no-check-certificate --no-mtime \
-    --write-subs --sub-langs en,en-US --no-playlist -o \
-    '%(title)s-%(id)s.%(ext)s' -f137+140"
+  --write-subs --sub-langs en,en-US --no-playlist -o \
+  '%(title)s-%(id)s.%(ext)s' -f137+140"
 alias yd="youtube-dl --no-mtime --write-subs --sub-langs en,en-US --no-playlist -o \
-    '%(title)s-%(id)s.%(ext)s' -f137+140"
+  '%(title)s-%(id)s.%(ext)s' -f137+140"
 alias yf="youtube-dl --no-playlist -F"
 alias yn="youtube-dl --no-playlist --get-filename"
 alias ys="youtube-dl --no-playlist --skip-download --no-mtime --write-subs --sub-langs en,en-US -o \
-    '%(title)s-%(id)s.%(ext)s'"
+  '%(title)s-%(id)s.%(ext)s'"
 
 # pandoc
 
 # # markdown
 
 alias md2lspdf="pandoc --pdf-engine=wkhtmltopdf --pdf-engine-opt=-O \
-    --pdf-engine-opt=Landscape --standalone --strip-comments --quiet -f markdown -t html5 -o"
+  --pdf-engine-opt=Landscape --standalone --strip-comments --quiet -f markdown -t html5 -o"
 alias md2pdf="pandoc --pdf-engine=wkhtmltopdf --standalone --strip-comments \
-    --quiet -f markdown -t html5 -o"
+  --quiet -f markdown -t html5 -o"
 alias md2html="pandoc --standalone --strip-comments --quiet -f markdown -t html5 -o"
 
 # wkhtmltopdf
@@ -82,7 +82,7 @@ alias netstat="netstat -p -n -l"
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
 then
-    alias grep='grep --color=auto'
+  alias grep='grep --color=auto'
 fi
 
 # ripgrep
@@ -92,7 +92,7 @@ alias rg="rg --sort path"
 
 if [[ $(uname) == Linux ]]
 then
-    alias ps='ps aux | grep --color=auto'
+  alias ps='ps aux | grep --color=auto'
 fi
 
 # the silver searcher
