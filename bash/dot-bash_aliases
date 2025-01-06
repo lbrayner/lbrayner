@@ -93,6 +93,10 @@ fi
 # the silver searcher
 alias ag='\ag -a'
 
+# mpv
+
+alias audio='\mpv --vid=no'
+
 # Local aliases
 
 [[ -f ~/.bash_aliases.local ]] && . ~/.bash_aliases.local

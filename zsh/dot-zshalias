@@ -98,6 +98,10 @@ fi
 # the silver searcher
 alias ag='ag -a'
 
+# mpv
+
+alias audio="mpv --vid=no"
+
 # local aliases
 [[ -f ~/.zshalias.local ]] && . ~/.zshalias.local
 
