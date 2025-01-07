@@ -6,10 +6,10 @@
 alias h="history -20"
 
 # miscellaneous
+
 alias emacsd="pkill emacs; emacs --daemon"
-alias vi="HOME=/dummy vi"
-alias vlite="vim -R -u NONE"
-alias nvlite="nvim -R -u NONE"
+# List largest files first
+alias largest='du -Sah --exclude=\*/.\*'
 alias ta="tmux attach-session"
 
 if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
@@ -44,13 +44,11 @@ alias ys="youtube-dl --no-playlist --skip-download --no-mtime --write-subs --sub
 
 # pandoc
 
-# # markdown
-
+alias md2html="pandoc --standalone --strip-comments --quiet -f markdown -t html5 -o"
 alias md2lspdf="pandoc --pdf-engine=wkhtmltopdf --pdf-engine-opt=-O \
   --pdf-engine-opt=Landscape --standalone --strip-comments --quiet -f markdown -t html5 -o"
 alias md2pdf="pandoc --pdf-engine=wkhtmltopdf --standalone --strip-comments \
   --quiet -f markdown -t html5 -o"
-alias md2html="pandoc --standalone --strip-comments --quiet -f markdown -t html5 -o"
 
 # wkhtmltopdf
 
@@ -60,11 +58,6 @@ alias html2lspdf="wkhtmltopdf -O Landscape"
 
 alias here='find . -mindepth 1 -maxdepth 1 ! -path \*/.\* -type f'
 alias nothidden='find . ! -path \*/.\* -type f'
-
-# du
-
-# List largest files first
-alias largest='du -Sah --exclude=\*/.\*'
 
 # rsync
 
