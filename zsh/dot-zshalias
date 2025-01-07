@@ -1,23 +1,15 @@
 # zsh
 
-# man zshbuiltins (fc -l)
-# If first is not specified, it will be set to -1 (the most recent event), or
-# to -16 if the -l flag is given.
-alias h="history -20"
+#
+# find
+#
 
-# miscellaneous
+alias here='find . -mindepth 1 -maxdepth 1 ! -path \*/.\* -type f'
+alias nothidden='find . ! -path \*/.\* -type f'
 
-alias emacsd="pkill emacs; emacs --daemon"
-# List largest files first
-alias largest='du -Sah --exclude=\*/.\*'
-alias ta="tmux attach-session"
-
-if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
-then
-  alias rm="rm -I"
-fi
-
+#
 # ls
+#
 
 alias lt="ls -lhtr | tail"
 alias lm="ls -lhtr"
@@ -28,8 +20,59 @@ then
   alias lt="ls -lrth --color=always | tail"
 fi
 
-# youtube-dl, yt-dlp
+#
+# miscellaneous
+#
 
+alias ag="ag -a"
+alias audio="mpv --vid=no"
+alias emacsd="pkill emacs; emacs --daemon"
+
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+  alias grep="grep --color=auto"
+fi
+
+# man zshbuiltins (fc -l)
+# If first is not specified, it will be set to -1 (the most recent event), or
+# to -16 if the -l flag is given.
+alias h="history -20"
+alias html2lspdf="wkhtmltopdf -O Landscape"
+# List largest files first
+alias largest='du -Sah --exclude=\*/.\*'
+alias netstat="netstat -p -n -l"
+
+if [[ $(uname) == Linux ]]
+then
+  alias ps="ps aux | grep --color=auto"
+fi
+
+alias rg="rg --sort path"
+
+if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
+then
+  alias rm="rm -I"
+fi
+
+alias rsync="rsync --progress"
+alias ta="tmux attach-session"
+alias wget="wget --no-use-server-timestamps -c"
+
+#
+# pandoc
+#
+
+alias md2html="pandoc --standalone --strip-comments --quiet -f markdown -t html5 -o"
+alias md2lspdf="pandoc --pdf-engine=wkhtmltopdf --pdf-engine-opt=-O \
+  --pdf-engine-opt=Landscape --standalone --strip-comments --quiet -f markdown -t html5 -o"
+alias md2pdf="pandoc --pdf-engine=wkhtmltopdf --standalone --strip-comments \
+  --quiet -f markdown -t html5 -o"
+
+#
+# youtube-dl, yt-dlp
+#
+
+# To be recursively expanded
 alias youtube-dl="ytdl-patched"
 
 alias yc="youtube-dl --no-check-certificate --no-mtime \
@@ -41,59 +84,6 @@ alias yf="youtube-dl --no-playlist -F"
 alias yn="youtube-dl --no-playlist --get-filename"
 alias ys="youtube-dl --no-playlist --skip-download --no-mtime --write-subs --sub-langs en,en-US -o \
   '%(title)s-%(id)s.%(ext)s'"
-
-# pandoc
-
-alias md2html="pandoc --standalone --strip-comments --quiet -f markdown -t html5 -o"
-alias md2lspdf="pandoc --pdf-engine=wkhtmltopdf --pdf-engine-opt=-O \
-  --pdf-engine-opt=Landscape --standalone --strip-comments --quiet -f markdown -t html5 -o"
-alias md2pdf="pandoc --pdf-engine=wkhtmltopdf --standalone --strip-comments \
-  --quiet -f markdown -t html5 -o"
-
-# wkhtmltopdf
-
-alias html2lspdf="wkhtmltopdf -O Landscape"
-
-# find
-
-alias here='find . -mindepth 1 -maxdepth 1 ! -path \*/.\* -type f'
-alias nothidden='find . ! -path \*/.\* -type f'
-
-# rsync
-
-alias rsync="rsync --progress"
-
-# wget
-
-alias wget="wget --no-use-server-timestamps -c"
-
-# netstat
-
-alias netstat="netstat -p -n -l"
-
-# grep
-
-if [[ $(uname) == Linux || $(uname) =~ CYGWIN ]]
-then
-  alias grep="grep --color=auto"
-fi
-
-# ripgrep
-alias rg="rg --sort path"
-
-# ps
-
-if [[ $(uname) == Linux ]]
-then
-  alias ps="ps aux | grep --color=auto"
-fi
-
-# the silver searcher
-alias ag="ag -a"
-
-# mpv
-
-alias audio="mpv --vid=no"
 
 # Local aliases
 
