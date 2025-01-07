@@ -26,7 +26,7 @@ change:first\ \
 
 if [[ $(uname) =~ CYGWIN ]]
 then
-    export EDITOR=/usr/bin/vim
+  export EDITOR=/usr/bin/nvim
 fi
 
 [[ $(uname) =~ BSD ]] && export EDITOR=/usr/local/bin/nvim
@@ -38,12 +38,12 @@ fi
 #
 
 insertpath () {
-    case ":$PATH:" in
-        *:"$1":*)
-            ;;
-        *)
-            PATH=${1}:${PATH}
-    esac
+  case ":$PATH:" in
+    *:"$1":*)
+      ;;
+    *)
+      PATH=${1}:${PATH}
+  esac
 }
 
 # Adding ~/bin to $PATH
