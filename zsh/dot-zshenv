@@ -55,7 +55,7 @@ insertpath () {
   esac
 }
 
-# Adding ~/bin to $PATH
+insertpath ~/.local/bin
 insertpath ~/bin
 
 export PATH
