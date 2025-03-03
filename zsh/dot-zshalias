@@ -78,12 +78,14 @@ alias youtube-dl="ytdl-patched"
 alias yc="youtube-dl --windows-filenames --no-check-certificate --no-mtime \
   --write-subs --sub-langs en,en-US --no-playlist -o \
   '%(title)s-%(id)s.%(ext)s' -f137+140"
-alias yd="youtube-dl --windows-filenames --no-mtime --write-subs --sub-langs en,en-US \
-  --no-playlist -o '%(title)s-%(id)s.%(ext)s' -f137+140"
+alias yd="youtube-dl --windows-filenames --no-mtime --write-subs \
+  --sub-langs en,en-US --no-playlist -o '%(title)s-%(id)s.%(ext)s' -f137+140"
 alias yf="youtube-dl --no-playlist -F"
 alias yn="youtube-dl --windows-filenames --no-playlist --get-filename"
 alias ys="youtube-dl --windows-filenames --no-playlist --skip-download \
   --no-mtime --write-subs --sub-langs en,en-US -o '%(title)s-%(id)s.%(ext)s'"
+alias yt="youtube-dl --windows-filenames --trim-filenames 200 --no-mtime --write-subs \
+  --sub-langs en,en-US --no-playlist -o '%(title)s-%(id)s.%(ext)s' -f137+140"
 
 # Local aliases
 
