@@ -9,8 +9,10 @@ mp.add_key_binding("p", "playlist_previous_watch_later", function()
 end)
 
 mp.add_key_binding("SPACE", "pause_watch_later", function()
-  mp.command("write-watch-later-config")
-  local cycle = not mp.get_property_native("pause")
-  mp.set_property_native("pause", cycle)
+  local is_paused = mp.get_property_native("pause")
+  if not is_paused then
+    mp.command("write-watch-later-config")
+  end
+  mp.set_property_native("pause", not is_paused)
 end)
 
