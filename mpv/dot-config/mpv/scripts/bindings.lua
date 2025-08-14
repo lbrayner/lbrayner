@@ -1,4 +1,5 @@
 mp.add_key_binding("n", "playlist_next_watch_later", function()
+  print("playlist_next_watch_later was called!")
   mp.command("write-watch-later-config")
   mp.command("playlist-next")
 end)
@@ -15,4 +16,3 @@ mp.add_key_binding("SPACE", "pause_watch_later", function()
   end
   mp.set_property_native("pause", not is_paused)
 end)
-
