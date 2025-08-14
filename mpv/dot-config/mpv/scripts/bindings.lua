@@ -1,5 +1,6 @@
 mp.add_key_binding("n", "playlist_next_watch_later", function()
-  print("playlist_next_watch_later was called!")
+  -- print(mp.get_property("playlist"))
+  print(mp.get_property_native("playlist-count"))
   mp.command("write-watch-later-config")
   mp.command("playlist-next")
 end)
