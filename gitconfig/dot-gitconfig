@@ -29,3 +29,6 @@
 	defaultBranch = main
 [core]
 	pager = less -FRX
+
+[credential "https://gitlab.com"]
+    username = lbrayner
