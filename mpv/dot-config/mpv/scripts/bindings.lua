@@ -1,13 +1,29 @@
 mp.add_key_binding("n", "playlist_next_watch_later", function()
-  -- print(mp.get_property("playlist"))
-  print(mp.get_property_native("playlist-count"))
   mp.command("write-watch-later-config")
-  mp.command("playlist-next")
+
+  local count = mp.get_property_native("playlist-count")
+  local pos = mp.get_property_native("playlist-pos")
+  print("count", count, "pos", pos)
+
+  if (pos + 1) < count then
+    mp.command("playlist-next")
+  else
+    mp.commandv("playlist-play-index", 0) -- Go to start
+  end
 end)
 
 mp.add_key_binding("p", "playlist_previous_watch_later", function()
   mp.command("write-watch-later-config")
-  mp.command("playlist-prev")
+
+  local count = mp.get_property_native("playlist-count")
+  local pos = mp.get_property_native("playlist-pos")
+  print("count", count, "pos", pos)
+
+  if pos > 0 then
+    mp.command("playlist-prev")
+  else
+    mp.commandv("playlist-play-index", (count - 1)) -- Go to end
+  end
 end)
 
 mp.add_key_binding("SPACE", "pause_watch_later", function()
