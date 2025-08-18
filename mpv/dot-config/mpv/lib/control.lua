@@ -17,12 +17,12 @@ function M.playlist_next_watch_later()
 
   mp.command("write-watch-later-config")
 
-  local pos = mp.get_property_native("playlist-pos")
+  local pos = mp.get_property_native("playlist-pos-1")
 
-  if (pos + 1) < count then
+  if pos < count then
     mp.command("playlist-next")
   else
-    mp.commandv("playlist-play-index", 0) -- Go to start
+    mp.set_property_native("playlist-pos-1", 1) -- Go to start
   end
 end
 
@@ -33,12 +33,12 @@ function M.playlist_previous_watch_later()
 
   mp.command("write-watch-later-config")
 
-  local pos = mp.get_property_native("playlist-pos")
+  local pos = mp.get_property_native("playlist-pos-1")
 
-  if pos > 0 then
+  if pos > 1 then
     mp.command("playlist-prev")
   else
-    mp.commandv("playlist-play-index", (count - 1)) -- Go to end
+    mp.set_property_native("playlist-pos-1", count) -- Go to end
   end
 end
 
