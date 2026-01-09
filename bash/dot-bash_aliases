@@ -84,6 +84,9 @@ alias yc="youtube-dl --retries infinite --fragment-retries infinite --windows-fi
   '%(title)s-%(id)s.%(ext)s' -fb"
 alias yd="youtube-dl --retries infinite --fragment-retries infinite --windows-filenames \
   --no-mtime --write-subs --sub-langs en,en-US --no-playlist -o '%(title)s-%(id)s.%(ext)s' -fb"
+alias yd-inf="youtube-dl --retries infinite --fragment-retries infinite --windows-filenames \
+  --no-mtime --write-subs --sub-langs en,en-US --no-playlist -o '%(title)s-%(id)s.%(ext)s' -fb \
+  --download-sections '*0:00:00-inf' --postprocessor-args 'ffmpeg:-movflags +faststart'"
 alias yd-sec="youtube-dl --retries infinite --fragment-retries infinite --windows-filenames \
   --no-mtime --write-subs --sub-langs en,en-US --no-playlist -o '%(title)s-%(id)s.%(ext)s' -fb \
   --download-sections '*0:00:00-0:40:00' --postprocessor-args 'ffmpeg:-movflags +faststart'"
