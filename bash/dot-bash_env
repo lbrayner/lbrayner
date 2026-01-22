@@ -10,7 +10,7 @@ export LESS="-R -j20"
 
 ! [[ -d ~/.cache ]] && mkdir ~/.cache
 
-export FZF_DEFAULT_OPTS=--bind=ctrl-j:accept,ctrl-k:kill-line,\
+export FZF_DEFAULT_OPTS=--bind=ctrl-j:accept,ctrl-k:kill-line,alt-q:toggle-all,\
 ctrl-p:up,ctrl-n:down,\
 alt-v:half-page-up,ctrl-v:half-page-down,\
 alt-,:first,alt-.:last,\
