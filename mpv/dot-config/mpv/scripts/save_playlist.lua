@@ -11,38 +11,40 @@ end
 
 mp.register_event("file-loaded", file_loaded_cb)
 
-local initial_size
+local playlist_name
 
 mp.observe_property('playlist-count', 'native', function(name, value)
-  -- value 1 is always triggered
-  -- if value == 1 then
-  --   return
-  -- end
   if not file_loaded then return end
 
-  -- if not initial_size then
-  --   initial_size = value
-  --   return
-  -- end
-
-  -- Perform your action here when the playlist changes
   print("Playlist changed:", name, value)
-  -- Add your custom logic here
   local dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup"
-  -- os.execute(concat{ "test -d ", dir, " || mkdir -p ", dir })
-  -- local name = os.execute(concat({ "mktemp -u -p ", dir }))
-  -- print("name", name)
 
-  -- local file = io.open("/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup", "w")
-  -- local file = io.tmpfile()
-  name = os.tmpname()
-  local file = io.open(name, "w")
+  if not playlist_name then
+    os.execute(concat{ "test -d ", dir, " || mkdir -p ", dir })
+    -- local name = os.execute(concat({ "mktemp -u -p ", dir }))
+    -- print("name", name)
 
-  for _, item in ipairs(mp.get_property_native("playlist")) do
-    print("wrote", '"'.. item.filename ..'"', "to playlist", "file", name)
-    file:write(concat({ item.filename, "\n" }))
+    -- local file = io.open("/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup", "w")
+    -- local file = io.tmpfile()
+    local tmpname = os.tmpname():match("([^/\\]+)$")
+    playlist_name = concat({ dir, "/", tmpname, ".m3u" })
+    print("playlist_name", playlist_name)
+
+    local file = io.open(playlist_name, "w")
+
+    for _, item in ipairs(mp.get_property_native("playlist")) do
+      file:write(concat({ item.filename, "\n" }))
+    end
+
+    file:close()
+    print("Saved playlist", playlist_name)
+    return
   end
 
+  local playlist = mp.get_property_native("playlist")
+  local last_item = playlist[#playlist]
+  local file = io.open(playlist_name, "a")
+  file:write(concat({ last_item.filename, "\n" }))
   file:close()
-  os.execute(concat({ "mv", name, dir }, " "))
+  print("Appended to playlist", playlist_name)
 end)
