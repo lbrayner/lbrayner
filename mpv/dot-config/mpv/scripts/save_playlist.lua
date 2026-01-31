@@ -1,3 +1,4 @@
+local concat = table.concat
 local file_loaded, file_loaded_cb
 
 file_loaded_cb = function()
@@ -27,4 +28,21 @@ mp.observe_property('playlist-count', 'native', function(name, value)
   -- Perform your action here when the playlist changes
   print("Playlist changed:", name, value)
   -- Add your custom logic here
+  local dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup"
+  -- os.execute(concat{ "test -d ", dir, " || mkdir -p ", dir })
+  -- local name = os.execute(concat({ "mktemp -u -p ", dir }))
+  -- print("name", name)
+
+  -- local file = io.open("/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup", "w")
+  -- local file = io.tmpfile()
+  name = os.tmpname()
+  local file = io.open(name, "w")
+
+  for _, item in ipairs(mp.get_property_native("playlist")) do
+    print("wrote", '"'.. item.filename ..'"', "to playlist", "file", name)
+    file:write(concat({ item.filename, "\n" }))
+  end
+
+  file:close()
+  os.execute(concat({ "mv", name, dir }, " "))
 end)
