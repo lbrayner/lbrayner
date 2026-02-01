@@ -11,24 +11,23 @@ end
 
 mp.register_event("file-loaded", file_loaded_cb)
 
-local playlist_name
+local playlist_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup"
+local playlist_name, playlist_count
 
-mp.observe_property('playlist-count', 'native', function(name, value)
+mp.observe_property('playlist-count', 'native', function(_, value)
   if not file_loaded then return end
 
-  print("Playlist changed:", name, value)
-  local dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup"
+  if playlist_count and value < playlist_count then
+    playlist_name = nil
+  end
+
+  playlist_count = value
 
   if not playlist_name then
-    os.execute(concat{ "test -d ", dir, " || mkdir -p ", dir })
-    -- local name = os.execute(concat({ "mktemp -u -p ", dir }))
-    -- print("name", name)
+    os.execute(concat{ "test -d ", playlist_dir, " || mkdir -p ", playlist_dir })
 
-    -- local file = io.open("/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup", "w")
-    -- local file = io.tmpfile()
     local tmpname = os.tmpname():match("([^/\\]+)$")
-    playlist_name = concat({ dir, "/", tmpname, ".m3u" })
-    print("playlist_name", playlist_name)
+    playlist_name = concat({ playlist_dir, "/", tmpname, ".m3u" })
 
     local file = io.open(playlist_name, "w")
 
