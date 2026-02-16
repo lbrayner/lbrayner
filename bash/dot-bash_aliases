@@ -98,6 +98,11 @@ alias yt="youtube-dl --retries infinite --fragment-retries infinite --windows-fi
   --trim-filenames 200 --no-mtime --write-subs --sub-langs en,en-US --no-playlist \
   -o '[%(id)s] %(title)s.%(ext)s' -fb"
 
+# Personal scripts
+
+alias ca="control -a -s"
+alias q="query"
+
 # Local aliases
 
 [[ -f ~/.bash_aliases.local ]] && . ~/.bash_aliases.local
