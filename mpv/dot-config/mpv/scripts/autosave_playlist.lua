@@ -21,13 +21,11 @@ mp.observe_property('playlist-count', 'native', function(_, value)
     playlist_name = nil
   end
 
-  playlist_count = value
-
   if not playlist_name then
     os.execute(concat{ "test -d ", playlist_dir, " || mkdir -p ", playlist_dir })
 
     local tmpname = os.tmpname():match("([^/\\]+)$")
-    playlist_name = concat({ playlist_dir, "/", tmpname, ".m3u" })
+    playlist_name, playlist_count = concat({ playlist_dir, "/", tmpname, ".m3u" }), value
 
     local file = io.open(playlist_name, "w")
 
@@ -41,9 +39,14 @@ mp.observe_property('playlist-count', 'native', function(_, value)
   end
 
   local playlist = mp.get_property_native("playlist")
-  local last_item = playlist[#playlist]
   local file = io.open(playlist_name, "a")
-  file:write(concat({ last_item.filename, "\n" }))
+
+  for i = playlist_count + 1, value do
+    file:write(concat({ playlist[i].filename, "\n" }))
+  end
+
   file:close()
-  print("Appended to playlist", playlist_name)
+
+  print("Appended", value - playlist_count, "item(s) to playlist", playlist_name)
+  playlist_count = value
 end)
