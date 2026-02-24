@@ -28,6 +28,17 @@ function M.playlist_go_to_end()
   mp.set_property_native("playlist-pos-1", count) -- Go to playlist end
 end
 
+function M.playlist_jump_to_position(pos)
+  assert(type(pos) == "number", "'pos' must be a number")
+
+  local count = mp.get_property_native("playlist-count")
+
+  if pos < 1 or pos > count then return end
+
+  M.previous_position_save()
+  mp.set_property_native("playlist-pos-1", pos)
+end
+
 function M.playlist_next_watch_later()
   local count = mp.get_property_native("playlist-count")
 
