@@ -34,7 +34,6 @@ then
   alias grep='\grep --color=auto'
 fi
 
-alias h='\history | tail -n 20'
 alias html2lspdf='\wkhtmltopdf -O Landscape'
 # List largest files first
 alias largest='\du -Sah --exclude=\*/.\*'
@@ -101,6 +100,7 @@ alias yt="youtube-dl --retries infinite --fragment-retries infinite --windows-fi
 # Personal scripts
 
 alias ca="control -a -s"
+alias cr="control -r -s"
 alias q="query"
 
 # Local aliases
