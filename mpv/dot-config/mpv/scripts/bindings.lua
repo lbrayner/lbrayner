@@ -13,8 +13,15 @@ local control = require("control")
 local marks = require("marks")
 
 for i = 0, 9 do
+  local jump_to_mark_i = concat({ "jump_to_mark_", i })
+
+  mp.add_key_binding(tostring(i), jump_to_mark_i, function()
+    marks[jump_to_mark_i]()
+  end)
+
   local set_mark_i = concat({ "set_mark_", i })
-  mp.add_key_binding(tostring(i), set_mark_i, function()
+
+  mp.add_key_binding(concat({ "Alt+", i }), set_mark_i, function()
     marks[set_mark_i]()
   end)
 end
