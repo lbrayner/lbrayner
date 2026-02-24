@@ -10,6 +10,14 @@ local concat = table.concat
 package.path = concat({ package.path, concat({ home, "lib/?.lua" }, "/") }, ";")
 
 local control = require("control")
+local marks = require("marks")
+
+for i = 0, 9 do
+  local set_mark_i = concat({ "set_mark_", i })
+  mp.add_key_binding(tostring(i), set_mark_i, function()
+    marks[set_mark_i]()
+  end)
+end
 
 mp.add_key_binding("Ctrl+f", "playlist_go_to_start", function()
   control.playlist_go_to_start()
