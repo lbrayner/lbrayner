@@ -77,7 +77,7 @@ alias md2pdf="pandoc --pdf-engine=wkhtmltopdf --standalone --strip-comments \
 #
 
 # To be recursively expanded
-alias youtube-dl='\ytdl-patched'
+alias youtube-dl="yt-dlp"
 
 alias yc="youtube-dl --retries infinite --fragment-retries infinite --windows-filenames \
   --no-check-certificate --no-mtime --write-subs --sub-langs en,en-US --no-playlist -o \
@@ -97,6 +97,11 @@ alias ys="youtube-dl --windows-filenames --no-playlist --skip-download \
 alias yt="youtube-dl --retries infinite --fragment-retries infinite --windows-filenames \
   --trim-filenames 200 --no-mtime --write-subs --sub-langs en,en-US --no-playlist \
   -o '[%(id)s] %(title)s.%(ext)s' -fb"
+
+# Personal scripts
+
+alias ca="control -a -s"
+alias q="query"
 
 # Local aliases
 
