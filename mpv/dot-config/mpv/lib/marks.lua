@@ -10,7 +10,8 @@ local concat = table.concat
 package.path = concat({ package.path, concat({ home, "lib/?.lua" }, "/") }, ";")
 
 local control = require("control")
-local mark_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
+local marks_backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
+local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
 local marks = {}
 
