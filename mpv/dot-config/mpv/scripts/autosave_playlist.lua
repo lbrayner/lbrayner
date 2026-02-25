@@ -11,7 +11,7 @@ end
 
 mp.register_event("file-loaded", file_loaded_cb)
 
-local playlist_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist-backup"
+local playlist_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/playlists"
 local playlist_name, playlist_count
 
 mp.observe_property('playlist-count', 'native', function(_, value)
