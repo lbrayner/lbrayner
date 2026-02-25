@@ -15,17 +15,34 @@ local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
 local marks = {}
 
+local function get_playlist_filename_at_pos(pos)
+  return mp.get_property(concat({ "playlist/", pos - 1, "/filename" }))
+end
+
 local function jump_to_mark(slot)
   if not marks[slot] then
     mp.osd_message(concat({ "Mark", slot, "no set" }, " "))
     return
   end
-  control.playlist_jump_to_position(marks[slot])
+
+  local pos = marks[slot].pos
+  local filename = get_playlist_filename_at_pos(pos)
+
+  if filename ~= marks[slot].filename then
+    mp.osd_message(concat({ "Mark", slot, "invalid" }, " "))
+    return
+  end
+
+  control.playlist_jump_to_position(marks[slot].pos)
 end
 
 local function set_mark(slot)
   local pos = mp.get_property_native("playlist-pos-1")
-  marks[slot] = pos
+  local filename = get_playlist_filename_at_pos(pos)
+  marks[slot] = {
+    filename = filename,
+    pos = pos,
+  }
   mp.osd_message(concat({ "Mark", slot, "set" }, " "))
 end
 
