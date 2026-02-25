@@ -13,7 +13,16 @@ local control = require("control")
 local marks_backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
 local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
+local ipc_name
 local marks = {}
+
+local function get_ipc_name()
+  if ipc_name then return ipc_name end
+
+  ipc_name = mp.get_property("input-ipc-server"):match("([^/\\]+)$")
+
+  return ipc_name
+end
 
 local function get_playlist_filename_at_pos(pos)
   return mp.get_property(concat({ "playlist/", pos - 1, "/filename" }))
@@ -36,6 +45,11 @@ local function jump_to_mark(slot)
   control.playlist_jump_to_position(marks[slot].pos)
 end
 
+local function save_marks()
+  local ipc_name = get_ipc_name()
+  if not ipc_name then return end
+end
+
 local function set_mark(slot)
   local pos = mp.get_property_native("playlist-pos-1")
   local filename = get_playlist_filename_at_pos(pos)
@@ -43,6 +57,7 @@ local function set_mark(slot)
     filename = filename,
     pos = pos,
   }
+  save_marks()
   mp.osd_message(concat({ "Mark", slot, "set" }, " "))
 end
 
