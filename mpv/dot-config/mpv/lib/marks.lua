@@ -99,6 +99,8 @@ end
 local M = {}
 
 for i = 0, 9 do
+  i = tostring(i)
+
   M[concat({ "jump_to_mark_", i })] = function()
     jump_to_mark(i)
   end
