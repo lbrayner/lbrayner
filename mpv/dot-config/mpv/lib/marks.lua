@@ -88,11 +88,15 @@ end
 local function set_mark(slot)
   local pos = mp.get_property_native("playlist-pos-1")
   local filename = get_playlist_filename_at_pos(pos)
-  marks[slot] = {
-    filename = filename,
-    pos = pos,
-  }
-  save_marks()
+
+  if not marks[slot] or marks[slot].filename ~= filename or marks[slot].pos ~= pos then
+    marks[slot] = {
+      filename = filename,
+      pos = pos,
+    }
+    save_marks()
+  end
+
   mp.osd_message(concat({ "Mark", slot, "set" }, " "))
 end
 
