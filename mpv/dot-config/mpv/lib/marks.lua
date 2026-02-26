@@ -24,13 +24,13 @@ local json = require("json")
 local marks_backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
 local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
-local ipc_name, marks_path
+local lazyloaded_marks, ipc_name, marks_path
 local marks = {}
 
 local function get_ipc_name()
   if ipc_name then return ipc_name end
 
-  ipc_name = mp.get_property("input-ipc-server"):match("([^/\\]+)$")
+  ipc_name = mp.get_property("input-ipc-server"):match("([%w_]+)$")
 
   if not ipc_name then
     ipc_name = false
@@ -51,7 +51,26 @@ local function get_marks_path()
 
   os.execute(concat{ "test -d ", marks_dir, " || mkdir -p ", marks_dir })
   marks_path = concat({ marks_dir, "/", ipc_name })
+  os.execute(concat{ "test -f ", marks_path, " || touch ", marks_path })
   return marks_path
+end
+
+local function get_marks()
+  if not lazyloaded_marks then
+    lazyloaded_marks = true
+    local marks_path = get_marks_path()
+    local json_encoded
+
+    for line in io.lines(marks_path) do
+      json_encoded = line
+    end
+
+    if json_encoded then
+      marks = json.decode(json_encoded)
+    end
+  end
+
+  return marks
 end
 
 local function get_playlist_filename_at_pos(pos)
@@ -59,20 +78,20 @@ local function get_playlist_filename_at_pos(pos)
 end
 
 local function jump_to_mark(slot)
-  if not marks[slot] then
+  if not get_marks()[slot] then
     mp.osd_message(concat({ "Mark", slot, "no set" }, " "))
     return
   end
 
-  local pos = marks[slot].pos
+  local pos = get_marks()[slot].pos
   local filename = get_playlist_filename_at_pos(pos)
 
-  if filename ~= marks[slot].filename then
+  if filename ~= get_marks()[slot].filename then
     mp.osd_message(concat({ "Mark", slot, "invalid" }, " "))
     return
   end
 
-  control.playlist_jump_to_position(marks[slot].pos)
+  control.playlist_jump_to_position(get_marks()[slot].pos)
 end
 
 local function save_marks()
@@ -81,7 +100,7 @@ local function save_marks()
   if not marks_path then return end
 
   local marks_file = io.open(marks_path, "w")
-  marks_file:write(concat({ json.encode(marks), "\n" }))
+  marks_file:write(concat({ json.encode(get_marks()), "\n" }))
   marks_file:close()
 end
 
@@ -89,8 +108,9 @@ local function set_mark(slot)
   local pos = mp.get_property_native("playlist-pos-1")
   local filename = get_playlist_filename_at_pos(pos)
 
-  if not marks[slot] or marks[slot].filename ~= filename or marks[slot].pos ~= pos then
-    marks[slot] = {
+  if not get_marks()[slot] or
+    get_marks()[slot].filename ~= filename or get_marks()[slot].pos ~= pos then
+    get_marks()[slot] = {
       filename = filename,
       pos = pos,
     }
