@@ -28,7 +28,7 @@ local lazyloaded_marks, ipc_name, marks_path
 local marks = {}
 
 local function get_ipc_name()
-  if ipc_name then return ipc_name end
+  if ipc_name ~= nil then return ipc_name end
 
   ipc_name = mp.get_property("input-ipc-server"):match("([%w_]+)$")
 
@@ -40,7 +40,7 @@ local function get_ipc_name()
 end
 
 local function get_marks_path()
-  if marks_path then return marks_path end
+  if marks_path ~= nil then return marks_path end
 
   local ipc_name = get_ipc_name()
 
@@ -59,14 +59,17 @@ local function get_marks()
   if not lazyloaded_marks then
     lazyloaded_marks = true
     local marks_path = get_marks_path()
-    local json_encoded
 
-    for line in io.lines(marks_path) do
-      json_encoded = line
-    end
+    if marks_path then
+      local json_encoded
 
-    if json_encoded then
-      marks = require("json").decode(json_encoded)
+      for line in io.lines(marks_path) do
+        json_encoded = line
+      end
+
+      if json_encoded then
+        marks = require("json").decode(json_encoded)
+      end
     end
   end
 
