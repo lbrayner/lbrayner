@@ -21,7 +21,6 @@ package.path = concat({
 }, ";")
 
 local control = require("control")
-local json = require("json")
 local marks_backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
 local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
@@ -67,7 +66,7 @@ local function get_marks()
     end
 
     if json_encoded then
-      marks = json.decode(json_encoded)
+      marks = require("json").decode(json_encoded)
     end
   end
 
@@ -101,7 +100,7 @@ local function save_marks()
   if not marks_path then return end
 
   local marks_file = io.open(marks_path, "w")
-  marks_file:write(concat({ json.encode(get_marks()), "\n" }))
+  marks_file:write(concat({ require("json").encode(get_marks()), "\n" }))
   marks_file:close()
 end
 
