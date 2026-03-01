@@ -86,15 +86,15 @@ local function jump_to_mark(slot)
     return
   end
 
-  local pos = get_marks()[slot].pos
-  local filename = get_playlist_filename_at_pos(pos)
+  local mark = get_marks()[slot]
+  local filename = get_playlist_filename_at_pos(mark.pos)
 
-  if filename ~= get_marks()[slot].filename then
+  if filename ~= mark.filename then
     mp.osd_message(concat({ "Mark", slot, "invalid" }, " "))
     return
   end
 
-  control.playlist_jump_to_position(get_marks()[slot].pos)
+  control.playlist_jump_to_position(mark.pos)
 end
 
 local function save_marks()
