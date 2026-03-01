@@ -34,7 +34,6 @@ then
   alias grep='\grep --color=auto'
 fi
 
-alias h='\history | tail -n 20'
 alias html2lspdf='\wkhtmltopdf -O Landscape'
 # List largest files first
 alias largest='\du -Sah --exclude=\*/.\*'
