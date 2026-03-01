@@ -144,6 +144,8 @@ function M.show_marks()
   local keys = {}
   local marks = get_marks()
 
+  if not marks then return "No marks set" end
+
   for k in pairs(marks) do
     table.insert(keys, k)
   end
@@ -151,9 +153,19 @@ function M.show_marks()
   table.sort(keys)
 
   local lines = {}
+  local pos = mp.get_property_native("playlist-pos-1")
+  local filename = get_playlist_filename_at_pos(pos)
 
   for _, k in ipairs(keys) do
-    table.insert(lines, concat({ k, " → ", marks[k].filename }))
+    local color, reset = "", ""
+    local mark = marks[k]
+
+    if mark.pos == pos and mark.filename == filename then
+      color = "{\\c&HFF0000&}"
+      reset = "{\\c&HFFFFFF&}"
+    end
+
+    table.insert(lines, concat({ color, k, " → ", mark.filename, reset }))
   end
 
   mp.osd_message(concat({ ass_start, "{\\fs12}", concat(lines, "\n"), ass_stop }))
