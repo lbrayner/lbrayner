@@ -137,4 +137,26 @@ for i = 0, 9 do
   end
 end
 
+local ass_start = mp.get_property_osd("osd-ass-cc/0")
+local ass_stop = mp.get_property_osd("osd-ass-cc/1")
+
+function M.show_marks()
+  local keys = {}
+  local marks = get_marks()
+
+  for k in pairs(marks) do
+    table.insert(keys, k)
+  end
+
+  table.sort(keys)
+
+  local lines = {}
+
+  for _, k in ipairs(keys) do
+    table.insert(lines, concat({ k, " → ", marks[k].filename }))
+  end
+
+  mp.osd_message(concat({ ass_start, "{\\fs12}", concat(lines, "\n"), ass_stop }))
+end
+
 return M
