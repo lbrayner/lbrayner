@@ -139,12 +139,24 @@ end
 
 local ass_start = mp.get_property_osd("osd-ass-cc/0")
 local ass_stop = mp.get_property_osd("osd-ass-cc/1")
+local duration, timeout = 5
 
 function M.show_marks()
+  if timeout then
+    if os.time() < timeout then
+      timeout = nil
+      mp.osd_message("", 0)
+      return
+    end
+  end
+
   local keys = {}
   local marks = get_marks()
 
-  if not marks then return "No marks set" end
+  if not marks then
+    mp.osd_message("No marks set")
+    return
+  end
 
   for k in pairs(marks) do
     table.insert(keys, k)
@@ -168,7 +180,8 @@ function M.show_marks()
     table.insert(lines, concat({ color, k, " → ", mark.filename, reset }))
   end
 
-  mp.osd_message(concat({ ass_start, "{\\fs12}", concat(lines, "\n"), ass_stop }))
+  timeout = os.time() + duration
+  mp.osd_message(concat({ ass_start, "{\\fs12}", concat(lines, "\n"), ass_stop }), duration)
 end
 
 return M
