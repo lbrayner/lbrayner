@@ -102,17 +102,18 @@ local function save_marks()
 
   if not marks_path then return end
 
-  local marks_file = io.open(marks_path, "w")
-  marks_file:write(concat({ require("json").encode(get_marks()), "\n" }))
-  marks_file:close()
+  local marks_handle = io.open(marks_path, "w")
+  marks_handle:write(concat({ require("json").encode(get_marks()), "\n" }))
+  marks_handle:close()
 end
 
 local function set_mark(slot)
   local pos = mp.get_property_native("playlist-pos-1")
   local filename = get_playlist_filename_at_pos(pos)
 
-  if not get_marks()[slot] or
-    get_marks()[slot].filename ~= filename or get_marks()[slot].pos ~= pos then
+  local mark = get_marks()[slot]
+
+  if not mark or mark.filename ~= filename or mark.pos ~= pos then
     get_marks()[slot] = {
       filename = filename,
       pos = pos,
