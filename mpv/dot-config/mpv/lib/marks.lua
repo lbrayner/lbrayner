@@ -21,10 +21,10 @@ package.path = concat({
 }, ";")
 
 local control = require("control")
-local marks_backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
+local backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
 local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
-local lazyloaded_marks, ipc_name, marks_path
+local created_backup_dir, lazyloaded_marks, ipc_name, marks_path
 local marks = {}
 
 local function get_ipc_name()
@@ -37,6 +37,14 @@ local function get_ipc_name()
   end
 
   return ipc_name
+end
+
+local function get_backup_dir()
+  if created_backup_dir then return backup_dir end
+
+  os.execute(concat{ "test -d ", backup_dir, " || mkdir -p ", backup_dir })
+  created_backup_dir = true
+  return backup_dir
 end
 
 local function get_marks_path()
@@ -97,14 +105,32 @@ local function jump_to_mark(slot)
   control.playlist_jump_to_position(mark.pos)
 end
 
+local function write_json(t, path)
+  if next(t) == nil then return end
+
+  local handle = io.open(path, "w")
+  handle:write(concat({ require("json").encode(t), "\n" }))
+  handle:close()
+end
+
+local function backup_marks()
+  local ipc_name = get_ipc_name()
+
+  if not ipc_name then return end
+
+  local backup_dir = get_backup_dir()
+  local tmpname = os.tmpname():match("([%w_]+)$")
+  local backup_path = concat({ backup_dir, "/", tmpname, "_", ipc_name })
+
+  write_json(get_marks(), backup_path)
+end
+
 local function save_marks()
   local marks_path = get_marks_path()
 
   if not marks_path then return end
 
-  local marks_handle = io.open(marks_path, "w")
-  marks_handle:write(concat({ require("json").encode(get_marks()), "\n" }))
-  marks_handle:close()
+  write_json(get_marks(), marks_path)
 end
 
 local function set_mark(slot)
@@ -114,10 +140,15 @@ local function set_mark(slot)
   local mark = get_marks()[slot]
 
   if not mark or mark.filename ~= filename or mark.pos ~= pos then
+    if mark then
+      backup_marks()
+    end
+
     get_marks()[slot] = {
       filename = filename,
       pos = pos,
     }
+
     save_marks()
   end
 
