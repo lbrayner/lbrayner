@@ -169,9 +169,51 @@ for i = 0, 9 do
   end
 end
 
+local function revalidate_marks()
+  local invalid_marks = {}
+
+  for _, mark in pairs(get_marks()) do
+    local filename = get_playlist_filename_at_pos(mark.pos)
+    if filename ~= mark.filename then
+      invalid_marks[mark.filename] = mark
+    end
+  end
+
+  local count = 0
+  for _ in pairs(invalid_marks) do count = count + 1 end
+
+  print(count, "invalid mark(s)")
+
+  local function iterate_playlist()
+    for pos, item in ipairs(mp.get_property_native("playlist")) do
+      if next(invalid_marks) == nil then
+        print("Short-circuited iterate_playlist in revalidate_marks")
+        return
+      end
+
+      local mark = invalid_marks[item.filename]
+
+      if mark then
+        mark.pos = pos
+        invalid_marks[mark.filename] = nil
+        print("Revalidated", mark.filename)
+      end
+    end
+  end
+
+  iterate_playlist()
+  save_marks()
+end
+
+function M.handle_message(message)
+  if message == "revalidate_marks" then
+    revalidate_marks()
+  end
+end
+
 local ass_start = mp.get_property_osd("osd-ass-cc/0")
 local ass_stop = mp.get_property_osd("osd-ass-cc/1")
-local duration, timeout = 5
+local duration, timeout = 20
 
 function M.show_marks()
   if timeout then

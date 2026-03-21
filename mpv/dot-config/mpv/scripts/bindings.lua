@@ -12,6 +12,10 @@ package.path = concat({ package.path, concat({ home, "lib/?.lua" }, "/") }, ";")
 local control = require("control")
 local marks = require("marks")
 
+mp.register_script_message("marks", function(message)
+  marks.handle_message(message)
+end)
+
 for i = 0, 9 do
   local jump_to_mark_i = concat({ "jump_to_mark_", i })
 
