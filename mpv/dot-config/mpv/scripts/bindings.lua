@@ -57,4 +57,3 @@ end)
 mp.add_key_binding("TAB", "previous_position_play", function()
   control.previous_position_play()
 end)
-
