@@ -18,8 +18,7 @@ mp.register_event("file-loaded", function()
     recent_files = concat({ recent_files_dir, "/", "recent_files_", tmpname, ".m3u" })
   end
 
-  local pos = mp.get_property_native("playlist-pos-1")
-  local filename = get_playlist_filename_at_pos(pos)
+  local filename = get_playlist_filename_at_pos(mp.get_property_native("playlist-pos-1"))
 
   local file = io.open(recent_files, "a")
   file:write(concat({ filename, "\n" }))
