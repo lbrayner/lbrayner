@@ -11,6 +11,7 @@ package.path = concat({ package.path, concat({ home, "lib/?.lua" }, "/") }, ";")
 
 local control = require("control")
 local marks = require("marks")
+local tray = require("tray")
 
 mp.register_script_message("marks", function(message)
   marks.handle_message(message)
@@ -56,4 +57,8 @@ end)
 
 mp.add_key_binding("TAB", "previous_position_play", function()
   control.previous_position_play()
+end)
+
+mp.add_key_binding("INS", "tray_add", function()
+  tray.add()
 end)
