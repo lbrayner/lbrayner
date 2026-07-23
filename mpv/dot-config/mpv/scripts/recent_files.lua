@@ -1,8 +1,19 @@
+local home = os.getenv("MPV_CONFIG_HOME")
+
+if not home or home == "" then
+  print("MPV_CONFIG_HOME is required.")
+  return
+end
+
 local concat = table.concat
+
+package.path = concat({ package.path, concat({ home, "lib/?.lua" }, "/") }, ";")
 
 local function get_playlist_filename_at_pos(pos)
   return mp.get_property(concat({ "playlist/", pos - 1, "/filename" }))
 end
+
+local utils = require("utils")
 
 local file_loaded, file_loaded_cb
 local recent_files, recent_files_filename = {}
@@ -14,8 +25,10 @@ mp.register_event("file-loaded", function()
   if not recent_files_filename then
     os.execute(concat{ "test -d ", recent_files_dir, " || mkdir -p ", recent_files_dir })
 
-    local tmpname = os.tmpname():match("([^/\\]+)$")
-    recent_files_filename = concat({ recent_files_dir, "/", "recent_files_", tmpname, ".m3u" })
+    local tmpname, ipc_name = os.tmpname():match("([^/\\]+)$"), utils.get_ipc_name() or ""
+    recent_files_filename = concat({
+      recent_files_dir, "/", ipc_name, "_", "recent_files_", tmpname, ".m3u"
+    })
   end
 
   local filename = get_playlist_filename_at_pos(mp.get_property_native("playlist-pos-1"))

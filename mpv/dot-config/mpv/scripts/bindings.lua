@@ -5,9 +5,20 @@ if not home or home == "" then
   return
 end
 
+local vendor = os.getenv("MPV_VENDOR_HOME")
+
+if not vendor or vendor == "" then
+  print("MPV_VENDOR_HOME is required.")
+  return
+end
+
 local concat = table.concat
 
-package.path = concat({ package.path, concat({ home, "lib/?.lua" }, "/") }, ";")
+package.path = concat({
+  package.path,
+  concat({ home, "lib/?.lua" }, "/"),
+  concat({ vendor, "lib/?.lua" }, "/")
+}, ";")
 
 local control = require("control")
 local marks = require("marks")

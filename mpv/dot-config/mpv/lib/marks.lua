@@ -1,43 +1,12 @@
-local home = os.getenv("MPV_CONFIG_HOME")
-
-if not home or home == "" then
-  print("MPV_CONFIG_HOME is required.")
-  return
-end
-
-local vendor = os.getenv("MPV_VENDOR_HOME")
-
-if not vendor or vendor == "" then
-  print("MPV_VENDOR_HOME is required.")
-  return
-end
-
 local concat = table.concat
-
-package.path = concat({
-  package.path,
-  concat({ home, "lib/?.lua" }, "/"),
-  concat({ vendor, "lib/?.lua" }, "/")
-}, ";")
-
 local control = require("control")
+local utils = require("utils")
+
 local backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
 local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
-local created_backup_dir, lazyloaded_marks, ipc_name, marks_path
+local created_backup_dir, lazyloaded_marks, marks_path
 local marks = {}
-
-local function get_ipc_name()
-  if ipc_name ~= nil then return ipc_name end
-
-  ipc_name = mp.get_property("input-ipc-server"):match("([%w_]+)$")
-
-  if not ipc_name then
-    ipc_name = false
-  end
-
-  return ipc_name
-end
 
 local function get_backup_dir()
   if created_backup_dir then return backup_dir end
@@ -50,7 +19,7 @@ end
 local function get_marks_path()
   if marks_path ~= nil then return marks_path end
 
-  local ipc_name = get_ipc_name()
+  local ipc_name = utils.get_ipc_name()
 
   if not ipc_name then
     marks_path = false
@@ -114,7 +83,7 @@ local function write_json(t, path)
 end
 
 local function backup_marks()
-  local ipc_name = get_ipc_name()
+  local ipc_name = utils.get_ipc_name()
 
   if not ipc_name then return end
 

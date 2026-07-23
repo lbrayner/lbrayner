@@ -1,4 +1,16 @@
+local home = os.getenv("MPV_CONFIG_HOME")
+
+if not home or home == "" then
+  print("MPV_CONFIG_HOME is required.")
+  return
+end
+
 local concat = table.concat
+
+package.path = concat({ package.path, concat({ home, "lib/?.lua" }, "/") }, ";")
+
+local utils = require("utils")
+
 local file_loaded, file_loaded_cb
 
 file_loaded_cb = function()
@@ -24,8 +36,8 @@ mp.observe_property("playlist-count", "native", function(_, value)
   if not playlist_name then
     os.execute(concat{ "test -d ", playlist_dir, " || mkdir -p ", playlist_dir })
 
-    local tmpname = os.tmpname():match("([^/\\]+)$")
-    playlist_name, playlist_count = concat({ playlist_dir, "/", tmpname, ".m3u" }), value
+    local tmpname, ipc_name = os.tmpname():match("([^/\\]+)$"), utils.get_ipc_name() or ""
+    playlist_name, playlist_count = concat({ playlist_dir, "/", ipc_name, "_", tmpname, ".m3u" }), value
 
     local file = io.open(playlist_name, "w")
 
