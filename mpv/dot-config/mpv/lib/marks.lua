@@ -64,14 +64,14 @@ local function jump_to_mark(slot)
   end
 
   local mark = get_marks()[slot]
-  local filename = get_playlist_filename_at_pos(mark.pos)
+  local item = utils.get_extended_playlist_items_by_filename(mark.filename)[1]
 
-  if filename ~= mark.filename then
+  if item.filename ~= mark.filename then
     mp.osd_message(concat({ "Mark", slot, "invalid" }, " "))
     return
   end
 
-  control.playlist_jump_to_position(mark.pos)
+  control.playlist_jump_to_position(item.pos)
 end
 
 local function write_json(t, path)
@@ -108,7 +108,7 @@ local function set_mark(slot)
 
   local mark = get_marks()[slot]
 
-  if not mark or mark.filename ~= filename or mark.pos ~= pos then
+  if not mark or mark.filename ~= filename then
     if mark then
       backup_marks()
     end
@@ -135,48 +135,6 @@ for i = 0, 9 do
 
   M[concat({ "set_mark_", i })] = function()
     set_mark(i)
-  end
-end
-
-local function revalidate_marks()
-  local invalid_marks = {}
-
-  for _, mark in pairs(get_marks()) do
-    local filename = get_playlist_filename_at_pos(mark.pos)
-    if filename ~= mark.filename then
-      invalid_marks[mark.filename] = mark
-    end
-  end
-
-  local count = 0
-  for _ in pairs(invalid_marks) do count = count + 1 end
-
-  print(count, "invalid mark(s)")
-
-  local function iterate_playlist()
-    for pos, item in ipairs(mp.get_property_native("playlist")) do
-      if next(invalid_marks) == nil then
-        print("Short-circuited iterate_playlist in revalidate_marks")
-        return
-      end
-
-      local mark = invalid_marks[item.filename]
-
-      if mark then
-        mark.pos = pos
-        invalid_marks[mark.filename] = nil
-        print("Revalidated", mark.filename)
-      end
-    end
-  end
-
-  iterate_playlist()
-  save_marks()
-end
-
-function M.handle_message(message)
-  if message == "revalidate_marks" then
-    revalidate_marks()
   end
 end
 
@@ -215,7 +173,7 @@ function M.show_marks()
     local color, reset = "", ""
     local mark = marks[k]
 
-    if mark.pos == pos and mark.filename == filename then
+    if mark.filename == filename then
       color = "{\\c&HFF0000&}"
       reset = "{\\c&HFFFFFF&}"
     end
