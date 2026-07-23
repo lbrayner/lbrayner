@@ -14,27 +14,6 @@ function M.get_ipc_name()
   return ipc_name
 end
 
-local extended_playlist_items_by_filename
-
-function M.get_extended_playlist_items_by_filename(filename)
-  if extended_playlist_items_by_filename then
-    return extended_playlist_items_by_filename[filename] or {}
-  end
-
-  extended_playlist_items_by_filename = {}
-
-  for i, item in ipairs(mp.get_property_native("playlist")) do
-    if not extended_playlist_items_by_filename[item.filename] then
-      extended_playlist_items_by_filename[item.filename] = {}
-    end
-
-    item.pos = i
-    table.insert(extended_playlist_items_by_filename[item.filename], item)
-  end
-
-  return extended_playlist_items_by_filename[filename] or {}
-end
-
 local file_loaded, file_loaded_cb
 
 file_loaded_cb = function()

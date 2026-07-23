@@ -1,5 +1,6 @@
 local concat = table.concat
 local control = require("control")
+local playlist_index = require("playlist_index")
 local utils = require("utils")
 
 local backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
@@ -64,7 +65,7 @@ local function jump_to_mark(slot)
   end
 
   local mark = get_marks()[slot]
-  local item = utils.get_extended_playlist_items_by_filename(mark.filename)[1]
+  local item = playlist_index.get_extended_playlist_items_by_filename(mark.filename)[1]
 
   if item.filename ~= mark.filename then
     mp.osd_message(concat({ "Mark", slot, "invalid" }, " "))
