@@ -115,7 +115,6 @@ local function set_mark(slot)
 
     get_marks()[slot] = {
       filename = filename,
-      pos = pos,
     }
 
     save_marks()
