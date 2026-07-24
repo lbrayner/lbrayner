@@ -1,3 +1,7 @@
+local function log(message)
+  print("lib/playlist_index:", message)
+end
+
 local M = {}
 
 function M.clear()
@@ -5,7 +9,7 @@ function M.clear()
     "user-data/lbrayner/playlist_index/extended_playlist_items_by_filename",
     nil
   )
-  print("Playlist Index cleared")
+  log("Playlist Index cleared")
 end
 
 function M.handle_message(message)

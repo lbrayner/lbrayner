@@ -4,7 +4,7 @@ local function get_playlist_filename_at_pos(pos)
   return mp.get_property(concat({ "playlist/", pos - 1, "/filename" }))
 end
 
-local utils = require("utils")
+local utils = require("lbrayner/lib/utils")
 
 local file_loaded, file_loaded_cb
 local recent_files, recent_files_filename = {}

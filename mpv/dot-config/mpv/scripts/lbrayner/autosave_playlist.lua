@@ -1,6 +1,6 @@
 local concat = table.concat
 
-local utils = require("utils")
+local utils = require("lbrayner/lib/utils")
 
 local file_loaded, file_loaded_cb
 

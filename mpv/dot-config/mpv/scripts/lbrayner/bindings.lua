@@ -1,7 +1,7 @@
 local concat = table.concat
 
-local control = require("control")
-local marks = require("marks")
+local control = require("lbrayner/lib/control")
+local marks = require("lbrayner/lib/marks")
 
 for i = 0, 9 do
   local jump_to_mark_i = concat({ "jump_to_mark_", i })

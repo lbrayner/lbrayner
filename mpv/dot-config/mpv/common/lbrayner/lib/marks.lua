@@ -1,7 +1,7 @@
 local concat = table.concat
-local control = require("control")
-local playlist_index = require("playlist_index")
-local utils = require("utils")
+local control = require("lbrayner/lib/control")
+local playlist_index = require("lbrayner/lib/playlist_index")
+local utils = require("lbrayner/lib/utils")
 
 local backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
 local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"

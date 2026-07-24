@@ -1,3 +1,7 @@
+local function log(message)
+  print("lib/utils:", message)
+end
+
 local M = {}
 
 local ipc_name
@@ -17,7 +21,7 @@ end
 local file_loaded, file_loaded_cb
 
 file_loaded_cb = function()
-  print("file-loaded triggered")
+  log("file-loaded triggered")
   if not file_loaded then
     file_loaded = true
     mp.unregister_event(file_loaded_cb)
