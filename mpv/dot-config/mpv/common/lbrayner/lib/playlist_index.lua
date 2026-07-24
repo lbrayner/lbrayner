@@ -1,5 +1,5 @@
 local function log(message)
-  print("lib/playlist_index:", message)
+  print("[lib/playlist_index]", message)
 end
 
 local M = {}

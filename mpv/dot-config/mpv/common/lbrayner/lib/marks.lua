@@ -90,7 +90,7 @@ local function backup_marks()
 
   local backup_dir = get_backup_dir()
   local tmpname = os.tmpname():match("([%w_]+)$")
-  local backup_path = concat({ backup_dir, "/", tmpname, "_", ipc_name })
+  local backup_path = concat({ backup_dir, "/", ipc_name, "_", tmpname })
 
   write_json(get_marks(), backup_path)
 end

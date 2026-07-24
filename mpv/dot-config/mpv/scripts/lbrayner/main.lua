@@ -21,7 +21,7 @@ package.path = concat({
   concat({ vendor, "lib/?.lua" }, "/")
 }, ";")
 
-require("autosave_playlist")
 require("bindings")
 require("message_handler")
-require("recent_files")
+require("playlist_autosave")
+require("playlist_jump_ring")
