@@ -1,5 +1,5 @@
-local function log(message)
-  print("[startup]", message)
+local function log(...)
+  print("[startup]", ...)
 end
 
 local file_loaded, file_loaded_cb

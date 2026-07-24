@@ -1,5 +1,5 @@
-local function log(message)
-  print("[main]", message)
+local function log(...)
+  print("[main]", ...)
 end
 
 local home = os.getenv("MPV_CONFIG_HOME")

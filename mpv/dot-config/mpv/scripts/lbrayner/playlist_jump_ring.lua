@@ -1,5 +1,5 @@
-local function log(message)
-  print("[playlist_jump_ring]", message)
+local function log(...)
+  print("[playlist_jump_ring]", ...)
 end
 
 local concat = table.concat
@@ -21,7 +21,7 @@ mp.register_event("file-loaded", function()
 
     local tmpname, ipc_name = os.tmpname():match("([^/\\]+)$"), utils.get_ipc_name() or ""
     recent_files_filename = concat({
-      recent_files_dir, "/", ipc_name, "_", "recent_files_", tmpname, ".m3u"
+      recent_files_dir, "/", ipc_name, "-playlist_jump_ring-", tmpname, ".m3u"
     })
   end
 

@@ -1,5 +1,5 @@
-local function log(message)
-  print("[playlist_autosave]", message)
+local function log(...)
+  print("[playlist_autosave]", ...)
 end
 
 local concat = table.concat
@@ -20,7 +20,9 @@ mp.observe_property("playlist-count", "native", function(_, value)
     os.execute(concat{ "test -d ", playlist_dir, " || mkdir -p ", playlist_dir })
 
     local tmpname, ipc_name = os.tmpname():match("([^/\\]+)$"), utils.get_ipc_name() or ""
-    playlist_name, playlist_count = concat({ playlist_dir, "/", ipc_name, "_", tmpname, ".m3u" }), value
+    playlist_name, playlist_count = concat({
+      playlist_dir, "/", ipc_name, "-playlist_autosave-", tmpname, ".m3u"
+    }), value
 
     local file = io.open(playlist_name, "w")
 
