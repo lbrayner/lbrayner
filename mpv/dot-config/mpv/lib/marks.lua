@@ -67,7 +67,7 @@ local function jump_to_mark(slot)
   local mark = get_marks()[slot]
   local item = playlist_index.get_extended_playlist_items_by_filename(mark.filename)[1]
 
-  if item.filename ~= mark.filename then
+  if not item or item.filename ~= mark.filename then
     mp.osd_message(concat({ "Mark", slot, "invalid" }, " "))
     return
   end
