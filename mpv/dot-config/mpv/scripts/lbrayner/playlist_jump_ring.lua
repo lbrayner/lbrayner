@@ -1,3 +1,7 @@
+local function log(message)
+  print("[playlist_jump_ring]", message)
+end
+
 local concat = table.concat
 
 local function get_playlist_filename_at_pos(pos)
@@ -24,7 +28,7 @@ mp.register_event("file-loaded", function()
   local filename = get_playlist_filename_at_pos(mp.get_property_native("playlist-pos-1"))
 
   if recent_files[filename] then
-    print("Already present:", filename)
+    log("Already present:", filename)
     return
   end
 
@@ -33,5 +37,5 @@ mp.register_event("file-loaded", function()
   local file = io.open(recent_files_filename, "a")
   file:write(concat({ filename, "\n" }))
   file:close()
-  print("Appended to", recent_files_filename)
+  log("Appended to", recent_files_filename)
 end)

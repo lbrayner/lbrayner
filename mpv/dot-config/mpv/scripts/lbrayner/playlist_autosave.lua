@@ -1,3 +1,7 @@
+local function log(message)
+  print("[playlist_autosave]", message)
+end
+
 local concat = table.concat
 
 local utils = require("lbrayner/lib/utils")
@@ -25,7 +29,7 @@ mp.observe_property("playlist-count", "native", function(_, value)
     end
 
     file:close()
-    print("Saved playlist", playlist_name)
+    log("Saved playlist", playlist_name)
     return
   end
 
@@ -38,6 +42,6 @@ mp.observe_property("playlist-count", "native", function(_, value)
 
   file:close()
 
-  print("Appended", value - playlist_count, "item(s) to playlist", playlist_name)
+  log("Appended", value - playlist_count, "item(s) to playlist", playlist_name)
   playlist_count = value
 end)
