@@ -13,7 +13,7 @@ local utils = require("lbrayner/lib/utils")
 local PLAYLIST_JUMP_RING = (
   "user-data/lbrayner/playlist_jump_ring/playlist_jump_ring"
 )
-local jump_ring, jump_ring_filename = {}
+local jump_ring, jump_ring_index, jump_ring_filename = {}, {}
 local jump_ring_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/playlist_jump_ring"
 
 mp.register_event("file-loaded", function()
@@ -30,12 +30,13 @@ mp.register_event("file-loaded", function()
 
   local filename = get_playlist_filename_at_pos(mp.get_property_native("playlist-pos-1"))
 
-  if jump_ring[filename] then
+  if jump_ring_index[filename] then
     log("Already present:", filename)
     return
   end
 
-  jump_ring[filename] = true
+  jump_ring_index[filename] = true
+  table.insert(jump_ring, filename)
   mp.set_property_native(PLAYLIST_JUMP_RING, jump_ring)
 
   local file = io.open(jump_ring_filename, "a")
