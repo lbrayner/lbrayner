@@ -2,13 +2,13 @@ local function log(...)
   print("[lib/playlist_index]", ...)
 end
 
+local EXTENDED_PLAYLIST_ITEMS_BY_FILENAME = (
+  "user-data/lbrayner/playlist_index/extended_playlist_items_by_filename"
+)
 local M = {}
 
 function M.clear()
-  mp.set_property_native(
-    "user-data/lbrayner/playlist_index/extended_playlist_items_by_filename",
-    nil
-  )
+  mp.set_property_native(EXTENDED_PLAYLIST_ITEMS_BY_FILENAME, nil)
   log("Playlist Index cleared")
 end
 
@@ -20,7 +20,7 @@ end
 
 function M.get_extended_playlist_items_by_filename(filename)
   local extended_playlist_items_by_filename = mp.get_property_native(
-    "user-data/lbrayner/playlist_index/extended_playlist_items_by_filename"
+    EXTENDED_PLAYLIST_ITEMS_BY_FILENAME
   )
 
   if extended_playlist_items_by_filename then
@@ -39,7 +39,7 @@ function M.get_extended_playlist_items_by_filename(filename)
   end
 
   mp.set_property_native(
-    "user-data/lbrayner/playlist_index/extended_playlist_items_by_filename",
+    EXTENDED_PLAYLIST_ITEMS_BY_FILENAME,
     extended_playlist_items_by_filename
   )
 
