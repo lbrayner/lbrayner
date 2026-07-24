@@ -10,32 +10,36 @@ end
 
 local utils = require("lbrayner/lib/utils")
 
-local recent_files, recent_files_filename = {}
-local recent_files_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/playlist_jump_ring"
+local PLAYLIST_JUMP_RING = (
+  "user-data/lbrayner/playlist_jump_ring/playlist_jump_ring"
+)
+local jump_ring, jump_ring_filename = {}
+local jump_ring_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/playlist_jump_ring"
 
 mp.register_event("file-loaded", function()
   if not utils.is_file_loaded() then return end
 
-  if not recent_files_filename then
-    os.execute(concat{ "test -d ", recent_files_dir, " || mkdir -p ", recent_files_dir })
+  if not jump_ring_filename then
+    os.execute(concat{ "test -d ", jump_ring_dir, " || mkdir -p ", jump_ring_dir })
 
     local tmpname, ipc_name = os.tmpname():match("([^/\\]+)$"), utils.get_ipc_name() or ""
-    recent_files_filename = concat({
-      recent_files_dir, "/", ipc_name, "-playlist_jump_ring-", tmpname, ".m3u"
+    jump_ring_filename = concat({
+      jump_ring_dir, "/", ipc_name, "-playlist_jump_ring-", tmpname, ".m3u"
     })
   end
 
   local filename = get_playlist_filename_at_pos(mp.get_property_native("playlist-pos-1"))
 
-  if recent_files[filename] then
+  if jump_ring[filename] then
     log("Already present:", filename)
     return
   end
 
-  recent_files[filename] = true
+  jump_ring[filename] = true
+  mp.set_property_native(PLAYLIST_JUMP_RING, jump_ring)
 
-  local file = io.open(recent_files_filename, "a")
+  local file = io.open(jump_ring_filename, "a")
   file:write(concat({ filename, "\n" }))
   file:close()
-  log("Appended to", recent_files_filename)
+  log("Appended to", jump_ring_filename)
 end)
