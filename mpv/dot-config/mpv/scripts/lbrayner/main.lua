@@ -29,4 +29,6 @@ require("bindings")
 require("message_handler")
 require("playlist_autosave")
 require("playlist_jump_ring")
+
+-- startup's file-loaded event created last
 require("startup")
