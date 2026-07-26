@@ -27,10 +27,30 @@ function M.get_extended_playlist_items_by_filename(filename)
     return extended_playlist_items_by_filename[filename] or {}
   end
 
-  extended_playlist_items_by_filename = {}
+  extended_playlist_items_by_filename = M.get_updated_playlist_index(
+  ).extended_playlist_items_by_filename
 
-  for i, item in ipairs(mp.get_property_native("playlist")) do
-    M.index_and_extend_playlist_item(extended_playlist_items_by_filename, item, { pos = i })
+  return extended_playlist_items_by_filename[filename] or {}
+end
+
+function M.get_updated_playlist_index(start)
+  start = start or 1
+  assert(type(start) == "number", "'start' must be a number")
+
+  local extended_playlist_items_by_filename = mp.get_property_native(
+    EXTENDED_PLAYLIST_ITEMS_BY_FILENAME
+  ) or {}
+  local playlist = mp.get_property_native("playlist")
+
+  for i = start, #playlist do
+    local item = playlist[i]
+
+    if not extended_playlist_items_by_filename[item.filename] then
+      extended_playlist_items_by_filename[item.filename] = {}
+    end
+
+    item.pos = i
+    table.insert(extended_playlist_items_by_filename[item.filename], item)
   end
 
   mp.set_property_native(
@@ -38,20 +58,13 @@ function M.get_extended_playlist_items_by_filename(filename)
     extended_playlist_items_by_filename
   )
 
-  return extended_playlist_items_by_filename[filename] or {}
+  return { extended_playlist_items_by_filename = extended_playlist_items_by_filename }
 end
 
-function M.index_and_extend_playlist_item(extended_playlist_items_by_filename, item, props)
-  props = props or {}
-
-  if not extended_playlist_items_by_filename[item.filename] then
-    extended_playlist_items_by_filename[item.filename] = {}
-  end
-
-  item.pos = props.pos
-  table.insert(extended_playlist_items_by_filename[item.filename], item)
-
-  return extended_playlist_items_by_filename
+function M.is_initialized()
+  return mp.get_property_native(
+    EXTENDED_PLAYLIST_ITEMS_BY_FILENAME
+  )
 end
 
 return M
