@@ -12,7 +12,7 @@ local backup_dir, created_backup_dir = (
   "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/playlist_jump_ring"
 )
 local concat = table.concat
-local jump_ring_dir, jump_ring_filename = (
+local jump_ring_dir, jump_ring_path = (
   "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist_jump_ring"
 )
 
@@ -43,21 +43,31 @@ local function backup()
   log("Backed up Playlist Jump Ring to", playlist_name)
 end
 
-mp.register_event("file-loaded", function()
-  if not utils.is_file_loaded() then return end
+local function get_jump_ring_path()
+  if jump_ring_path then return true, jump_ring_path end
 
-  if not jump_ring_filename then
-    os.execute(concat{ "test -d ", jump_ring_dir, " || mkdir -p ", jump_ring_dir })
-    jump_ring_filename = concat({ jump_ring_dir, "/", ipc_name })
+  local ipc_name = utils.get_ipc_name()
+
+  if not ipc_name then
+    return false
   end
 
-  local filename = mp.get_property(concat({
-    "playlist/", mp.get_property("playlist-pos"), "/filename"
-  }))
+  os.execute(concat{ "test -d ", jump_ring_dir, " || mkdir -p ", jump_ring_dir })
+  jump_ring_path = concat({ jump_ring_dir, "/", ipc_name })
+  os.execute(concat{ "test -f ", jump_ring_path, " || touch ", jump_ring_path })
+  return true, jump_ring_path
+end
+
+mp.register_event("file-loaded", function()
+  if not utils.is_file_loaded() then return end
 
   local jump_ring_index = mp.get_property_native(
     PLAYLIST_JUMP_RING_INDEX
   ) or {}
+
+  local filename = mp.get_property(concat({
+    "playlist/", mp.get_property("playlist-pos"), "/filename"
+  }))
 
   if jump_ring_index[filename] then
     log("Already present:", filename)
@@ -73,8 +83,15 @@ mp.register_event("file-loaded", function()
   mp.set_property_native(PLAYLIST_JUMP_RING_INDEX, jump_ring_index)
   mp.set_property_native(PLAYLIST_JUMP_RING, jump_ring)
 
-  local file = io.open(jump_ring_filename, "a")
+  local _, jump_ring_path = get_jump_ring_path()
+
+  if not jump_ring_path then
+    log("Could not obtain Jump Ring path")
+    return
+  end
+
+  local file = io.open(jump_ring_path, "a")
   file:write(concat({ filename, "\n" }))
   file:close()
-  log("Appended to", jump_ring_filename)
+  log("Appended to", jump_ring_path)
 end)
