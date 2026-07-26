@@ -29,7 +29,20 @@ function M.get_extended_playlist_items_by_filename(filename)
 
   extended_playlist_items_by_filename = {}
 
-  for i, item in ipairs(mp.get_property_native("playlist")) do
+  M.index_and_extend_playlist_items(
+    extended_playlist_items_by_filename, mp.get_property_native("playlist")
+  )
+
+  mp.set_property_native(
+    EXTENDED_PLAYLIST_ITEMS_BY_FILENAME,
+    extended_playlist_items_by_filename
+  )
+
+  return extended_playlist_items_by_filename[filename] or {}
+end
+
+function M.index_and_extend_playlist_items(extended_playlist_items_by_filename, items)
+  for i, item in ipairs(items) do
     if not extended_playlist_items_by_filename[item.filename] then
       extended_playlist_items_by_filename[item.filename] = {}
     end
@@ -38,12 +51,7 @@ function M.get_extended_playlist_items_by_filename(filename)
     table.insert(extended_playlist_items_by_filename[item.filename], item)
   end
 
-  mp.set_property_native(
-    EXTENDED_PLAYLIST_ITEMS_BY_FILENAME,
-    extended_playlist_items_by_filename
-  )
-
-  return extended_playlist_items_by_filename[filename] or {}
+  return extended_playlist_items_by_filename
 end
 
 return M
