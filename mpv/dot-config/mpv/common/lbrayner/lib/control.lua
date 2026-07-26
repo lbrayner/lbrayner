@@ -1,3 +1,9 @@
+local function previous_position_save()
+  mp.command("write-watch-later-config")
+  local previous_position = mp.get_property_native("playlist-pos-1")
+  mp.set_property_native("user-data/lbrayner/control/previous_position", previous_position)
+end
+
 local M = {}
 
 function M.pause_watch_later()
@@ -15,7 +21,7 @@ function M.playlist_go_to_start()
 
   if count == 1 then return end
 
-  M.previous_position_save()
+  previous_position_save()
   mp.set_property_native("playlist-pos-1", 1) -- Go to playlist start
 end
 
@@ -24,7 +30,7 @@ function M.playlist_go_to_end()
 
   if count == 1 then return end
 
-  M.previous_position_save()
+  previous_position_save()
   mp.set_property_native("playlist-pos-1", count) -- Go to playlist end
 end
 
@@ -36,7 +42,7 @@ function M.playlist_jump_to_position(pos)
   if count == 1 then return end
   if pos < 1 or pos > count then return end
 
-  M.previous_position_save()
+  previous_position_save()
   mp.set_property_native("playlist-pos-1", pos)
 end
 
@@ -83,15 +89,9 @@ function M.previous_position_play()
   local pos = M.previous_position_get()
 
   if pos then
-    M.previous_position_save()
+    previous_position_save()
     mp.set_property_native("playlist-pos-1", pos)
   end
-end
-
-function M.previous_position_save()
-  mp.command("write-watch-later-config")
-  local previous_position = mp.get_property_native("playlist-pos-1")
-  mp.set_property_native("user-data/lbrayner/control/previous_position", previous_position)
 end
 
 return M
