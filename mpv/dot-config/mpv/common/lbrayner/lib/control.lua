@@ -33,6 +33,7 @@ function M.playlist_jump_to_position(pos)
 
   local count = mp.get_property_native("playlist-count")
 
+  if count == 1 then return end
   if pos < 1 or pos > count then return end
 
   M.previous_position_save()
