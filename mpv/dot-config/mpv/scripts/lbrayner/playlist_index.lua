@@ -12,7 +12,6 @@ local playlist_count
 
 mp.observe_property("playlist-count", "native", function(_, value)
   if not utils.is_file_loaded() then return end
-  log("Hello playlist-count")
 
   local extended_playlist_items_by_filename = mp.get_property_native(
     EXTENDED_PLAYLIST_ITEMS_BY_FILENAME
@@ -26,16 +25,13 @@ mp.observe_property("playlist-count", "native", function(_, value)
   elseif playlist_count then
     log("Playlist count went up, updating Playlist Index...")
 
-    local items = {}
     local playlist = mp.get_property_native("playlist")
 
     for i = playlist_count + 1, value do
-      table.insert(items, playlist[i])
+      playlist_index.index_and_extend_playlist_item(
+        extended_playlist_items_by_filename, playlist[i], { pos = i }
+      )
     end
-
-    playlist_index.index_and_extend_playlist_items(
-      extended_playlist_items_by_filename, items
-    )
 
     mp.set_property_native(
       EXTENDED_PLAYLIST_ITEMS_BY_FILENAME,
