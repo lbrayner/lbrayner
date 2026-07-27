@@ -72,6 +72,8 @@ end
 local M = {}
 
 function M.add(filename)
+  assert(type(filename) == "string", "'filename' must be a string")
+
   if not loaded then M.load() end
 
   local jump_ring_index = mp.get_property_native(
@@ -133,6 +135,8 @@ function M.load()
 end
 
 function M.remove(pos)
+  assert(type(pos) == "number", "'pos' must be a number")
+
   local jump_ring = mp.get_property_native(
     PLAYLIST_JUMP_RING
   ) or {}
@@ -161,6 +165,54 @@ function M.remove(pos)
 
   if not jump_ring_path then
     log("[ERROR] remove: failed to synchronize")
+    return
+  end
+
+  local file = io.open(jump_ring_path, "w")
+
+  for _, filename in ipairs(jump_ring) do
+    file:write(concat({ filename, "\n" }))
+  end
+
+  file:close()
+  log("Syncronized to", jump_ring_path)
+end
+
+function M.swap(pos1, pos2)
+  assert(type(pos1) == "number", "'pos1' must be a number")
+  assert(type(pos2) == "number", "'pos2' must be a number")
+
+  local jump_ring = mp.get_property_native(
+    PLAYLIST_JUMP_RING
+  ) or {}
+
+  local left = jump_ring[pos1]
+
+  if not left then
+    log("[ERROR] swap: position", pos1, "invalid")
+    return
+  end
+
+  local right = jump_ring[pos2]
+
+  if not right then
+    log("[ERROR] swap: position", pos2, "invalid")
+    return
+  end
+
+  backup()
+
+  jump_ring[pos1] = right
+  jump_ring[pos2] = left
+
+  mp.set_property_native(PLAYLIST_JUMP_RING, jump_ring)
+
+  log("Position", pos1, "swapped with", pos2)
+
+  local _, jump_ring_path = get_jump_ring_path()
+
+  if not jump_ring_path then
+    log("[ERROR] swap: failed to synchronize")
     return
   end
 
