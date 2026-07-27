@@ -123,4 +123,28 @@ function M.load()
   log("Loaded Playlist Jump Ring")
 end
 
+function M.remove(pos)
+  local jump_ring = mp.get_property_native(
+    PLAYLIST_JUMP_RING
+  ) or {}
+
+  local filename = table.remove(jump_ring, pos)
+
+  if not filename then
+    log("Failed to remove position", pos)
+    return
+  end
+
+  local jump_ring_index = mp.get_property_native(
+    PLAYLIST_JUMP_RING_INDEX
+  ) or {}
+
+  jump_ring_index[filename] = nil
+
+  mp.set_property_native(PLAYLIST_JUMP_RING_INDEX, jump_ring_index)
+  mp.set_property_native(PLAYLIST_JUMP_RING, jump_ring)
+
+  log("Position", pos, "removed:", filename)
+end
+
 return M
