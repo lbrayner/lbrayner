@@ -20,6 +20,15 @@ local loaded
 local utils = require("lbrayner/lib/utils")
 
 local function backup()
+  local jump_ring = mp.get_property_native(
+    PLAYLIST_JUMP_RING
+  ) or {}
+
+  if not jump_ring or #jump_ring == 0 then
+    log("Backup: ring empty, nothing to do")
+    return
+  end
+
   local ipc_name = utils.get_ipc_name()
 
   if not ipc_name then return end
@@ -41,7 +50,7 @@ local function backup()
   end
 
   file:close()
-  log("Backed up Playlist Jump Ring to", playlist_name)
+  log("Backed up Playlist Jump Ring to", backup_path)
 end
 
 local function get_jump_ring_path()
@@ -50,7 +59,7 @@ local function get_jump_ring_path()
   local ipc_name = utils.get_ipc_name()
 
   if not ipc_name then
-    log("Jump Ring error: could not obtain path (no IPC name)")
+    log("[ERROR] Could not obtain path: no IPC name")
     return false
   end
 
@@ -86,7 +95,7 @@ function M.add(filename)
   local _, jump_ring_path = get_jump_ring_path()
 
   if not jump_ring_path then
-    log("Jump Ring error: failed to add", filename)
+    log("[ERROR] add: failed to synchronize", filename)
     return
   end
 
@@ -104,7 +113,7 @@ function M.load()
   local _, jump_ring_path = get_jump_ring_path()
 
   if not jump_ring_path then
-    log("Jump Ring error: failed to load from file")
+    log("[ERROR] failed to load from file")
     return
   end
 
@@ -131,9 +140,11 @@ function M.remove(pos)
   local filename = table.remove(jump_ring, pos)
 
   if not filename then
-    log("Failed to remove position", pos)
+    log("[ERROR] Failed to remove position", pos)
     return
   end
+
+  backup()
 
   local jump_ring_index = mp.get_property_native(
     PLAYLIST_JUMP_RING_INDEX
@@ -145,6 +156,22 @@ function M.remove(pos)
   mp.set_property_native(PLAYLIST_JUMP_RING, jump_ring)
 
   log("Position", pos, "removed:", filename)
+
+  local _, jump_ring_path = get_jump_ring_path()
+
+  if not jump_ring_path then
+    log("[ERROR] remove: failed to synchronize")
+    return
+  end
+
+  local file = io.open(jump_ring_path, "w")
+
+  for _, filename in ipairs(jump_ring) do
+    file:write(concat({ filename, "\n" }))
+  end
+
+  file:close()
+  log("Syncronized to", jump_ring_path)
 end
 
 return M
