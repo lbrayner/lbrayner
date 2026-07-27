@@ -15,6 +15,7 @@ local concat = table.concat
 local jump_ring_dir, jump_ring_path = (
   "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playlist_jump_ring"
 )
+local loaded
 
 local utils = require("lbrayner/lib/utils")
 
@@ -49,6 +50,7 @@ local function get_jump_ring_path()
   local ipc_name = utils.get_ipc_name()
 
   if not ipc_name then
+    log("Jump Ring error: could not obtain path (no IPC name)")
     return false
   end
 
@@ -61,6 +63,8 @@ end
 local M = {}
 
 function M.add(filename)
+  if not loaded then M.load() end
+
   local jump_ring_index = mp.get_property_native(
     PLAYLIST_JUMP_RING_INDEX
   ) or {}
@@ -82,7 +86,7 @@ function M.add(filename)
   local _, jump_ring_path = get_jump_ring_path()
 
   if not jump_ring_path then
-    log("Could not obtain Jump Ring path")
+    log("Jump Ring error: failed to add", filename)
     return
   end
 
@@ -90,6 +94,33 @@ function M.add(filename)
   file:write(concat({ filename, "\n" }))
   file:close()
   log("Appended to", jump_ring_path)
+end
+
+function M.load()
+  if loaded then return end
+
+  loaded = true
+
+  local _, jump_ring_path = get_jump_ring_path()
+
+  if not jump_ring_path then
+    log("Jump Ring error: failed to load from file")
+    return
+  end
+
+  local jump_ring_index, jump_ring = {}, {}
+
+  for filename in io.lines(jump_ring_path) do
+    if not jump_ring_index[filename] then
+      jump_ring_index[filename] = true
+      table.insert(jump_ring, filename)
+    end
+  end
+
+  mp.set_property_native(PLAYLIST_JUMP_RING_INDEX, jump_ring_index)
+  mp.set_property_native(PLAYLIST_JUMP_RING, jump_ring)
+
+  log("Loaded Playlist Jump Ring")
 end
 
 return M
