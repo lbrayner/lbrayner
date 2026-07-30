@@ -17,10 +17,6 @@ for i = 0, 9 do
   end)
 end
 
-mp.add_key_binding("F4", "show_marks", function()
-  marks.show_marks()
-end)
-
 mp.add_key_binding("Ctrl+f", "playlist_go_to_start", function()
   control.playlist_go_to_start()
 end)

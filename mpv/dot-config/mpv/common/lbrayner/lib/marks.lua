@@ -1,3 +1,4 @@
+local MARKS = "user-data/lbrayner/marks/marks"
 local concat = table.concat
 local control = require("lbrayner/lib/control")
 local playlist_index = require("lbrayner/lib/playlist_index")
@@ -6,7 +7,7 @@ local utils = require("lbrayner/lib/utils")
 local backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
 local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
-local created_backup_dir, lazyloaded_marks, marks_path
+local created_backup_dir, lazyloaded_marks, marks_path, update_list
 local marks = {}
 
 local function get_backup_dir()
@@ -47,6 +48,7 @@ local function get_marks()
 
       if json_encoded then
         marks = require("json").decode(json_encoded)
+        update_list()
       end
     end
   end
@@ -96,6 +98,8 @@ local function backup_marks()
 end
 
 local function save_marks()
+  update_list()
+
   local marks_path = get_marks_path()
 
   if not marks_path then return end
@@ -124,6 +128,25 @@ local function set_mark(slot)
   mp.osd_message(concat({ "Mark", slot, "set" }, " "))
 end
 
+update_list = function()
+  local keys = {}
+  local marks = get_marks()
+
+  for k in pairs(marks) do
+    table.insert(keys, k)
+  end
+
+  table.sort(keys)
+
+  local list = {}
+
+  for _, k in ipairs(keys) do
+    table.insert(list, { filename = marks[k], slot = k })
+  end
+
+  mp.set_property_native(MARKS, list)
+end
+
 local M = {}
 
 for i = 0, 9 do
@@ -136,53 +159,6 @@ for i = 0, 9 do
   M[concat({ "set_mark_", i })] = function()
     set_mark(i)
   end
-end
-
-local ass_start = mp.get_property_osd("osd-ass-cc/0")
-local ass_stop = mp.get_property_osd("osd-ass-cc/1")
-local duration, timeout = 20
-
-function M.show_marks()
-  if timeout then
-    if os.time() < timeout then
-      timeout = nil
-      mp.osd_message("", 0)
-      return
-    end
-  end
-
-  local keys = {}
-  local marks = get_marks()
-
-  if not marks then
-    mp.osd_message("No marks set")
-    return
-  end
-
-  for k in pairs(marks) do
-    table.insert(keys, k)
-  end
-
-  table.sort(keys)
-
-  local lines = {}
-  local pos = mp.get_property_native("playlist-pos-1")
-  local filename = get_playlist_filename_at_pos(pos)
-
-  for _, k in ipairs(keys) do
-    local color, reset = "", ""
-    local mark = marks[k]
-
-    if mark.filename == filename then
-      color = "{\\c&HFF0000&}"
-      reset = "{\\c&HFFFFFF&}"
-    end
-
-    table.insert(lines, concat({ color, k, " → ", mark.filename, reset }))
-  end
-
-  timeout = os.time() + duration
-  mp.osd_message(concat({ ass_start, "{\\fs12}", concat(lines, "\n"), ass_stop }), duration)
 end
 
 return M
