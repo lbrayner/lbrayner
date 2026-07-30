@@ -141,7 +141,7 @@ update_list = function()
   local list = {}
 
   for _, k in ipairs(keys) do
-    table.insert(list, { filename = marks[k], slot = k })
+    table.insert(list, { filename = marks[k].filename, slot = k })
   end
 
   mp.set_property_native(MARKS, list)
