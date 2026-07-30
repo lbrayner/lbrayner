@@ -1,3 +1,7 @@
+local function log(...)
+  print("[lib/marks]", ...)
+end
+
 local MARKS = "user-data/lbrayner/marks/marks"
 local concat = table.concat
 local control = require("lbrayner/lib/control")
@@ -49,6 +53,7 @@ local function get_marks()
       if json_encoded then
         marks = require("json").decode(json_encoded)
         update_list()
+        log("Loaded Marks")
       end
     end
   end
