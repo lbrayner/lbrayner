@@ -2,6 +2,7 @@ local function log(...)
   print("[lib/marks]", ...)
 end
 
+local LIST = "user-data/lbrayner/marks/list"
 local MARKS = "user-data/lbrayner/marks/marks"
 local concat = table.concat
 local control = require("lbrayner/lib/control")
@@ -11,8 +12,7 @@ local utils = require("lbrayner/lib/utils")
 local backup_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/marks"
 local marks_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/marks"
 
-local created_backup_dir, lazyloaded_marks, marks_path, update_list
-local marks = {}
+local created_backup_dir, lazyloaded_marks, marks_path
 
 local function get_backup_dir()
   if created_backup_dir then return backup_dir end
@@ -38,7 +38,33 @@ local function get_marks_path()
   return marks_path
 end
 
+local function update_state(marks)
+  local keys = {}
+
+  for k in pairs(marks) do
+    table.insert(keys, k)
+  end
+
+  table.sort(keys)
+
+  local list = {}
+
+  for _, k in ipairs(keys) do
+    table.insert(list, { filename = marks[k].filename, slot = k })
+  end
+
+  mp.set_property_native(LIST, list)
+  mp.set_property_native(MARKS, marks)
+end
+
 local function get_marks()
+  local marks = mp.get_property_native(MARKS)
+
+  if marks then
+    log("Marks set, lazyloaded_marks", lazyloaded_marks)
+    return marks
+  end
+
   if not lazyloaded_marks then
     lazyloaded_marks = true
     local marks_path = get_marks_path()
@@ -52,11 +78,13 @@ local function get_marks()
 
       if json_encoded then
         marks = require("json").decode(json_encoded)
-        update_list()
         log("Loaded Marks")
       end
     end
   end
+
+  marks = marks or {}
+  update_state(marks)
 
   return marks
 end
@@ -90,7 +118,7 @@ local function write_json(t, path)
   handle:close()
 end
 
-local function backup_marks()
+local function backup_marks(marks)
   local ipc_name = utils.get_ipc_name()
 
   if not ipc_name then return end
@@ -99,57 +127,38 @@ local function backup_marks()
   local tmpname = os.tmpname():match("([%w_]+)$")
   local backup_path = concat({ backup_dir, "/", ipc_name, "_", tmpname })
 
-  write_json(get_marks(), backup_path)
+  write_json(marks, backup_path)
 end
 
-local function save_marks()
-  update_list()
-
+local function persist_marks(marks)
   local marks_path = get_marks_path()
 
   if not marks_path then return end
 
-  write_json(get_marks(), marks_path)
+  write_json(marks, marks_path)
 end
 
 local function set_mark(slot)
   local pos = mp.get_property_native("playlist-pos-1")
   local filename = get_playlist_filename_at_pos(pos)
 
-  local mark = get_marks()[slot]
+  local marks = get_marks()
+  local mark = marks[slot]
 
   if not mark or mark.filename ~= filename then
     if mark then
-      backup_marks()
+      backup_marks(marks)
     end
 
-    get_marks()[slot] = {
+    marks[slot] = {
       filename = filename,
     }
 
-    save_marks()
+    update_state(marks)
+    persist_marks(marks)
   end
 
   mp.osd_message(concat({ "Mark", slot, "set" }, " "))
-end
-
-update_list = function()
-  local keys = {}
-  local marks = get_marks()
-
-  for k in pairs(marks) do
-    table.insert(keys, k)
-  end
-
-  table.sort(keys)
-
-  local list = {}
-
-  for _, k in ipairs(keys) do
-    table.insert(list, { filename = marks[k].filename, slot = k })
-  end
-
-  mp.set_property_native(MARKS, list)
 end
 
 local M = {}
@@ -164,6 +173,10 @@ for i = 0, 9 do
   M[concat({ "set_mark_", i })] = function()
     set_mark(i)
   end
+end
+
+function M.load()
+  get_marks()
 end
 
 return M
