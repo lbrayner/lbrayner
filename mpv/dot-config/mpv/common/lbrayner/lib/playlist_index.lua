@@ -37,20 +37,29 @@ function M.get_updated_playlist_index(start)
   start = start or 1
   assert(type(start) == "number", "'start' must be a number")
 
+  if not M.is_initialized() then
+    log("Not initialized, start", start)
+    start = 1
+  end
+
   local extended_playlist_items_by_filename = mp.get_property_native(
     EXTENDED_PLAYLIST_ITEMS_BY_FILENAME
   ) or {}
   local playlist = mp.get_property_native("playlist")
 
+  log("Indexing playlist from position", start)
+
   for i = start, #playlist do
     local item = playlist[i]
+    local items = extended_playlist_items_by_filename[item.filename]
 
-    if not extended_playlist_items_by_filename[item.filename] then
-      extended_playlist_items_by_filename[item.filename] = {}
+    if not items then
+      items = {}
+      extended_playlist_items_by_filename[item.filename] = items
     end
 
     item.pos = i
-    table.insert(extended_playlist_items_by_filename[item.filename], item)
+    table.insert(items, item)
   end
 
   mp.set_property_native(

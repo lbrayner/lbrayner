@@ -10,7 +10,11 @@ local playlist_dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/backup/playl
 local playlist_name, playlist_count
 
 mp.observe_property("playlist-count", "native", function(_, value)
-  if not utils.is_file_loaded() then return end
+  if not utils.is_file_loaded() then
+    playlist_count = value
+    log("No file loaded so far, set playlist_count to", value)
+    return
+  end
 
   if playlist_count and value < playlist_count then
     playlist_name = nil
