@@ -175,7 +175,7 @@ function M.remove(pos)
   end
 
   file:close()
-  log("Syncronized to", jump_ring_path)
+  log("Synchronized to", jump_ring_path)
 end
 
 function M.swap(pos1, pos2)
@@ -223,7 +223,7 @@ function M.swap(pos1, pos2)
   end
 
   file:close()
-  log("Syncronized to", jump_ring_path)
+  log("Synchronized to", jump_ring_path)
 end
 
 return M
