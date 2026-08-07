@@ -12,12 +12,6 @@ function M.clear()
   log("Playlist Index cleared")
 end
 
-function M.handle_message(message)
-  if message == "playlist_index_clear" then
-    M.clear()
-  end
-end
-
 function M.get_extended_playlist_items_by_filename(filename)
   local extended_playlist_items_by_filename = mp.get_property_native(
     EXTENDED_PLAYLIST_ITEMS_BY_FILENAME
