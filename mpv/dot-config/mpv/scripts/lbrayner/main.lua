@@ -26,6 +26,7 @@ package.path = concat({
 }, ";")
 
 require("bindings")
+require("playback_state")
 require("playlist_autosave")
 require("playlist_index")
 require("playlist_jump_ring")
