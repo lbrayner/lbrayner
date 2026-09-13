@@ -7,6 +7,24 @@ local PLAYBACK_STATE_BY_FILENAME = (
 )
 
 local M = {}
+local concat = table.concat
+
+function M.get_properties()
+  return {
+    "video-pan-x",
+    "video-pan-y",
+    "video-zoom",
+  }
+end
+
+function M.reset()
+  for _, p in ipairs(M.get_properties()) do
+    if mp.get_property_number(p) ~= 0 then
+      mp.set_property_number(p, 0)
+      log("Set", p, "to 0")
+    end
+  end
+end
 
 function M.restore(filename)
   local playback_state_by_filename = mp.get_property_native(
@@ -18,11 +36,7 @@ function M.restore(filename)
   if not state then
     log("Playback state not set for", filename)
 
-    mp.set_property_number("video-pan-x", 0)
-    mp.set_property_number("video-pan-y", 0)
-    mp.set_property_number("video-zoom", 0)
-
-    log("Set pan_x, pan_y, zoom to 0")
+    M.reset()
     return
   end
 
