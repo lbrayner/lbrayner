@@ -40,35 +40,31 @@ function M.restore(filename)
     return
   end
 
-  local pan_x = state.pan_x
-  local pan_y = state.pan_y
-  local zoom  = state.zoom
+  for _, p in ipairs(M.get_properties()) do
+    if state[p] and mp.get_property_number(p) ~= state[p] then
+      mp.set_property_number(p, state[p])
+      log("Restored", p, "to 0")
+    end
+  end
 
-  mp.set_property_number("video-pan-x", pan_x)
-  mp.set_property_number("video-pan-y", pan_y)
-  mp.set_property_number("video-zoom", zoom)
-
-  log("Restored pan_x", pan_x, "pan_y", pan_y, "zoom", zoom)
   log("Playback state restored for", filename)
 end
 
-function M.save(filename)
+function M.update(filename, property, value)
   local playback_state_by_filename = mp.get_property_native(
     PLAYBACK_STATE_BY_FILENAME
   ) or {}
 
-  local pan_x = mp.get_property_number("video-pan-x")
-  local pan_y = mp.get_property_number("video-pan-y")
-  local zoom  = mp.get_property_number("video-zoom")
+  local state = playback_state_by_filename[filename] or {}
+  log("Update: property", property, "current", state[property], "value", value)
 
-  log("Got pan_x", pan_x, "pan_y", pan_y, "zoom", zoom)
-
-  if pan_x == 0 and pan_y == 0 and zoom == 0 then
+  if state[property] == value or not state and value == 0 then
     log("Sate will not be saved. No pan or zoom set for", filename)
     return
   end
 
-  playback_state_by_filename[filename] = { pan_x = pan_x, pan_y = pan_y, zoom  = zoom, }
+  state[property] = value
+  playback_state_by_filename[filename] = state
 
   mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
   log("Playback state saved for", filename)
