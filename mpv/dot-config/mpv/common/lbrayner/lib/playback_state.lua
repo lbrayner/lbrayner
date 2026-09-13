@@ -11,12 +11,7 @@ local M = {}
 function M.restore(filename)
   local playback_state_by_filename = mp.get_property_native(
     PLAYBACK_STATE_BY_FILENAME
-  )
-
-  if not playback_state_by_filename then
-    log("Playback state not set")
-    return
-  end
+  ) or {}
 
   local state = playback_state_by_filename[filename]
 
