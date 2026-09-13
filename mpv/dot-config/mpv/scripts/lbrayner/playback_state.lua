@@ -16,16 +16,16 @@ local function get_filename()
 end
 
 local function update_state(property, value)
-  log("Save state:", property, "changed to", value)
+  log("Update state:", property, "changed to", value)
 
   if not utils.is_file_loaded() then
-    log("Save state: no file loaded so far")
+    log("Update state: no file loaded so far")
     playback_state.reset()
     return
   end
 
   local filename = get_filename()
-  log("Save state: attempting to save playback state of", filename)
+  log("Update state: attempting to update playback state of", filename)
   playback_state.update(filename, property, value)
 end
 
