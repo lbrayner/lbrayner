@@ -11,19 +11,11 @@ local concat = table.concat
 
 function M.get_properties()
   return {
-    "video-pan-x",
-    "video-pan-y",
-    "video-zoom",
+    ["video-pan-x"] = 0,
+    ["video-pan-y"] = 0,
+    ["video-zoom"] = 0,
+    ["speed"] = 1,
   }
-end
-
-function M.reset()
-  for _, p in ipairs(M.get_properties()) do
-    if mp.get_property_number(p) ~= 0 then
-      mp.set_property_number(p, 0)
-      log("Set", p, "to 0")
-    end
-  end
 end
 
 function M.restore(filename)
@@ -31,25 +23,23 @@ function M.restore(filename)
     PLAYBACK_STATE_BY_FILENAME
   ) or {}
 
-  local state = playback_state_by_filename[filename]
+  local state = playback_state_by_filename[filename] or {}
 
-  if not state then
-    log("Restore: playback state not set for", filename)
-
-    M.reset()
-    return
-  end
-
-  for _, p in ipairs(M.get_properties()) do
+  for p, d in pairs(M.get_properties()) do
     local value = state[p]
 
     if value then
-      mp.set_property_number(p, value)
-      log("Restore: restored", p, "to", value)
+      if mp.get_property_number(p) ~= value then
+        mp.set_property_number(p, value)
+        log("Restore: restored", p, "to", value)
+      end
+    else
+      if mp.get_property_number(p) ~= d then
+        mp.set_property_number(p, d)
+        log("Restore: set", p, "to default", d)
+      end
     end
   end
-
-  log("Restore: playback state restored for", filename)
 end
 
 function M.update(filename, property, value)
@@ -59,9 +49,10 @@ function M.update(filename, property, value)
 
   local state = playback_state_by_filename[filename] or {}
   local current = state[property]
+  local default = M.get_properties()[property]
   log("Update: property", property, "current", current, "value", value)
 
-  if current == value or not current and value == 0 then
+  if current == value or not current and value == default then
     log("Update: state will not be updated for", filename)
     return
   end
