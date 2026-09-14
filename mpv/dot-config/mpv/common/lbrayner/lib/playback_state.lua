@@ -50,10 +50,10 @@ function M.update(filename, property, value)
   local state = playback_state_by_filename[filename] or {}
   local current = state[property]
   local default = M.get_properties()[property]
-  log("Update: property", property, "current", current, "value", value)
+  log("Update:", property, "current", current, "value", value)
 
   if current == value or not current and value == default then
-    log("Update: state will not be updated for", filename)
+    log("Update: state of", property, "WILL NOT be updated for", filename)
     return
   end
 
