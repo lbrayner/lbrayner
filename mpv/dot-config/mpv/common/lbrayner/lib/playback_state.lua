@@ -57,8 +57,8 @@ function M.update(filename, property, value)
     return
   end
 
-  state[property] = value
-  playback_state_by_filename[filename] = state
+  state[property] = value ~= default and value or nil
+  playback_state_by_filename[filename] = next(state) ~= nil and state or nil
 
   mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
   log("Update: playback state update for", filename)
