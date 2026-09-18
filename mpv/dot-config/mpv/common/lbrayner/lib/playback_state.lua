@@ -9,11 +9,14 @@ local PLAYBACK_STATE_BY_FILENAME = (
 local M = {}
 local concat = table.concat
 
+local default_volume = mp.get_property_number("volume")
+
 function M.get_properties()
   return {
     ["video-pan-x"] = 0,
     ["video-pan-y"] = 0,
     ["video-zoom"] = 0,
+    ["volume"] = default_volume,
     ["speed"] = 1,
   }
 end
