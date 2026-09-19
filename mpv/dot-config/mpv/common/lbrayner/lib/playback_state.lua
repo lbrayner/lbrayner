@@ -28,7 +28,44 @@ local function get_playback_state_path()
   return playback_state_path
 end
 
+local function get_playback_state_by_filename()
+  local playback_state_by_filename = mp.get_property_native(
+    PLAYBACK_STATE_BY_FILENAME
+  )
+
+  if playback_state_by_filename then
+    return playback_state_by_filename
+  end
+
+  local path = get_playback_state_path()
+  playback_state_by_filename = {}
+
+  if path then
+    local json_encoded
+
+    for line in io.lines(path) do
+      json_encoded = line
+    end
+
+    if json_encoded then
+      playback_state_by_filename = require("json").decode(json_encoded)
+      log("Decoded json")
+    end
+  else
+    log(concat({
+      "[ERROR] Failed to read playback state from file: ",
+      "could not obtain playbatck state file path",
+    }))
+  end
+
+  mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
+
+  return playback_state_by_filename
+end
+
 local function persist(playback_state_by_filename)
+  mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
+
   if next(playback_state_by_filename) == nil then
     log("Persist: state is empty")
   end
@@ -81,10 +118,7 @@ function M.get_properties()
 end
 
 function M.restore(filename)
-  local playback_state_by_filename = mp.get_property_native(
-    PLAYBACK_STATE_BY_FILENAME
-  ) or {}
-
+  local playback_state_by_filename = get_playback_state_by_filename()
   local state = playback_state_by_filename[filename] or {}
 
   for p, d in pairs(M.get_properties()) do
@@ -105,10 +139,7 @@ function M.restore(filename)
 end
 
 function M.update(filename, property, value)
-  local playback_state_by_filename = mp.get_property_native(
-    PLAYBACK_STATE_BY_FILENAME
-  ) or {}
-
+  local playback_state_by_filename = get_playback_state_by_filename()
   local state = playback_state_by_filename[filename] or {}
   local current = state[property]
   local default = M.get_properties()[property]
@@ -121,11 +152,8 @@ function M.update(filename, property, value)
 
   state[property] = value ~= default and value or nil
   playback_state_by_filename[filename] = next(state) ~= nil and state or nil
+  log("Update: playback state updated for", filename)
 
-  mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
-  log("Update: playback state update for", filename)
-
-  log("Update: attempting to persist playback state")
   persist(playback_state_by_filename)
 end
 
