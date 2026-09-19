@@ -6,8 +6,67 @@ local PLAYBACK_STATE_BY_FILENAME = (
   "user-data/lbrayner/playback_state/playback_state_by_filename"
 )
 
-local M = {}
 local concat = table.concat
+local utils = require("lbrayner/lib/utils")
+
+local dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playback_state"
+local playback_state_path, save_timer
+
+local function get_playback_state_path()
+  if playback_state_path ~= nil then return playback_state_path end
+
+  local ipc_name = utils.get_ipc_name()
+
+  if not ipc_name then
+    playback_state_path = false
+    return playback_state_path
+  end
+
+  os.execute(concat{ "test -d ", dir, " || mkdir -p ", dir })
+  playback_state_path = concat({ dir, "/", ipc_name })
+  os.execute(concat{ "test -f ", playback_state_path, " || touch ", playback_state_path })
+  return playback_state_path
+end
+
+local function persist(playback_state_by_filename)
+  if next(playback_state_by_filename) == nil then
+    log("Persist: state is empty")
+  end
+
+  if save_timer then
+    log("Persist: killed timer")
+    save_timer:kill()
+  end
+
+  local path = get_playback_state_path()
+
+  if not path then
+    log(concat({
+      "[ERROR] Failed to persist playback state: ",
+      "could not obtain playbatck state file path",
+    }))
+
+    return
+  end
+
+  log("Persist: adding timeout...")
+
+  save_timer = mp.add_timeout(5, function()
+    save_timer = nil
+
+    log("Persist: persisting state...")
+
+    local path = get_playback_state_path()
+
+    local handle = io.open(path, "w")
+    handle:write(concat({ require("json").encode(playback_state_by_filename), "\n" }))
+    handle:close()
+
+    log("Persist: persisted state")
+  end)
+end
+
+local M = {}
 
 local default_volume = mp.get_property_number("volume")
 
@@ -65,6 +124,9 @@ function M.update(filename, property, value)
 
   mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
   log("Update: playback state update for", filename)
+
+  log("Update: attempting to persist playback state")
+  persist(playback_state_by_filename)
 end
 
 return M
