@@ -70,8 +70,13 @@ local function get_playback_state_by_filename()
 end
 
 local function schedule_persist(playback_state_by_filename)
-  if next(playback_state_by_filename) == nil then
-    log("Schedule: state is empty")
+  if not get_playback_state_path() then
+    log(concat({
+      "Schedule: could not obtain playbatck state file path, ",
+      "will not schedule persist",
+    }))
+
+    return
   end
 
   if save_timer then
@@ -105,7 +110,7 @@ function M.persist(playback_state_by_filename)
   if not path then
     log(concat({
       "[ERROR] Failed to persist playback state: ",
-      "could not obtain playbatck state file path",
+      "could not obtain playback state file path",
     }))
 
     return
@@ -115,6 +120,10 @@ function M.persist(playback_state_by_filename)
 
   if not playback_state_by_filename then
     playback_state_by_filename = get_playback_state_by_filename()
+  end
+
+  if next(playback_state_by_filename) == nil then
+    log("Persist: state is empty")
   end
 
   local handle = io.open(path, "w")
