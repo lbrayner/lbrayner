@@ -12,6 +12,8 @@ local utils = require("lbrayner/lib/utils")
 local dir = "/var/tmp/9572cf67-b586-4c68-a7da-7cb904b396b3/playback_state"
 local playback_state_path, save_timer
 
+local M = {}
+
 local function get_playback_state_path()
   if playback_state_path ~= nil then return playback_state_path end
 
@@ -63,47 +65,23 @@ local function get_playback_state_by_filename()
   return playback_state_by_filename
 end
 
-local function persist(playback_state_by_filename)
-  mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
-
+local function schedule_persist(playback_state_by_filename)
   if next(playback_state_by_filename) == nil then
-    log("Persist: state is empty")
+    log("Schedule: state is empty")
   end
 
   if save_timer then
-    log("Persist: killed timer")
+    log("Schedule: killed timer")
     save_timer:kill()
   end
 
-  local path = get_playback_state_path()
-
-  if not path then
-    log(concat({
-      "[ERROR] Failed to persist playback state: ",
-      "could not obtain playbatck state file path",
-    }))
-
-    return
-  end
-
-  log("Persist: adding timeout...")
+  log("Schedule: adding timeout...")
 
   save_timer = mp.add_timeout(5, function()
     save_timer = nil
-
-    log("Persist: persisting state...")
-
-    local path = get_playback_state_path()
-
-    local handle = io.open(path, "w")
-    handle:write(concat({ require("json").encode(playback_state_by_filename), "\n" }))
-    handle:close()
-
-    log("Persist: persisted state")
+    M.persist(playback_state_by_filename)
   end)
 end
-
-local M = {}
 
 local default_volume = mp.get_property_number("volume")
 
@@ -115,6 +93,31 @@ function M.get_properties()
     ["volume"] = default_volume,
     ["speed"] = 1,
   }
+end
+
+function M.persist(playback_state_by_filename)
+  local path = get_playback_state_path()
+
+  if not path then
+    log(concat({
+      "[ERROR] Failed to persist playback state: ",
+      "could not obtain playbatck state file path",
+    }))
+
+    return
+  end
+
+  log("Persist: persisting state...")
+
+  if not playback_state_by_filename then
+    playback_state_by_filename = get_playback_state_by_filename()
+  end
+
+  local handle = io.open(path, "w")
+  handle:write(concat({ require("json").encode(playback_state_by_filename), "\n" }))
+  handle:close()
+
+  log("Persist: persisted state")
 end
 
 function M.restore(filename)
@@ -152,9 +155,10 @@ function M.update(filename, property, value)
 
   state[property] = value ~= default and value or nil
   playback_state_by_filename[filename] = next(state) ~= nil and state or nil
+  mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
   log("Update: playback state updated for", filename)
 
-  persist(playback_state_by_filename)
+  schedule_persist(playback_state_by_filename)
 end
 
 return M

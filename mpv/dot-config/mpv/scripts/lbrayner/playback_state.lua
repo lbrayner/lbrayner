@@ -37,3 +37,7 @@ mp.register_event("file-loaded", function()
   log("Attempting to restore playback state of", filename)
   playback_state.restore(filename)
 end)
+
+mp.register_event("shutdown", function()
+  playback_state.persist()
+end)
