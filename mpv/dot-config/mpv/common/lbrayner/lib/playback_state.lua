@@ -69,29 +69,6 @@ local function get_playback_state_by_filename()
   return playback_state_by_filename
 end
 
-local function schedule_persist(playback_state_by_filename)
-  if not get_playback_state_path() then
-    log(concat({
-      "Schedule: could not obtain playbatck state file path, ",
-      "will not schedule persist",
-    }))
-
-    return
-  end
-
-  if save_timer then
-    log("Schedule: killed timer")
-    save_timer:kill()
-  end
-
-  log("Schedule: adding timeout...")
-
-  save_timer = mp.add_timeout(5, function()
-    save_timer = nil
-    M.persist(playback_state_by_filename)
-  end)
-end
-
 local default_volume = mp.get_property_number("volume")
 
 function M.get_properties()
@@ -104,7 +81,7 @@ function M.get_properties()
   }
 end
 
-function M.persist(playback_state_by_filename)
+function M.persist(opts)
   local path = get_playback_state_path()
 
   if not path then
@@ -116,7 +93,13 @@ function M.persist(playback_state_by_filename)
     return
   end
 
-  log("Persist: persisting state...")
+  if save_timer then
+    log("Persist: killed timer")
+    save_timer:kill()
+  end
+
+  opts = opts or {}
+  local playback_state_by_filename = opts.playback_state_by_filename
 
   if not playback_state_by_filename then
     playback_state_by_filename = get_playback_state_by_filename()
@@ -126,11 +109,25 @@ function M.persist(playback_state_by_filename)
     log("Persist: state is empty")
   end
 
-  local handle = io.open(path, "w")
-  handle:write(concat({ require("json").encode(playback_state_by_filename), "\n" }))
-  handle:close()
+  local function write()
+    local handle = io.open(path, "w")
+    handle:write(concat({ require("json").encode(playback_state_by_filename), "\n" }))
+    handle:close()
+    log("Persist: wrote to disk")
+  end
 
-  log("Persist: persisted state")
+  if opts.now == true then
+    log("Persist: persisting now...")
+    write()
+    return
+  end
+
+  log("Persist: adding timeout...")
+
+  save_timer = mp.add_timeout(5, function()
+    save_timer = nil
+    write()
+  end)
 end
 
 function M.restore(filename)
@@ -171,7 +168,7 @@ function M.update(filename, property, value)
   mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
   log("Update: playback state updated for", filename)
 
-  schedule_persist(playback_state_by_filename)
+  M.persist({ playback_state_by_filename = playback_state_by_filename })
 end
 
 return M

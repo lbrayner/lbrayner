@@ -39,5 +39,5 @@ mp.register_event("file-loaded", function()
 end)
 
 mp.register_event("shutdown", function()
-  playback_state.persist()
+  playback_state.persist({ now = true })
 end)
