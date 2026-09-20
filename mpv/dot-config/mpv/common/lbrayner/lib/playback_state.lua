@@ -60,7 +60,11 @@ local function get_playback_state_by_filename()
     }))
   end
 
-  mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
+  if next(playback_state_by_filename) ~= nil then
+    -- Setting native property to an empty first time table messes up the type
+    -- (should be a Map, Dictionary)
+    mp.set_property_native(PLAYBACK_STATE_BY_FILENAME, playback_state_by_filename)
+  end
 
   return playback_state_by_filename
 end
