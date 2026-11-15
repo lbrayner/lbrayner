@@ -1,0 +1,14 @@
+# mkdir -p ~/.config/systemd/user
+# ln -s ~/git/lbrayner/systemd/dot-config/systemd/user/wezterm-mux.service ~/.config/systemd/user
+# systemctl --user enable wezterm-mux.service
+
+[Unit]
+Description=WezTerm multiplexer server
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/wezterm-mux-server
+Restart=no
+
+[Install]
+WantedBy=default.target
