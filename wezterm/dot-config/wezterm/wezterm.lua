@@ -5,7 +5,6 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 config.term = "wezterm"
-config.window_decorations = "RESIZE"
 
 config.unix_domains = {
   { name = "unix" },
@@ -17,6 +16,9 @@ wezterm.on("gui-attached", function(domain)
     window:maximize()
   end
 end)
+
+config.tab_bar_at_bottom = true
+config.window_decorations = "RESIZE"
 
 -- For example, changing the color scheme:
 -- https://github.com/gfguthrie/wezterm-canonical-solarized
