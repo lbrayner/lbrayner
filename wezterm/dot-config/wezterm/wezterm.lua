@@ -25,7 +25,6 @@ config.window_decorations = "RESIZE"
 require("canonical_solarized").apply_to_config(config)
 config.color_scheme = "Canonical Solarized Dark"
 config.font = wezterm.font("IosevkaTerm Nerd Font")
-config.font_size = 16
 config.bold_brightens_ansi_colors = "No"
 
 config.font_rules = {
@@ -137,6 +136,9 @@ package.path = concat({
   concat({ home, ".wezterm/?/init.lua" }, "/"),
 }, ";")
 
-pcall(require, "site.main")
+do
+  local ok, site = pcall(require, "site.main")
+  if ok and type(site) == "function" then site(config) end
+end
 
 return config
