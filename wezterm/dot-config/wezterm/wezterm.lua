@@ -128,6 +128,15 @@ wezterm.on("format-tab-title", function(tab)
   )
 end)
 
-pcall(require, "workspaces")
+local concat = table.concat
+local home = wezterm.home_dir
+
+package.path = concat({
+  package.path,
+  concat({ home, ".wezterm/?.lua" }, "/"),
+  concat({ home, ".wezterm/?/init.lua" }, "/"),
+}, ";")
+
+pcall(require, "site.main")
 
 return config
