@@ -29,7 +29,7 @@ local function update_state(property, value)
 end
 
 for p in pairs(playback_state.get_properties()) do
-  mp.observe_property(p, "number", update_state)
+  mp.observe_property(p, "string", update_state)
 end
 
 mp.register_event("file-loaded", function()

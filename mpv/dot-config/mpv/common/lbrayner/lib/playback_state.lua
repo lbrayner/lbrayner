@@ -69,15 +69,16 @@ local function get_playback_state_by_filename()
   return playback_state_by_filename
 end
 
-local default_volume = mp.get_property_number("volume")
+local default_volume = mp.get_property("volume")
 
 function M.get_properties()
   return {
-    ["video-pan-x"] = 0,
-    ["video-pan-y"] = 0,
-    ["video-zoom"] = 0,
+    ["video-pan-x"] = "0",
+    ["video-pan-y"] = "0",
+    ["video-zoom"] = "0",
     ["volume"] = default_volume,
-    ["speed"] = 1,
+    ["speed"] = "1",
+    ["vf"] = "",
   }
 end
 
@@ -138,13 +139,13 @@ function M.restore(filename)
     local value = state[p]
 
     if value then
-      if mp.get_property_number(p) ~= value then
-        mp.set_property_number(p, value)
+      if mp.get_property(p) ~= value then
+        mp.set_property(p, value)
         log("Restore: restored", p, "to", value)
       end
     else
-      if mp.get_property_number(p) ~= d then
-        mp.set_property_number(p, d)
+      if mp.get_property(p) ~= d then
+        mp.set_property(p, d)
         log("Restore: set", p, "to default", d)
       end
     end
